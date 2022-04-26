@@ -3,7 +3,73 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.HttpClients", "SteamMarketplace.HttpClients\SteamMarketplace.HttpClients.csproj", "{D16499B9-0A47-420E-B1CA-B5E923ACD6E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.HttpClients.Common", "SteamMarketplace.HttpClients.Common\SteamMarketplace.HttpClients.Common.csproj", "{41226E53-70C4-4902-986C-C1C202701668}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Model", "SteamMarketplace.Model\SteamMarketplace.Model.csproj", "{14053CD2-3145-494F-B322-DA926596FE6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.HttpClients.Tests", "SteamMarketplace.HttpClients.Tests\SteamMarketplace.HttpClients.Tests.csproj", "{33F82436-F615-4A28-B779-E626D254290E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.ResourceWebApplication", "SteamMarketplace.ResourceWebApplication\SteamMarketplace.ResourceWebApplication.csproj", "{AB8E29A6-0B97-4CCE-8C42-2962AB4CFC63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.AuthorizationWebApplication", "SteamMarketplace.AuthorizationWebApplication\SteamMarketplace.AuthorizationWebApplication.csproj", "{5E9F3827-FA23-410F-9AAA-42092815C301}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Authorization.Common", "SteamMarketplace.Authorization.Common\SteamMarketplace.Authorization.Common.csproj", "{0AC2282C-2257-40EF-8306-FE56DCF5830B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Authorization.Models", "SteamMarketplace.Authorization.Models\SteamMarketplace.Authorization.Models.csproj", "{18B93D18-A61B-4B19-AC66-17CDA1E599F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Model.Common", "SteamMarketplace.Model.Common\SteamMarketplace.Model.Common.csproj", "{D9B1AA4B-9EB9-4B25-924D-F4193E0F3799}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.ImporterConsoleApp", "SteamMarketplace.ImporterConsoleApp\SteamMarketplace.ImporterConsoleApp.csproj", "{45C3E55E-20D5-476F-B331-1F4E6A118607}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D16499B9-0A47-420E-B1CA-B5E923ACD6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16499B9-0A47-420E-B1CA-B5E923ACD6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16499B9-0A47-420E-B1CA-B5E923ACD6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16499B9-0A47-420E-B1CA-B5E923ACD6E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41226E53-70C4-4902-986C-C1C202701668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41226E53-70C4-4902-986C-C1C202701668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41226E53-70C4-4902-986C-C1C202701668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41226E53-70C4-4902-986C-C1C202701668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14053CD2-3145-494F-B322-DA926596FE6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14053CD2-3145-494F-B322-DA926596FE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14053CD2-3145-494F-B322-DA926596FE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14053CD2-3145-494F-B322-DA926596FE6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33F82436-F615-4A28-B779-E626D254290E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33F82436-F615-4A28-B779-E626D254290E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33F82436-F615-4A28-B779-E626D254290E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33F82436-F615-4A28-B779-E626D254290E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8E29A6-0B97-4CCE-8C42-2962AB4CFC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8E29A6-0B97-4CCE-8C42-2962AB4CFC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8E29A6-0B97-4CCE-8C42-2962AB4CFC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8E29A6-0B97-4CCE-8C42-2962AB4CFC63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E9F3827-FA23-410F-9AAA-42092815C301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E9F3827-FA23-410F-9AAA-42092815C301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E9F3827-FA23-410F-9AAA-42092815C301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E9F3827-FA23-410F-9AAA-42092815C301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC2282C-2257-40EF-8306-FE56DCF5830B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC2282C-2257-40EF-8306-FE56DCF5830B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC2282C-2257-40EF-8306-FE56DCF5830B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC2282C-2257-40EF-8306-FE56DCF5830B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18B93D18-A61B-4B19-AC66-17CDA1E599F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18B93D18-A61B-4B19-AC66-17CDA1E599F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18B93D18-A61B-4B19-AC66-17CDA1E599F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18B93D18-A61B-4B19-AC66-17CDA1E599F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9B1AA4B-9EB9-4B25-924D-F4193E0F3799}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9B1AA4B-9EB9-4B25-924D-F4193E0F3799}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9B1AA4B-9EB9-4B25-924D-F4193E0F3799}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9B1AA4B-9EB9-4B25-924D-F4193E0F3799}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C3E55E-20D5-476F-B331-1F4E6A118607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C3E55E-20D5-476F-B331-1F4E6A118607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C3E55E-20D5-476F-B331-1F4E6A118607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C3E55E-20D5-476F-B331-1F4E6A118607}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

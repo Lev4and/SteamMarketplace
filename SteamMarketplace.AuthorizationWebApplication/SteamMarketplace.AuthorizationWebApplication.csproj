@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SteamMarketplace.Authorization.Common\SteamMarketplace.Authorization.Common.csproj" />
+    <ProjectReference Include="..\SteamMarketplace.Authorization.Models\SteamMarketplace.Authorization.Models.csproj" />
+    <ProjectReference Include="..\SteamMarketplace.Model.Common\SteamMarketplace.Model.Common.csproj" />
+    <ProjectReference Include="..\SteamMarketplace.Model\SteamMarketplace.Model.csproj" />
+  </ItemGroup>
+
+</Project>
