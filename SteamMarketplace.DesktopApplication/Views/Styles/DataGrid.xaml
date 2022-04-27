@@ -1,0 +1,41 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Style
+        x:Key="DefaultDataGridColumnHeaderStyle"
+        BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+        TargetType="DataGridColumnHeader">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <Style
+        x:Key="DefaultDataGridCellStyle"
+        BasedOn="{StaticResource MaterialDesignDataGridCell}"
+        TargetType="DataGridCell">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <Style
+        x:Key="DataGridTextColumnStyle"
+        BasedOn="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+        TargetType="TextBlock">
+        <Setter Property="mdt:BottomDashedLineAdorner.Visibility" Value="Hidden" />
+    </Style>
+
+    <Style
+        x:Key="DefaultDataGridStyle"
+        BasedOn="{StaticResource MaterialDesignDataGrid}"
+        TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserDeleteRows" Value="False" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="Background" Value="{StaticResource DataGridBackgroundBrush}" />
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,30 @@
+﻿<Application
+    x:Class="SteamMarketplace.DesktopApplication.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SteamMarketplace.DesktopApplication"
+    xmlns:viewModelLocators="clr-namespace:SteamMarketplace.DesktopApplication.ViewModels.Locators"
+    StartupUri="Views/Windows/Main/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary>
+                    <viewModelLocators:ViewModelLocator x:Key="ViewModelLocator" />
+                </ResourceDictionary>
+
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Purple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+
+                <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Styles/Brushes.xaml" />
+
+                <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Templates/ButtonTemplates.xaml" />
+
+                <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Styles/DataGrid.xaml" />
+                <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Styles/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

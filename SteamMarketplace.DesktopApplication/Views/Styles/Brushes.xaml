@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#E1D065" />
+    <SolidColorBrush x:Key="PageBackgroundBrush" Color="#E1D065" />
+
+    <SolidColorBrush x:Key="DataGridBackgroundBrush" Color="White" />
+
+    <SolidColorBrush x:Key="SelectedBlockViewItemBackgroundBrush" Color="Yellow" />
+    <SolidColorBrush x:Key="DeselectedBlockViewItemBackgroundBrush" Color="Transparent" />
+
+    <SolidColorBrush x:Key="SelectedSearchByInputFieldItemBackgroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="DeselectedSearchByInputFieldItemBackgroundBrush" Color="White" />
+
+    <SolidColorBrush x:Key="SelectedPerformableComboBoxItemBackgroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="DeselectedPerformableComboBoxItemBackgroundBrush" Color="White" />
+
+    <SolidColorBrush x:Key="SelectedSearchByInputFieldItemForegroundBrush" Color="Orange" />
+    <SolidColorBrush x:Key="DeselectedSearchByInputFieldItemForegroundBrush" Color="Black" />
+
+    <SolidColorBrush x:Key="SelectedPerformableComboBoxItemForegroundBrush" Color="Orange" />
+    <SolidColorBrush x:Key="DeselectedPerformableComboBoxItemForegroundBrush" Color="Black" />
+</ResourceDictionary>

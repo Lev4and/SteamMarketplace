@@ -1,0 +1,281 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <ControlTemplate x:Key="AddImageButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Lime"
+                Kind="ImagePlus" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="RemoveImageButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Red"
+                Kind="ImageRemove" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="BackButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Aqua"
+                Kind="ArrowLeftCircle" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ToFindButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Найти">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Black"
+                Kind="Magnify" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="AddButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Добавить">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Lime"
+                Kind="PlusCircle" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ChangeButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Изменить">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Yellow"
+                Kind="Pencil" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="RemoveButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Удалить">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Red"
+                Kind="CloseCircle" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="LockButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Заблокировать">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Black"
+                Kind="Lock" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ShowButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Показать">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Orange"
+                Kind="Eye" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CopyButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Скопировать в буфер обмена">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Lime"
+                Kind="ContentCopy" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ConsiderButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Рассмотреть">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Red"
+                Kind="TextBoxSearchOutline" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="DetailsButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Детали">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Orange"
+                Kind="CardAccountDetails" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="BreakButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Разорвать">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Red"
+                Kind="TextBoxRemove" />
+        </Button>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="OpenInBrowserButtonTemplate" TargetType="Button">
+        <Button
+            x:Name="Button"
+            Width="40"
+            Height="40"
+            MaxWidth="{Binding ElementName=Button, Path=Width}"
+            MaxHeight="{Binding ElementName=Button, Path=Height}"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+            ToolTip="Открыть в браузере">
+            <mdt:PackIcon
+                Width="Auto"
+                Height="Auto"
+                MaxWidth="{Binding ElementName=Button, Path=Width}"
+                MaxHeight="{Binding ElementName=Button, Path=Height}"
+                Margin="5"
+                Foreground="Blue"
+                Kind="OpenInBrowser" />
+        </Button>
+    </ControlTemplate>
+</ResourceDictionary>
