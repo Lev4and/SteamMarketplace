@@ -59,15 +59,5 @@ namespace SteamMarketplace.DesktopApplication.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        internal static byte[] favicon {
-            get {
-                object obj = ResourceManager.GetObject("favicon", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

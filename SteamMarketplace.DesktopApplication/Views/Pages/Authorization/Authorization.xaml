@@ -1,0 +1,136 @@
+﻿<Page
+    x:Class="SteamMarketplace.DesktopApplication.Views.Pages.Authorization.Authorization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:SteamMarketplace.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:SteamMarketplace.DesktopApplication.Views.Pages.Authorization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Title="Авторизация"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{StaticResource PageBackgroundBrush}"
+    DataContext="{Binding AuthorizationViewModel, Source={StaticResource ViewModelLocator}}"
+    WindowTitle="SteamMarketplace - Авторизация"
+    mc:Ignorable="d">
+    <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{Binding Path=Loaded}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <mdt:ColorZone
+                Height="70"
+                Padding="16"
+                Mode="PrimaryMid">
+                <Grid>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="0"
+                        FontSize="22"
+                        FontWeight="Medium"
+                        Text="Авторизация"
+                        TextAlignment="Center" />
+                </Grid>
+            </mdt:ColorZone>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <mdt:PackIcon
+                        x:Name="IconAccount"
+                        Width="{Binding ElementName=IconAccount, Path=Height}"
+                        Height="Auto"
+                        Kind="Account"
+                        ToolTip="Логин" />
+                </Grid>
+                <Grid Grid.Column="1" Margin="5,0,0,0">
+                    <TextBox
+                        x:Name="LoginTextBox"
+                        VerticalContentAlignment="Center"
+                        mdt:HintAssist.HelperText="Длина логина должна быть больше 0 символов"
+                        mdt:HintAssist.Hint="Логин"
+                        FontSize="20"
+                        FontWeight="Medium"
+                        Text="{Binding Path=Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        ToolTip="{Binding ElementName=LoginTextBox, Path=Text}" />
+                </Grid>
+            </Grid>
+            <Grid
+                Grid.Row="1"
+                Height="50"
+                Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <mdt:PackIcon
+                        x:Name="IconPassword"
+                        Width="{Binding ElementName=IconPassword, Path=Height}"
+                        Height="Auto"
+                        Kind="FormTextboxPassword"
+                        ToolTip="Пароль" />
+                </Grid>
+                <Grid Grid.Column="1" Margin="5,0,0,0">
+                    <PasswordBox
+                        x:Name="PasswordBox"
+                        VerticalContentAlignment="Center"
+                        mdt:HintAssist.HelperText="Длина пароля должна быть больше 0 символов"
+                        mdt:HintAssist.Hint="Пароль"
+                        FontSize="20"
+                        FontWeight="Medium">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PasswordChanged">
+                                <i:InvokeCommandAction Command="{Binding Path=PasswordChanged}" CommandParameter="{Binding ElementName=PasswordBox}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </PasswordBox>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid
+            Grid.Row="2"
+            Margin="0,5,0,5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="175" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <mdt:Badged
+                    Margin="0,12,0,0"
+                    HorizontalAlignment="Center"
+                    Badge="{mdt:PackIcon Kind=Login}">
+                    <Button
+                        Height="50"
+                        mdt:ButtonAssist.CornerRadius="25"
+                        Command="{Binding Path=Authorize}"
+                        Content="Авторизоваться"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                        ToolTip="Авторизоваться" />
+                </mdt:Badged>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

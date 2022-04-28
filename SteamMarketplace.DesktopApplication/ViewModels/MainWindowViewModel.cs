@@ -16,7 +16,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
             _pageService = pageService;
 
             _pageService.OnPageChanged += (page) => PageSource = page;
-            _pageService.ChangePage(new Pages.Menu.Menu());
+            _pageService.ChangePage(new Pages.Authorization.Authorization());
         }
     }
 }

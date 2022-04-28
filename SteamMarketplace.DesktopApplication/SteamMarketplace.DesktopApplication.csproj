@@ -44,4 +44,8 @@
     <Folder Include="Resources\Icons\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SteamMarketplace.HttpClients\SteamMarketplace.HttpClients.csproj" />
+  </ItemGroup>
+
 </Project>
