@@ -15,5 +15,9 @@
         public const string ImportItemPath = "import/item/";
 
         public const string ImportItemQuery = "import";
+
+        public const string UserInventoriesPath = "userInventories/";
+
+        public const string UserInventoriesQuery = "inventory";
     }
 }

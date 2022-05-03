@@ -18,6 +18,8 @@ namespace SteamMarketplace.HttpClients.Tests.ResourceAPI
         {
             var stopwatch = new Stopwatch();
 
+            _httpContext.ResourceAPI.ImportItem.Login("Admin", "Admin");
+
             for (var i = 0; i < 1000000; i += 50)
             {
                 var response = await _httpContext.CSMoney.Store.GetInventoryAsync(50, i);

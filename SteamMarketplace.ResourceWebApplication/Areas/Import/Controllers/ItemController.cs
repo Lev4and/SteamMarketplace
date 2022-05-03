@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using SteamMarketplace.Hubs.ResourceAPI.ResponseModels;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Importers.HighPerformance;
 using SteamMarketplace.Model.Marketplace.CSMoney.Types;
 using SteamMarketplace.ResourceWebApplication.Hubs;
+using System.Security.Claims;
 
 namespace SteamMarketplace.ResourceWebApplication.Areas.Import.Controllers
 {
@@ -42,9 +44,15 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Import.Controllers
                 return BadRequest(new BaseResponseModel<Guid>(Guid.Empty, Statuses.InvalidData));
             }
 
-            await _hub.Clients.All.SendAsync("Receive", item);
+            var result = new BaseResponseModel<Guid>(_importer.Import(item), Statuses.Success);
 
-            return Ok(new BaseResponseModel<Guid>(_importer.Import(item), Statuses.Success));
+            if (result.Result != Guid.Empty)
+            {
+                await _hub.Clients.All.SendAsync("ItemImported", new ImportedItemInfo(DateTime.Now.ToUniversalTime(),
+                    User.Claims.First((claim) => claim.Type == ClaimTypes.GivenName).Value, item));
+            }
+
+            return Ok(result);
         }
     }
 }

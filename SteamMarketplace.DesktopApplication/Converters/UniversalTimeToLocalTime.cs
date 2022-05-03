@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace SteamMarketplace.DesktopApplication.Converters
 {
     [ValueConversion(typeof(DateTime), typeof(DateTime))]
-    public class UnixTimeToLocalTime : IValueConverter
+    public class UniversalTimeToLocalTime : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

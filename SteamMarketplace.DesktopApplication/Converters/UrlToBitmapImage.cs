@@ -13,7 +13,7 @@ namespace SteamMarketplace.DesktopApplication.Converters
             var bitmap = new BitmapImage();
 
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri($"http:{System.Convert.ToString(value)}", UriKind.RelativeOrAbsolute);
+            bitmap.UriSource = new Uri($"{System.Convert.ToString(value)}", UriKind.RelativeOrAbsolute);
             bitmap.EndInit();
 
             return bitmap;

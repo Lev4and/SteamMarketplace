@@ -16,6 +16,8 @@ namespace SteamMarketplace.HttpClients.Tests.ResourceAPI
         [Fact]
         public async Task GetInventoryAsync_WithParams_ReturnNotBeNullOrEmptyResponse()
         {
+            _httpContext.ResourceAPI.CSMoneyStore.Login("Admin", "Admin");
+
             var response = await _httpContext.ResourceAPI.CSMoneyStore.GetInventoryAsync(50, 0);
 
             response.Should().NotBeNull();

@@ -69,11 +69,54 @@ namespace SteamMarketplace.Model.Database
                 CultureInfoName = "en-US",
             });
 
+            builder.Entity<Currency>().HasData(new Currency
+            {
+                Id = Guid.Parse("CF7B0C49-42A1-483D-97F8-B88711F8546C"),
+                CultureInfoName = "ru-RU",
+            });
+
+            builder.Entity<Currency>().HasData(new Currency
+            {
+                Id = Guid.Parse("2B1BA08D-97EA-427D-B356-D3AD65E09905"),
+                CultureInfoName = "uk-UA",
+            });
+
+            builder.Entity<Currency>().HasData(new Currency
+            {
+                Id = Guid.Parse("B8B74EE6-D9A5-4DDE-B7B6-21E4A04A6F7D"),
+                CultureInfoName = "kk-KZ",
+            });
+
+            builder.Entity<Currency>().HasData(new Currency
+            {
+                Id = Guid.Parse("F340E01A-72E6-40C5-94BC-B7D407F54BD0"),
+                CultureInfoName = "zh-CN",
+            });
+
+            builder.Entity<Currency>().HasData(new Currency
+            {
+                Id = Guid.Parse("A58D5766-4FBD-4F59-9DEA-2D1BACEDA710"),
+                CultureInfoName = "eu-EU",
+            });
+
+            builder.Entity<Currency>().HasData(new Currency
+            {
+                Id = Guid.Parse("72616E1E-E63F-4262-863C-72140C5EF912"),
+                CultureInfoName = "en-GB",
+            });
+
             builder.Entity<ApplicatonRole>().HasData(new ApplicatonRole
             {
                 Id = Guid.Parse("B867520A-92DB-4658-BE39-84DA53A601C0"),
                 Name = "Администратор",
                 NormalizedName = "АДМИНИСТРАТОР"
+            });
+
+            builder.Entity<ApplicatonRole>().HasData(new ApplicatonRole
+            {
+                Id = Guid.Parse("21E8CC7E-8DF5-4113-B9F9-20498B651581"),
+                Name = "Игрок",
+                NormalizedName = "Игрок"
             });
 
             builder.Entity<ApplicationUser>().HasData(new ApplicationUser

@@ -15,29 +15,29 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             _context = context;
         }
 
-        public bool Contains(long assetId)
+        public bool Contains(long cSMoneyId)
         {
             var query = $"SELECT TOP(1) * " +
                 $"FROM Items " +
-                $"WHERE Items.AssetId = @AssetId";
+                $"WHERE Items.CSMoneyId = @CSMoneyId";
 
             var parameters = new List<SqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@AssetId", SqlDbType = SqlDbType.BigInt, Value = assetId }
+                new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.BigInt, Value = cSMoneyId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
         }
 
-        public Guid GetItemId(long assetId)
+        public Guid GetItemId(long cSMoneyId)
         {
             var query = $"SELECT TOP(1) Id " +
                 $"FROM Items " +
-                $"WHERE Items.AssetId = @AssetId";
+                $"WHERE Items.CSMoneyId = @CSMoneyId";
 
             var parameters = new List<SqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@AssetId", SqlDbType = SqlDbType.BigInt, Value = assetId }
+                new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.BigInt, Value = cSMoneyId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -76,8 +76,8 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 entity.Id = Guid.NewGuid();
 
                 var query = $"INSERT INTO [Items] (Id, ApplicationId, CollectionId, QualityId, RarityId, " +
-                    $"TypeId, AssetId, Float, Name, SteamId, FullName, AddedAt) VALUES (@Id, @ApplicationId, " +
-                    $"@CollectionId, @QualityId, @RarityId, @TypeId, @AssetId, @Float, @Name, @SteamId, @FullName, @AddedAt)";
+                    $"TypeId, AssetId, CSMoneyId, Float, Name, SteamId, FullName, AddedAt) VALUES (@Id, @ApplicationId, " +
+                    $"@CollectionId, @QualityId, @RarityId, @TypeId, @AssetId, @CSMoneyId, @Float, @Name, @SteamId, @FullName, @AddedAt)";
 
                 var parameters = new List<SqlParameter>()
                 {
@@ -88,6 +88,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                     new SqlParameter() { ParameterName = "@RarityId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.RarityId.GetDbValue() },
                     new SqlParameter() { ParameterName = "@TypeId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.TypeId },
                     new SqlParameter() { ParameterName = "@AssetId", SqlDbType = SqlDbType.BigInt, Value = entity.AssetId },
+                    new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.BigInt, Value = entity.CSMoneyId },
                     new SqlParameter() { ParameterName = "@Float", SqlDbType = SqlDbType.Float, Value = entity.Float.GetDbValue() },
                     new SqlParameter() { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Value = entity.Name.GetDbValue() },
                     new SqlParameter() { ParameterName = "@SteamId", SqlDbType = SqlDbType.NVarChar, Value = entity.SteamId },

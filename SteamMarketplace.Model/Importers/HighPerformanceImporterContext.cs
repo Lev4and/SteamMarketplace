@@ -22,9 +22,9 @@ namespace SteamMarketplace.Model.Importers
 
         public UserInventoryImporter UserInventory { get; }
 
-        public HighPerformanceImporterContext(ApplicationImporter application, CollectionImporter collection, 
-            ItemImageImporter itemImage, ItemNestedImporter itemNested, QualityImporter quality, 
-            RarityImporter rarity, SaleImporter sale, TypeImporter type)
+        public HighPerformanceImporterContext(ApplicationImporter application, CollectionImporter collection,
+            ItemImageImporter itemImage, ItemNestedImporter itemNested, QualityImporter quality,
+            RarityImporter rarity, SaleImporter sale, TypeImporter type, UserInventoryImporter userInventory)
         {
             Application = application;
             Collection = collection;
@@ -34,6 +34,7 @@ namespace SteamMarketplace.Model.Importers
             Rarity = rarity;
             Sale = sale;
             Type = type;
+            UserInventory = userInventory;
         }
     }
 }

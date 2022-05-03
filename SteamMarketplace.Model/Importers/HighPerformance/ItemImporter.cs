@@ -1,4 +1,5 @@
 ﻿using SteamMarketplace.Model.Database;
+using System.Globalization;
 using CSMoney = SteamMarketplace.Model.Marketplace.CSMoney.Types;
 using Entities = SteamMarketplace.Model.Database.Entities;
 
@@ -25,7 +26,8 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
                 RarityId = _importerContext.Rarity.Import(item.Rarity),
                 TypeId = _importerContext.Type.Import(item.Type),
                 AssetId = item.AssetId,
-                Float = !string.IsNullOrEmpty(item.Float) ? float.Parse(item.Float) : null,
+                CSMoneyId = (long)item.Id,
+                Float = !string.IsNullOrEmpty(item.Float) ? float.Parse(item.Float, new CultureInfo("en-US").NumberFormat) : null,
                 Name = item.Name,
                 SteamId = item.SteamId,
                 FullName = item.FullName,
@@ -44,6 +46,7 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
                 TypeId = item.TypeId,
                 Float = item.Float,
                 Name = item.Name,
+                CSMoneyId = (long)stackItem.Id,
                 SteamId = stackItem.SteamId,
                 FullName = item.FullName,
                 AddedAt = DateTime.Now.ToUniversalTime()
@@ -99,7 +102,10 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
                 {
                     foreach (var stackItem in cSMoneyItem.StackItems)
                     {
-                        SaveItem(GetItem(item, stackItem), cSMoneyItem, false);
+                        if (!_dataManager.Items.Contains((long)stackItem.Id))
+                        {
+                            SaveItem(GetItem(item, stackItem), cSMoneyItem, false);
+                        }
                     }
                 }
             }
@@ -160,7 +166,12 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
                 throw new ArgumentNullException("item", "The item must not be empty.");
             }
 
-            return SaveItem(GetItem(item), item);
+            if (!_dataManager.Items.Contains((long)item.Id))
+            {
+                return SaveItem(GetItem(item), item);
+            }
+
+            return Guid.Empty;
         }
     }
 }

@@ -46,6 +46,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SteamMarketplace.HttpClients\SteamMarketplace.HttpClients.csproj" />
+    <ProjectReference Include="..\SteamMarketplace.Hubs\SteamMarketplace.Hubs.csproj" />
   </ItemGroup>
 
 </Project>

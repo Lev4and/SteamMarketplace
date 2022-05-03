@@ -10,10 +10,13 @@ using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Importers;
 using SteamMarketplace.Model.Importers.HighPerformance;
 using SteamMarketplace.ResourceWebApplication.Hubs;
+using SteamMarketplace.Services;
 using System.Net;
 using AdoNet = SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet;
 using AdoNetAbstract = SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
 using HttpClients = SteamMarketplace.HttpClients;
+using ObjectRelational = SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFramework;
+using ObjectRelationalAbstract = SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,7 @@ builder.Services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();
+builder.Services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
 builder.Services.AddSingleton<HttpClients.HttpContext>();
 
 builder.Services.AddTransient<RoleManager<ApplicatonRole>>();
@@ -44,6 +48,9 @@ builder.Services.AddTransient<AdoNetAbstract.ISalesRepository, AdoNet.AdoNetSale
 builder.Services.AddTransient<AdoNetAbstract.IUserInventoriesRepository, AdoNet.AdoNetUserInventoriesRepository>();
 builder.Services.AddTransient<HighPerformanceDataManager>();
 
+builder.Services.AddTransient<ObjectRelationalAbstract.IUserInventoriesRepository, ObjectRelational.EFUserInventoriesRepository>();
+builder.Services.AddTransient<DefaultDataManager>();
+
 builder.Services.AddDbContext<SteamMarketplaceDbContext>((options) =>
 {
     options.UseSqlServer(DbConfig.ConnectionString);
@@ -60,6 +67,8 @@ builder.Services.AddTransient<SaleImporter>();
 builder.Services.AddTransient<TypeImporter>();
 builder.Services.AddTransient<UserInventoryImporter>();
 builder.Services.AddTransient<HighPerformanceImporterContext>();
+
+builder.Services.AddTransient<AutoImport>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicatonRole>(options =>
 {
@@ -100,6 +109,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddSignalR(options =>
 {
+    //options.ClientTimeoutInterval = TimeSpan.FromMinutes(30);
+    //options.KeepAliveInterval = TimeSpan.FromMinutes(15);
     options.MaximumReceiveMessageSize = 8388608;
     options.EnableDetailedErrors = true;
 });
@@ -111,7 +122,9 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader().AllowCredentials());
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
+        Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
@@ -133,7 +146,6 @@ builder.Services.AddSwaggerGen(setup =>
     };
 
     setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-
     setup.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         { jwtSecurityScheme, Array.Empty<string>() }
@@ -172,18 +184,29 @@ app.UseStatusCodePages(context =>
 });
 
 app.UseHttpsRedirection();
-app.MapControllers();
 app.UseRouting();
 app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.Run();
-
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<ImportHub>("/import");
+    endpoints.MapHub<OnlineHub>("/store/online"/*, options =>
+    {
+        options.TransportSendTimeout = TimeSpan.FromMinutes(30);
+    }*/);
+    endpoints.MapHub<ImportHub>("/store/items/import"/*, options =>
+    {
+        options.TransportSendTimeout = TimeSpan.FromMinutes(30);
+    }*/);
+    endpoints.MapHub<AutoImportHub>("/store/items/import/auto"/*, options =>
+    {
+        options.TransportSendTimeout = TimeSpan.FromMinutes(30);
+    }*/);
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "api/{controller=Home}/{action=Index}/{id?}");
     endpoints.MapAreaControllerRoute(
         name: "csMoneyArea",
         areaName: "CSMoney",
@@ -193,3 +216,6 @@ app.UseEndpoints(endpoints =>
         areaName: "Import",
         pattern: "api/import/{controller=Home}/{action=Index}/{id?}");
 });
+
+app.Run();
+

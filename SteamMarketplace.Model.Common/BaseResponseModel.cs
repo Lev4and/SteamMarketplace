@@ -2,9 +2,9 @@
 {
     public class BaseResponseModel<T>
     {
-        public T Result { get; }
+        public T Result { get; private set; }
 
-        public Status Status { get; }
+        public Status Status { get; private set; }
 
         public BaseResponseModel(T result, Status status)
         {

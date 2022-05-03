@@ -23,7 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Model.Comm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.ImporterConsoleApp", "SteamMarketplace.ImporterConsoleApp\SteamMarketplace.ImporterConsoleApp.csproj", "{45C3E55E-20D5-476F-B331-1F4E6A118607}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamMarketplace.DesktopApplication", "SteamMarketplace.DesktopApplication\SteamMarketplace.DesktopApplication.csproj", "{7424F3B7-52ED-4885-BD89-D607CCFBF625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.DesktopApplication", "SteamMarketplace.DesktopApplication\SteamMarketplace.DesktopApplication.csproj", "{7424F3B7-52ED-4885-BD89-D607CCFBF625}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Hubs.Common", "SteamMarketplace.Hubs.Common\SteamMarketplace.Hubs.Common.csproj", "{D0AFE091-8348-42CA-8D7D-FC10250F4AC0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Hubs", "SteamMarketplace.Hubs\SteamMarketplace.Hubs.csproj", "{59D9A41D-B766-4C26-BF06-0AB2D19FA984}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.OnlineConsoleApp", "SteamMarketplace.OnlineConsoleApp\SteamMarketplace.OnlineConsoleApp.csproj", "{9B1FB0D7-875C-4585-B0F5-DE4770DFD3B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamMarketplace.Services", "SteamMarketplace.Services\SteamMarketplace.Services.csproj", "{2FE259A8-72CB-4BD5-946F-9EE0CA518EA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamMarketplace.DesktopApplication.WpfControlLibrary", "SteamMarketplace.DesktopApplication.WpfControlLibrary\SteamMarketplace.DesktopApplication.WpfControlLibrary.csproj", "{37078353-7438-44DC-A984-1A097A4533D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +85,26 @@ Global
 		{7424F3B7-52ED-4885-BD89-D607CCFBF625}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7424F3B7-52ED-4885-BD89-D607CCFBF625}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7424F3B7-52ED-4885-BD89-D607CCFBF625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0AFE091-8348-42CA-8D7D-FC10250F4AC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0AFE091-8348-42CA-8D7D-FC10250F4AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0AFE091-8348-42CA-8D7D-FC10250F4AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0AFE091-8348-42CA-8D7D-FC10250F4AC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D9A41D-B766-4C26-BF06-0AB2D19FA984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D9A41D-B766-4C26-BF06-0AB2D19FA984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D9A41D-B766-4C26-BF06-0AB2D19FA984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D9A41D-B766-4C26-BF06-0AB2D19FA984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1FB0D7-875C-4585-B0F5-DE4770DFD3B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1FB0D7-875C-4585-B0F5-DE4770DFD3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1FB0D7-875C-4585-B0F5-DE4770DFD3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1FB0D7-875C-4585-B0F5-DE4770DFD3B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE259A8-72CB-4BD5-946F-9EE0CA518EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE259A8-72CB-4BD5-946F-9EE0CA518EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE259A8-72CB-4BD5-946F-9EE0CA518EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE259A8-72CB-4BD5-946F-9EE0CA518EA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37078353-7438-44DC-A984-1A097A4533D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37078353-7438-44DC-A984-1A097A4533D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37078353-7438-44DC-A984-1A097A4533D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37078353-7438-44DC-A984-1A097A4533D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

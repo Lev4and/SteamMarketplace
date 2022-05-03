@@ -42,6 +42,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
 
             if (response.Status.Code == System.Net.HttpStatusCode.OK)
             {
+                _httpContext.ResourceAPI.UserInventories.Login(Login, Password);
                 _pageService.ChangePage(new Pages.Menu.Menu());
             }
             else

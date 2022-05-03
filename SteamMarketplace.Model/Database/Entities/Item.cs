@@ -19,6 +19,8 @@ namespace SteamMarketplace.Model.Database.Entities
 
         public long AssetId { get; set; }
 
+        public long CSMoneyId { get; set; }
+
         [Column(TypeName = "float(15)")]
         public float? Float { get; set; }
 

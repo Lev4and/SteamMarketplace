@@ -6,10 +6,14 @@
 
         public ImportItemHttpClient ImportItem { get; }
 
-        public ResourceAPIHttpContext(CSMoneyStoreHttpClient cSMoneyStore, ImportItemHttpClient importItem)
+        public UserInventoriesHttpClient UserInventories { get; }
+
+        public ResourceAPIHttpContext(CSMoneyStoreHttpClient cSMoneyStore, ImportItemHttpClient importItem,
+            UserInventoriesHttpClient userInventories)
         {
             CSMoneyStore = cSMoneyStore;
             ImportItem = importItem;
+            UserInventories = userInventories;
         }
     }
 }

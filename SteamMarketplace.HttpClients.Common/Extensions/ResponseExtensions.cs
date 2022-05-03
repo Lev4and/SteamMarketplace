@@ -59,7 +59,8 @@ namespace SteamMarketplace.HttpClients.Common.Extensions
             {
                 return JsonConvert.DeserializeObject<T>(responseContent, new JsonSerializerSettings
                 {
-                    NullValueHandling = NullValueHandling.Ignore
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
             }
             catch
@@ -83,7 +84,8 @@ namespace SteamMarketplace.HttpClients.Common.Extensions
                 {
                     return JsonConvert.DeserializeObject<T>(await reader.ReadToEndAsync(), new JsonSerializerSettings
                     {
-                        NullValueHandling = NullValueHandling.Ignore
+                        NullValueHandling = NullValueHandling.Ignore,
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                     });
                 }
             }

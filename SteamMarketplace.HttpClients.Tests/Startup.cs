@@ -14,6 +14,7 @@ namespace SteamMarketplace.HttpClients.Tests
             services.AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();
+            services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
             services.AddSingleton<HttpContext>();
         }
     }

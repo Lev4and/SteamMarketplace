@@ -12,7 +12,7 @@ using SteamMarketplace.Model.Database;
 namespace SteamMarketplace.Model.Database.Migrations
 {
     [DbContext(typeof(SteamMarketplaceDbContext))]
-    [Migration("20220424042124_InitDatabase")]
+    [Migration("20220501101224_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,14 +226,14 @@ namespace SteamMarketplace.Model.Database.Migrations
                         {
                             Id = new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0baff10d-065e-4ffe-b12e-e21a25d874b8",
+                            ConcurrencyStamp = "bef886b1-635b-46ed-aa1f-9fbde6affb4f",
                             CurrencyId = new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"),
                             Email = "andrey.levchenko.2001@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDREY.LEVCHENKO.2001@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKQMaY60hqupqOWF5za7nVXkE3KXZQKS1VqGCwxYMEWKyAFEYjmh1NEIXYn1yh7b9w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDylRq7ztedtG4QOFLA7iBJNXLimgWunZ0V07Ht4qzv3NnZS/MAVAm60vHozLR4iIQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -272,9 +272,16 @@ namespace SteamMarketplace.Model.Database.Migrations
                         new
                         {
                             Id = new Guid("b867520a-92db-4658-be39-84da53a601c0"),
-                            ConcurrencyStamp = "132afd4b-37e8-4348-97db-66d7a8ddd092",
+                            ConcurrencyStamp = "5b3c2ab9-a7a7-41b7-858e-a0de1f9b07d6",
                             Name = "Администратор",
                             NormalizedName = "АДМИНИСТРАТОР"
+                        },
+                        new
+                        {
+                            Id = new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"),
+                            ConcurrencyStamp = "e7d82e61-37e9-484c-ace8-38106dff99fd",
+                            Name = "Игрок",
+                            NormalizedName = "Игрок"
                         });
                 });
 
@@ -315,6 +322,36 @@ namespace SteamMarketplace.Model.Database.Migrations
                         {
                             Id = new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"),
                             CultureInfoName = "en-US"
+                        },
+                        new
+                        {
+                            Id = new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"),
+                            CultureInfoName = "ru-RU"
+                        },
+                        new
+                        {
+                            Id = new Guid("2b1ba08d-97ea-427d-b356-d3ad65e09905"),
+                            CultureInfoName = "uk-UA"
+                        },
+                        new
+                        {
+                            Id = new Guid("b8b74ee6-d9a5-4dde-b7b6-21e4a04a6f7d"),
+                            CultureInfoName = "kk-KZ"
+                        },
+                        new
+                        {
+                            Id = new Guid("f340e01a-72e6-40c5-94bc-b7d407f54bd0"),
+                            CultureInfoName = "zh-CN"
+                        },
+                        new
+                        {
+                            Id = new Guid("a58d5766-4fbd-4f59-9dea-2d1baceda710"),
+                            CultureInfoName = "eu-EU"
+                        },
+                        new
+                        {
+                            Id = new Guid("72616e1e-e63f-4262-863c-72140c5ef912"),
+                            CultureInfoName = "en-GB"
                         });
                 });
 
@@ -331,6 +368,9 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long>("AssetId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CSMoneyId")
                         .HasColumnType("bigint");
 
                     b.Property<Guid?>("CollectionId")

@@ -164,6 +164,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                     RarityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AssetId = table.Column<long>(type: "bigint", nullable: false),
+                    CSMoneyId = table.Column<long>(type: "bigint", nullable: false),
                     Float = table.Column<float>(type: "float(15)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SteamId = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -417,17 +418,30 @@ namespace SteamMarketplace.Model.Database.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "132afd4b-37e8-4348-97db-66d7a8ddd092", "Администратор", "АДМИНИСТРАТОР" });
+                values: new object[,]
+                {
+                    { new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"), "e7d82e61-37e9-484c-ace8-38106dff99fd", "Игрок", "Игрок" },
+                    { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "5b3c2ab9-a7a7-41b7-858e-a0de1f9b07d6", "Администратор", "АДМИНИСТРАТОР" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
                 columns: new[] { "Id", "CultureInfoName" },
-                values: new object[] { new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "en-US" });
+                values: new object[,]
+                {
+                    { new Guid("2b1ba08d-97ea-427d-b356-d3ad65e09905"), "uk-UA" },
+                    { new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "en-US" },
+                    { new Guid("72616e1e-e63f-4262-863c-72140c5ef912"), "en-GB" },
+                    { new Guid("a58d5766-4fbd-4f59-9dea-2d1baceda710"), "eu-EU" },
+                    { new Guid("b8b74ee6-d9a5-4dde-b7b6-21e4a04a6f7d"), "kk-KZ" },
+                    { new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"), "ru-RU" },
+                    { new Guid("f340e01a-72e6-40c5-94bc-b7d407f54bd0"), "zh-CN" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CurrencyId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "0baff10d-065e-4ffe-b12e-e21a25d874b8", new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEKQMaY60hqupqOWF5za7nVXkE3KXZQKS1VqGCwxYMEWKyAFEYjmh1NEIXYn1yh7b9w==", null, false, "", false, "Admin" });
+                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "bef886b1-635b-46ed-aa1f-9fbde6affb4f", new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEDylRq7ztedtG4QOFLA7iBJNXLimgWunZ0V07Ht4qzv3NnZS/MAVAm60vHozLR4iIQ==", null, false, "", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

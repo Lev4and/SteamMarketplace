@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Database\AnonymousTypes\" />
-    <Folder Include="Database\AuxiliaryTypes\" />
     <Folder Include="Database\Migrations\" />
     <Folder Include="Marketplace\Steam\Types\" />
   </ItemGroup>

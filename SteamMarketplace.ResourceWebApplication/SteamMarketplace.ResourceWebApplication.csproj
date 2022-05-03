@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -20,8 +21,10 @@
   <ItemGroup>
     <ProjectReference Include="..\SteamMarketplace.Authorization.Common\SteamMarketplace.Authorization.Common.csproj" />
     <ProjectReference Include="..\SteamMarketplace.HttpClients\SteamMarketplace.HttpClients.csproj" />
+    <ProjectReference Include="..\SteamMarketplace.Hubs\SteamMarketplace.Hubs.csproj" />
     <ProjectReference Include="..\SteamMarketplace.Model.Common\SteamMarketplace.Model.Common.csproj" />
     <ProjectReference Include="..\SteamMarketplace.Model\SteamMarketplace.Model.csproj" />
+    <ProjectReference Include="..\SteamMarketplace.Services\SteamMarketplace.Services.csproj" />
   </ItemGroup>
 
 </Project>

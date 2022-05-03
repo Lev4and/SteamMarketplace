@@ -26,7 +26,7 @@ namespace SteamMarketplace.HttpClients.ResourceAPI
             await AuthorizeAsync();
 
             return await GetAsync<BaseResponseModel<BotInventory>>($"{ResourceAPIRoutes.CSMoneyStoreQuery}?limit={limit}" +
-                $"&offset={offset}&withStack={withStack}");
+                $"&offset={offset}&withStack={withStack.ToString().ToLower()}");
         }
     }
 }
