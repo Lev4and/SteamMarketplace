@@ -1,16 +1,19 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Xunit;
+using Services = SteamMarketplace.HttpClients.Common.Services;
 
 namespace SteamMarketplace.HttpClients.Tests.ResourceAPI
 {
     public class ImportItemHttpClientTests
     {
         private readonly HttpContext _httpContext;
+        private readonly Services.Authorization _authorization;
 
-        public ImportItemHttpClientTests(HttpContext httpContext)
+        public ImportItemHttpClientTests(HttpContext httpContext, Services.Authorization authorization)
         {
             _httpContext = httpContext;
+            _authorization = authorization;
         }
 
         [Fact]
@@ -18,7 +21,7 @@ namespace SteamMarketplace.HttpClients.Tests.ResourceAPI
         {
             var stopwatch = new Stopwatch();
 
-            _httpContext.ResourceAPI.ImportItem.Login("Admin", "Admin");
+            _authorization.LoginByAdministrator();
 
             for (var i = 0; i < 1000000; i += 50)
             {

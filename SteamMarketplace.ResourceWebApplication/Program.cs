@@ -20,6 +20,7 @@ using ObjectRelationalAbstract = SteamMarketplace.Model.Database.Repositories.Ob
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<HttpClients.Common.Services.Authorization>();
 builder.Services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
 builder.Services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>();
 builder.Services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();

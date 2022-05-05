@@ -2,7 +2,6 @@
 using SteamMarketplace.Authorization.Models;
 using SteamMarketplace.HttpClients.Common.Extensions;
 using SteamMarketplace.Model.Common;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -10,12 +9,11 @@ namespace SteamMarketplace.HttpClients.Common
 {
     public class AuthorizationHttpClient : BaseHttpClient
     {
-        private Login? _account;
-        private JwtSecurityToken? _token;
         private readonly string _authorizationUri;
-        private readonly JwtSecurityTokenHandler _tokenHandler;
+        private readonly Services.Authorization _authorization;
 
-        public AuthorizationHttpClient(string uri, string authorizationUri) : base(uri)
+        public AuthorizationHttpClient(string uri, string authorizationUri, Services.Authorization authorization)
+            : base(uri)
         {
             if (string.IsNullOrEmpty(uri))
             {
@@ -28,28 +26,21 @@ namespace SteamMarketplace.HttpClients.Common
             }
 
             _authorizationUri = authorizationUri;
-            _tokenHandler = new JwtSecurityTokenHandler();
-        }
-
-        private bool CheckValidToken()
-        {
-            return _token != null || _token?.ValidTo.Subtract(DateTime.Now.ToUniversalTime()).Minutes > 20;
+            _authorization = authorization;
         }
 
         private async Task<string> GetAccessToken()
         {
-            if (_account == null)
+            if (_authorization.LoggedIn())
             {
-                throw new ArgumentNullException("_account", "The account must not be empty.");
-            }
+                var respponse = await (await Client.PostAsync(_authorizationUri,
+                    new StringContent(JsonConvert.SerializeObject(_authorization.GetAccount()),
+                        Encoding.UTF8, "application/json"))).GetJsonResultAsync<BaseResponseModel<JWT>>();
 
-            var respponse = await (await Client.PostAsync(_authorizationUri,
-                new StringContent(JsonConvert.SerializeObject(_account),
-                    Encoding.UTF8, "application/json"))).GetJsonResultAsync<BaseResponseModel<JWT>>();
-
-            if (respponse.Status.Code == System.Net.HttpStatusCode.OK)
-            {
-                return respponse.Result.AccessToken;
+                if (respponse.Status.Code == System.Net.HttpStatusCode.OK)
+                {
+                    return respponse.Result.AccessToken;
+                }
             }
 
             return "";
@@ -57,34 +48,12 @@ namespace SteamMarketplace.HttpClients.Common
 
         protected internal async Task AuthorizeAsync()
         {
-            if (!CheckValidToken())
+            if (_authorization.IsOverdue())
             {
-                var accessToken = await GetAccessToken();
-
-                if (!string.IsNullOrEmpty(accessToken)) _token = _tokenHandler.ReadJwtToken(accessToken);
+                _authorization.SetAccessToken(await GetAccessToken());
             }
 
-            if (_token != null) Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.RawData);
-        }
-
-        public void Login(string emailOrLogin, string password)
-        {
-            if (string.IsNullOrEmpty(emailOrLogin))
-            {
-                throw new ArgumentNullException("emailOrLogin", "The email or login must not be empty.");
-            }
-
-            if (string.IsNullOrEmpty(password))
-            {
-                throw new ArgumentNullException("password", "The password must not be empty.");
-            }
-
-            _account = new Login(emailOrLogin, password);
-        }
-
-        public void Logout()
-        {
-            _account = null;
+            if (!string.IsNullOrEmpty(_authorization.GetToken())) Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authorization.GetToken());
         }
     }
 }

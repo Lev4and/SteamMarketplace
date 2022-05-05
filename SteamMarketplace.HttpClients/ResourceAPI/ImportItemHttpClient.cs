@@ -2,12 +2,14 @@
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Marketplace.CSMoney.Types;
 using System.Text;
+using Services = SteamMarketplace.HttpClients.Common.Services;
 
 namespace SteamMarketplace.HttpClients.ResourceAPI
 {
     public class ImportItemHttpClient : ResourceAPIHttpClient
     {
-        public ImportItemHttpClient() : base(ResourceAPIRoutes.ImportItemPath)
+        public ImportItemHttpClient(Services.Authorization authorization)
+            : base(ResourceAPIRoutes.ImportItemPath, authorization)
         {
 
         }

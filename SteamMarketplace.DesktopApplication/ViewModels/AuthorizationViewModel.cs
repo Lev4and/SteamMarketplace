@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Pages = SteamMarketplace.DesktopApplication.Views.Pages;
+using HttpClientsServices = SteamMarketplace.HttpClients.Common.Services;
 
 namespace SteamMarketplace.DesktopApplication.ViewModels
 {
@@ -15,15 +16,18 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
     {
         private readonly PageService _pageService;
         private readonly HttpContext _httpContext;
+        private readonly HttpClientsServices.Authorization _authorization;
 
         public string Login { get; set; }
 
         public string Password { get; set; }
 
-        public AuthorizationViewModel(PageService pageService, HttpContext httpContext)
+        public AuthorizationViewModel(PageService pageService, HttpContext httpContext, 
+            HttpClientsServices.Authorization authorization)
         {
             _pageService = pageService;
             _httpContext = httpContext;
+            _authorization = authorization;
         }
 
         public ICommand PasswordChanged => new Command((obj) =>
@@ -42,7 +46,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
 
             if (response.Status.Code == System.Net.HttpStatusCode.OK)
             {
-                _httpContext.ResourceAPI.UserInventories.Login(Login, Password);
+                _authorization.Login(Login, Password);
                 _pageService.ChangePage(new Pages.Menu.Menu());
             }
             else

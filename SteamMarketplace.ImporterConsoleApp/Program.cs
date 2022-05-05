@@ -8,6 +8,7 @@ Console.InputEncoding = Encoding.UTF8;
 Console.OutputEncoding = Encoding.UTF8;
 
 var services = new ServiceCollection()
+    .AddSingleton<HttpClients.Common.Services.Authorization>()
     .AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>()
     .AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>()
     .AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>()
@@ -22,9 +23,9 @@ var services = new ServiceCollection()
 var serviceProvider = services.BuildServiceProvider();
 
 var httpContext = serviceProvider.GetService<HttpClients.HttpContext>();
+var authorization = serviceProvider.GetService<HttpClients.Common.Services.Authorization>();
 
-httpContext.ResourceAPI.CSMoneyStore.Login("Admin", "Admin");
-httpContext.ResourceAPI.ImportItem.Login("Admin", "Admin");
+authorization.LoginByAdministrator();
 
 var stopwatch = new Stopwatch();
 

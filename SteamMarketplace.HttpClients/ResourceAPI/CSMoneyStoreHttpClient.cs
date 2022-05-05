@@ -1,12 +1,14 @@
 ﻿using SteamMarketplace.HttpClients.Common.Extensions;
 using SteamMarketplace.HttpClients.CSMoney.ResponseModels;
 using SteamMarketplace.Model.Common;
+using Services = SteamMarketplace.HttpClients.Common.Services;
 
 namespace SteamMarketplace.HttpClients.ResourceAPI
 {
     public class CSMoneyStoreHttpClient : ResourceAPIHttpClient
     {
-        public CSMoneyStoreHttpClient() : base(ResourceAPIRoutes.CSMoneyStorePath)
+        public CSMoneyStoreHttpClient(Services.Authorization authorization)
+            : base(ResourceAPIRoutes.CSMoneyStorePath, authorization)
         {
 
         }

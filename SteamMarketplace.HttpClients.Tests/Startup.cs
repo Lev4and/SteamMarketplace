@@ -6,6 +6,7 @@ namespace SteamMarketplace.HttpClients.Tests
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Common.Services.Authorization>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>();
             services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();

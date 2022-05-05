@@ -4,6 +4,7 @@ using SteamMarketplace.Model.Marketplace.CSMoney.Types;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using HttpClientsServices = SteamMarketplace.HttpClients.Common.Services;
 
 namespace SteamMarketplace.Services
 {
@@ -12,17 +13,20 @@ namespace SteamMarketplace.Services
         private readonly Stopwatch _stopwatch;
         private readonly HttpContext _httpContext;
         private readonly ILogger<AutoImport> _logger;
+        private readonly HttpClientsServices.Authorization _authorization;
 
-        public AutoImport(HttpContext httpContext, ILogger<AutoImport> logger)
+        public AutoImport(HttpContext httpContext, ILogger<AutoImport> logger, 
+            HttpClientsServices.Authorization authorization)
         {
             _logger = logger;
             _httpContext = httpContext;
             _stopwatch = new Stopwatch();
+            _authorization = authorization;
         }
 
         private async IAsyncEnumerable<Item> GetItemAsync()
         {
-            _httpContext.ResourceAPI.CSMoneyStore.Login("Admin", "Admin");
+            _authorization.LoginByAdministrator();
 
             while (true)
             {
@@ -44,7 +48,7 @@ namespace SteamMarketplace.Services
 
         public async IAsyncEnumerable<Item> AutoImportAsync()
         {
-            _httpContext.ResourceAPI.ImportItem.Login("Admin", "Admin");
+            _authorization.LoginByAdministrator();
 
             await foreach (var item in GetItemAsync())
             {

@@ -31,6 +31,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels.Locators
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<MenuViewModel>();
 
+            services.AddSingleton<HttpClients.Common.Services.Authorization>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>();
             services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();
