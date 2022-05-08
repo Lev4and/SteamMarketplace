@@ -21,5 +21,7 @@ namespace SteamMarketplace.Model.Database.Entities
         public virtual ApplicationUser Buyer { get; set; }
 
         public virtual Sale Sale { get; set; }
+
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

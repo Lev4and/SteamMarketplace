@@ -195,6 +195,9 @@ namespace SteamMarketplace.Model.Database.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("RegisteredAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -204,6 +207,9 @@ namespace SteamMarketplace.Model.Database.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<decimal>("WalletBalance")
+                        .HasColumnType("decimal(18,6)");
 
                     b.HasKey("Id");
 
@@ -224,18 +230,20 @@ namespace SteamMarketplace.Model.Database.Migrations
                         {
                             Id = new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bef886b1-635b-46ed-aa1f-9fbde6affb4f",
+                            ConcurrencyStamp = "740cb51a-7856-43de-a4d8-86611c9e7564",
                             CurrencyId = new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"),
                             Email = "andrey.levchenko.2001@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDREY.LEVCHENKO.2001@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDylRq7ztedtG4QOFLA7iBJNXLimgWunZ0V07Ht4qzv3NnZS/MAVAm60vHozLR4iIQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELhP3zJs6B8XaArcL7dHxgyXXnmkx9NY0D8Gbai60sPvSNyByjnmEkhjegaKakzodQ==",
                             PhoneNumberConfirmed = false,
+                            RegisteredAt = new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
-                            UserName = "Admin"
+                            UserName = "Admin",
+                            WalletBalance = 1000000m
                         });
                 });
 
@@ -270,14 +278,14 @@ namespace SteamMarketplace.Model.Database.Migrations
                         new
                         {
                             Id = new Guid("b867520a-92db-4658-be39-84da53a601c0"),
-                            ConcurrencyStamp = "5b3c2ab9-a7a7-41b7-858e-a0de1f9b07d6",
+                            ConcurrencyStamp = "d7582e98-c4e4-4d62-b1d2-7958f7d13782",
                             Name = "Администратор",
                             NormalizedName = "АДМИНИСТРАТОР"
                         },
                         new
                         {
                             Id = new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"),
-                            ConcurrencyStamp = "e7d82e61-37e9-484c-ace8-38106dff99fd",
+                            ConcurrencyStamp = "0457298f-d282-450c-811a-d3c7701415c7",
                             Name = "Игрок",
                             NormalizedName = "Игрок"
                         });
@@ -311,6 +319,10 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Literal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
@@ -319,38 +331,235 @@ namespace SteamMarketplace.Model.Database.Migrations
                         new
                         {
                             Id = new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"),
-                            CultureInfoName = "en-US"
+                            CultureInfoName = "us-US",
+                            Literal = "USD"
                         },
                         new
                         {
                             Id = new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"),
-                            CultureInfoName = "ru-RU"
+                            CultureInfoName = "ru-RU",
+                            Literal = "RUB"
                         },
                         new
                         {
                             Id = new Guid("2b1ba08d-97ea-427d-b356-d3ad65e09905"),
-                            CultureInfoName = "uk-UA"
+                            CultureInfoName = "uk-UA",
+                            Literal = "UAH"
                         },
                         new
                         {
                             Id = new Guid("b8b74ee6-d9a5-4dde-b7b6-21e4a04a6f7d"),
-                            CultureInfoName = "kk-KZ"
+                            CultureInfoName = "kk-KZ",
+                            Literal = "KZT"
                         },
                         new
                         {
                             Id = new Guid("f340e01a-72e6-40c5-94bc-b7d407f54bd0"),
-                            CultureInfoName = "zh-CN"
+                            CultureInfoName = "zh-CN",
+                            Literal = "CNY"
                         },
                         new
                         {
                             Id = new Guid("a58d5766-4fbd-4f59-9dea-2d1baceda710"),
-                            CultureInfoName = "eu-EU"
+                            CultureInfoName = "eu-EU",
+                            Literal = "EUR"
                         },
                         new
                         {
                             Id = new Guid("72616e1e-e63f-4262-863c-72140c5ef912"),
-                            CultureInfoName = "en-GB"
+                            CultureInfoName = "en-GB",
+                            Literal = "GBP"
+                        },
+                        new
+                        {
+                            Id = new Guid("eccbb5a2-0fe6-4c9f-930a-313ee8f2d2bb"),
+                            CultureInfoName = "au-AU",
+                            Literal = "AUD"
+                        },
+                        new
+                        {
+                            Id = new Guid("d8bdac45-92c3-4183-85ee-90b335d9f500"),
+                            CultureInfoName = "az-AZ",
+                            Literal = "AZN"
+                        },
+                        new
+                        {
+                            Id = new Guid("c76d4f7e-4f1d-47d8-a339-89f0ac7e7096"),
+                            CultureInfoName = "am-AM",
+                            Literal = "AMD"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f4ced7b-0623-4bf3-8fa2-4297f9779024"),
+                            CultureInfoName = "by-BY",
+                            Literal = "BYN"
+                        },
+                        new
+                        {
+                            Id = new Guid("68ae2ebb-b92b-46b7-9032-3cb80a22842c"),
+                            CultureInfoName = "bg-BG",
+                            Literal = "BGN"
+                        },
+                        new
+                        {
+                            Id = new Guid("6c75d227-bd1f-42c5-9fdc-17def5240e4a"),
+                            CultureInfoName = "br-BR",
+                            Literal = "BRL"
+                        },
+                        new
+                        {
+                            Id = new Guid("e272ff65-2a3f-448d-b0a2-553b22bc8ff1"),
+                            CultureInfoName = "hu-HU",
+                            Literal = "HUF"
+                        },
+                        new
+                        {
+                            Id = new Guid("3b157395-d7d3-46e1-bfc9-365a9a44d153"),
+                            CultureInfoName = "hk-HK",
+                            Literal = "HKD"
+                        },
+                        new
+                        {
+                            Id = new Guid("3f54754b-e73c-48d7-a746-abff0e31d5eb"),
+                            CultureInfoName = "dk-DK",
+                            Literal = "DKK"
+                        },
+                        new
+                        {
+                            Id = new Guid("71df1ba6-67a8-4e9e-9947-9136aa3f1079"),
+                            CultureInfoName = "in-IN",
+                            Literal = "INR"
+                        },
+                        new
+                        {
+                            Id = new Guid("0c6d22bc-cee2-47f8-8d29-444fd726e3e4"),
+                            CultureInfoName = "ca-CA",
+                            Literal = "CAD"
+                        },
+                        new
+                        {
+                            Id = new Guid("d8b6a3e8-69e1-4905-aea1-808e4b25dd29"),
+                            CultureInfoName = "kg-KG",
+                            Literal = "KGS"
+                        },
+                        new
+                        {
+                            Id = new Guid("6e0379a4-ea9c-423d-9590-0bdcc0bac7dd"),
+                            CultureInfoName = "md-MD",
+                            Literal = "MDL"
+                        },
+                        new
+                        {
+                            Id = new Guid("ac20be74-4c1a-4eaf-9196-df50879b7a44"),
+                            CultureInfoName = "no-NO",
+                            Literal = "NOK"
+                        },
+                        new
+                        {
+                            Id = new Guid("d64b4b93-77dd-4b39-a82f-9c012fd61924"),
+                            CultureInfoName = "pl-PL",
+                            Literal = "PLN"
+                        },
+                        new
+                        {
+                            Id = new Guid("b4e37cf0-9bf7-471e-a68f-e6f0e4c4c98f"),
+                            CultureInfoName = "ro-RO",
+                            Literal = "RON"
+                        },
+                        new
+                        {
+                            Id = new Guid("fecbdeae-ead2-42e2-b19e-5ad2599fa6f4"),
+                            CultureInfoName = "???",
+                            Literal = "XDR"
+                        },
+                        new
+                        {
+                            Id = new Guid("6e1c5e6e-925f-421b-8c3f-8f4551e1ad35"),
+                            CultureInfoName = "sg-SG",
+                            Literal = "SGD"
+                        },
+                        new
+                        {
+                            Id = new Guid("84376203-fb2f-4871-b2fc-c462faf6cc78"),
+                            CultureInfoName = "tj-TJ",
+                            Literal = "TJS"
+                        },
+                        new
+                        {
+                            Id = new Guid("e1db9424-cf1d-442b-a236-46f461bace48"),
+                            CultureInfoName = "tr-TR",
+                            Literal = "TRY"
+                        },
+                        new
+                        {
+                            Id = new Guid("8efca627-8746-49ce-9689-f0c195661ccd"),
+                            CultureInfoName = "tm-TM",
+                            Literal = "TMT"
+                        },
+                        new
+                        {
+                            Id = new Guid("314a66a0-ef8d-4529-8dd7-04342fe0c7cf"),
+                            CultureInfoName = "uz-UZ",
+                            Literal = "UZS"
+                        },
+                        new
+                        {
+                            Id = new Guid("85e94c52-6b83-4ed0-8ae9-3975daa38af0"),
+                            CultureInfoName = "cz-CZ",
+                            Literal = "CZK"
+                        },
+                        new
+                        {
+                            Id = new Guid("3bc13b81-2ac1-4149-9ee0-769d1f420bf8"),
+                            CultureInfoName = "se-SE",
+                            Literal = "SEK"
+                        },
+                        new
+                        {
+                            Id = new Guid("6f1063d5-a35d-41e7-af1b-95e1db2fdca1"),
+                            CultureInfoName = "ch-CH",
+                            Literal = "CHF"
+                        },
+                        new
+                        {
+                            Id = new Guid("8c46157c-adae-46e1-afac-b65ff275f60d"),
+                            CultureInfoName = "za-ZA",
+                            Literal = "ZAR"
+                        },
+                        new
+                        {
+                            Id = new Guid("7e6fdb58-2b26-4cf8-b89f-fdc3972ce9dc"),
+                            CultureInfoName = "kr-KR",
+                            Literal = "KRW"
+                        },
+                        new
+                        {
+                            Id = new Guid("c2d2eeab-7ab9-4d56-969a-192d9ae9538c"),
+                            CultureInfoName = "jp-JP",
+                            Literal = "JPY"
                         });
+                });
+
+            modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.ExchangeRate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.ToTable("ExchangeRates");
                 });
 
             modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.Item", b =>
@@ -582,11 +791,101 @@ namespace SteamMarketplace.Model.Database.Migrations
                     b.ToTable("Sales");
                 });
 
+            modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("HappenedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("PurchaseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurchaseId");
+
+                    b.HasIndex("TypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("756cd385-85a6-4eb8-a2d8-e9dfddbc98ef"),
+                            HappenedAt = new DateTime(2022, 5, 1, 0, 5, 0, 0, DateTimeKind.Unspecified),
+                            TypeId = new Guid("0fdd5521-90fe-4709-9cce-d4a7d4ffb2e1"),
+                            UserId = new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"),
+                            Value = 1000000m
+                        });
+                });
+
+            modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.TransactionType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RuName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0fdd5521-90fe-4709-9cce-d4a7d4ffb2e1"),
+                            Name = "Adding funds to your account",
+                            RuName = "Пополнение"
+                        },
+                        new
+                        {
+                            Id = new Guid("2edbc026-1aaa-4f61-9f71-e3ab94fa6252"),
+                            Name = "Withdrawal of funds",
+                            RuName = "Вывод средств"
+                        },
+                        new
+                        {
+                            Id = new Guid("e98b7e58-8f0e-4662-b5a7-5358e8107ef8"),
+                            Name = "Purchase",
+                            RuName = "Покупка"
+                        },
+                        new
+                        {
+                            Id = new Guid("1f70a7dc-9dee-4e44-946d-4b82783bf77b"),
+                            Name = "Sale",
+                            RuName = "Продажа"
+                        });
+                });
+
             modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.UserInventory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uniqueidentifier");
@@ -658,6 +957,17 @@ namespace SteamMarketplace.Model.Database.Migrations
                 {
                     b.HasOne("SteamMarketplace.Model.Database.Entities.Currency", "Currency")
                         .WithMany("Users")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+                });
+
+            modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.ExchangeRate", b =>
+                {
+                    b.HasOne("SteamMarketplace.Model.Database.Entities.Currency", "Currency")
+                        .WithMany("Rates")
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -770,6 +1080,31 @@ namespace SteamMarketplace.Model.Database.Migrations
                     b.Navigation("Seller");
                 });
 
+            modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.Transaction", b =>
+                {
+                    b.HasOne("SteamMarketplace.Model.Database.Entities.Purchase", "Purchase")
+                        .WithMany("Transactions")
+                        .HasForeignKey("PurchaseId");
+
+                    b.HasOne("SteamMarketplace.Model.Database.Entities.TransactionType", "Type")
+                        .WithMany("Transactions")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SteamMarketplace.Model.Database.Entities.ApplicationUser", "User")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Purchase");
+
+                    b.Navigation("Type");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.UserInventory", b =>
                 {
                     b.HasOne("SteamMarketplace.Model.Database.Entities.Item", "Item")
@@ -801,6 +1136,8 @@ namespace SteamMarketplace.Model.Database.Migrations
                     b.Navigation("Purchases");
 
                     b.Navigation("Sales");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.Collection", b =>
@@ -810,6 +1147,8 @@ namespace SteamMarketplace.Model.Database.Migrations
 
             modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.Currency", b =>
                 {
+                    b.Navigation("Rates");
+
                     b.Navigation("Users");
                 });
 
@@ -832,6 +1171,11 @@ namespace SteamMarketplace.Model.Database.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.Purchase", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
             modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.Quality", b =>
                 {
                     b.Navigation("Items");
@@ -846,6 +1190,11 @@ namespace SteamMarketplace.Model.Database.Migrations
                 {
                     b.Navigation("Purchase")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SteamMarketplace.Model.Database.Entities.TransactionType", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

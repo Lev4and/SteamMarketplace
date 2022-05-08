@@ -32,7 +32,6 @@ namespace SteamMarketplace.Model.Database.Entities
         [Required]
         public string FullName { get; set; }
 
-        [Required]
         public DateTime AddedAt { get; set; }
 
         public virtual Rarity Rarity { get; set; }

@@ -8,6 +8,8 @@
 
         public Guid ItemId { get; set; }
 
+        public DateTime AddedAt { get; set; }
+
         public virtual ApplicationUser User { get; set; }
 
         public virtual Item Item { get; set; }

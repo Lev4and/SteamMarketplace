@@ -54,6 +54,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Literal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CultureInfoName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -101,6 +102,19 @@ namespace SteamMarketplace.Model.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TransactionTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RuName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -127,6 +141,8 @@ namespace SteamMarketplace.Model.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WalletBalance = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    RegisteredAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -147,6 +163,26 @@ namespace SteamMarketplace.Model.Database.Migrations
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExchangeRates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CurrencyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExchangeRates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExchangeRates_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id",
@@ -369,7 +405,8 @@ namespace SteamMarketplace.Model.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AddedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -415,38 +452,115 @@ namespace SteamMarketplace.Model.Database.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PurchaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Value = table.Column<decimal>(type: "decimal(18,6)", nullable: false),
+                    HappenedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transactions_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Purchases_PurchaseId",
+                        column: x => x.PurchaseId,
+                        principalTable: "Purchases",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Transactions_TransactionTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "TransactionTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"), "e7d82e61-37e9-484c-ace8-38106dff99fd", "Игрок", "Игрок" },
-                    { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "5b3c2ab9-a7a7-41b7-858e-a0de1f9b07d6", "Администратор", "АДМИНИСТРАТОР" }
+                    { new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"), "0457298f-d282-450c-811a-d3c7701415c7", "Игрок", "Игрок" },
+                    { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "d7582e98-c4e4-4d62-b1d2-7958f7d13782", "Администратор", "АДМИНИСТРАТОР" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
-                columns: new[] { "Id", "CultureInfoName" },
+                columns: new[] { "Id", "CultureInfoName", "Literal" },
                 values: new object[,]
                 {
-                    { new Guid("2b1ba08d-97ea-427d-b356-d3ad65e09905"), "uk-UA" },
-                    { new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "en-US" },
-                    { new Guid("72616e1e-e63f-4262-863c-72140c5ef912"), "en-GB" },
-                    { new Guid("a58d5766-4fbd-4f59-9dea-2d1baceda710"), "eu-EU" },
-                    { new Guid("b8b74ee6-d9a5-4dde-b7b6-21e4a04a6f7d"), "kk-KZ" },
-                    { new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"), "ru-RU" },
-                    { new Guid("f340e01a-72e6-40c5-94bc-b7d407f54bd0"), "zh-CN" }
+                    { new Guid("0c6d22bc-cee2-47f8-8d29-444fd726e3e4"), "ca-CA", "CAD" },
+                    { new Guid("2b1ba08d-97ea-427d-b356-d3ad65e09905"), "uk-UA", "UAH" },
+                    { new Guid("314a66a0-ef8d-4529-8dd7-04342fe0c7cf"), "uz-UZ", "UZS" },
+                    { new Guid("3b157395-d7d3-46e1-bfc9-365a9a44d153"), "hk-HK", "HKD" },
+                    { new Guid("3bc13b81-2ac1-4149-9ee0-769d1f420bf8"), "se-SE", "SEK" },
+                    { new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "us-US", "USD" },
+                    { new Guid("3f54754b-e73c-48d7-a746-abff0e31d5eb"), "dk-DK", "DKK" },
+                    { new Guid("4f4ced7b-0623-4bf3-8fa2-4297f9779024"), "by-BY", "BYN" },
+                    { new Guid("68ae2ebb-b92b-46b7-9032-3cb80a22842c"), "bg-BG", "BGN" },
+                    { new Guid("6c75d227-bd1f-42c5-9fdc-17def5240e4a"), "br-BR", "BRL" },
+                    { new Guid("6e0379a4-ea9c-423d-9590-0bdcc0bac7dd"), "md-MD", "MDL" },
+                    { new Guid("6e1c5e6e-925f-421b-8c3f-8f4551e1ad35"), "sg-SG", "SGD" },
+                    { new Guid("6f1063d5-a35d-41e7-af1b-95e1db2fdca1"), "ch-CH", "CHF" },
+                    { new Guid("71df1ba6-67a8-4e9e-9947-9136aa3f1079"), "in-IN", "INR" },
+                    { new Guid("72616e1e-e63f-4262-863c-72140c5ef912"), "en-GB", "GBP" },
+                    { new Guid("7e6fdb58-2b26-4cf8-b89f-fdc3972ce9dc"), "kr-KR", "KRW" },
+                    { new Guid("84376203-fb2f-4871-b2fc-c462faf6cc78"), "tj-TJ", "TJS" },
+                    { new Guid("85e94c52-6b83-4ed0-8ae9-3975daa38af0"), "cz-CZ", "CZK" },
+                    { new Guid("8c46157c-adae-46e1-afac-b65ff275f60d"), "za-ZA", "ZAR" },
+                    { new Guid("8efca627-8746-49ce-9689-f0c195661ccd"), "tm-TM", "TMT" },
+                    { new Guid("a58d5766-4fbd-4f59-9dea-2d1baceda710"), "eu-EU", "EUR" },
+                    { new Guid("ac20be74-4c1a-4eaf-9196-df50879b7a44"), "no-NO", "NOK" },
+                    { new Guid("b4e37cf0-9bf7-471e-a68f-e6f0e4c4c98f"), "ro-RO", "RON" },
+                    { new Guid("b8b74ee6-d9a5-4dde-b7b6-21e4a04a6f7d"), "kk-KZ", "KZT" },
+                    { new Guid("c2d2eeab-7ab9-4d56-969a-192d9ae9538c"), "jp-JP", "JPY" },
+                    { new Guid("c76d4f7e-4f1d-47d8-a339-89f0ac7e7096"), "am-AM", "AMD" },
+                    { new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"), "ru-RU", "RUB" },
+                    { new Guid("d64b4b93-77dd-4b39-a82f-9c012fd61924"), "pl-PL", "PLN" },
+                    { new Guid("d8b6a3e8-69e1-4905-aea1-808e4b25dd29"), "kg-KG", "KGS" },
+                    { new Guid("d8bdac45-92c3-4183-85ee-90b335d9f500"), "az-AZ", "AZN" },
+                    { new Guid("e1db9424-cf1d-442b-a236-46f461bace48"), "tr-TR", "TRY" },
+                    { new Guid("e272ff65-2a3f-448d-b0a2-553b22bc8ff1"), "hu-HU", "HUF" },
+                    { new Guid("eccbb5a2-0fe6-4c9f-930a-313ee8f2d2bb"), "au-AU", "AUD" },
+                    { new Guid("f340e01a-72e6-40c5-94bc-b7d407f54bd0"), "zh-CN", "CNY" },
+                    { new Guid("fecbdeae-ead2-42e2-b19e-5ad2599fa6f4"), "???", "XDR" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TransactionTypes",
+                columns: new[] { "Id", "Name", "RuName" },
+                values: new object[,]
+                {
+                    { new Guid("0fdd5521-90fe-4709-9cce-d4a7d4ffb2e1"), "Adding funds to your account", "Пополнение" },
+                    { new Guid("1f70a7dc-9dee-4e44-946d-4b82783bf77b"), "Sale", "Продажа" },
+                    { new Guid("2edbc026-1aaa-4f61-9f71-e3ab94fa6252"), "Withdrawal of funds", "Вывод средств" },
+                    { new Guid("e98b7e58-8f0e-4662-b5a7-5358e8107ef8"), "Purchase", "Покупка" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CurrencyId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "bef886b1-635b-46ed-aa1f-9fbde6affb4f", new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEDylRq7ztedtG4QOFLA7iBJNXLimgWunZ0V07Ht4qzv3NnZS/MAVAm60vHozLR4iIQ==", null, false, "", false, "Admin" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CurrencyId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RegisteredAt", "SecurityStamp", "TwoFactorEnabled", "UserName", "WalletBalance" },
+                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "740cb51a-7856-43de-a4d8-86611c9e7564", new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAELhP3zJs6B8XaArcL7dHxgyXXnmkx9NY0D8Gbai60sPvSNyByjnmEkhjegaKakzodQ==", null, false, new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", false, "Admin", 1000000m });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { new Guid("b867520a-92db-4658-be39-84da53a601c0"), new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb") });
+
+            migrationBuilder.InsertData(
+                table: "Transactions",
+                columns: new[] { "Id", "HappenedAt", "PurchaseId", "TypeId", "UserId", "Value" },
+                values: new object[] { new Guid("756cd385-85a6-4eb8-a2d8-e9dfddbc98ef"), new DateTime(2022, 5, 1, 0, 5, 0, 0, DateTimeKind.Unspecified), null, new Guid("0fdd5521-90fe-4709-9cce-d4a7d4ffb2e1"), new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 1000000m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -491,6 +605,11 @@ namespace SteamMarketplace.Model.Database.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExchangeRates_CurrencyId",
+                table: "ExchangeRates",
+                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemImages_ItemId",
@@ -555,6 +674,21 @@ namespace SteamMarketplace.Model.Database.Migrations
                 column: "SellerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transactions_PurchaseId",
+                table: "Transactions",
+                column: "PurchaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_TypeId",
+                table: "Transactions",
+                column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_UserId",
+                table: "Transactions",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserInventories_ItemId",
                 table: "UserInventories",
                 column: "ItemId");
@@ -583,19 +717,28 @@ namespace SteamMarketplace.Model.Database.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ExchangeRates");
+
+            migrationBuilder.DropTable(
                 name: "ItemImages");
 
             migrationBuilder.DropTable(
                 name: "ItemNesteds");
 
             migrationBuilder.DropTable(
-                name: "Purchases");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "UserInventories");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Purchases");
+
+            migrationBuilder.DropTable(
+                name: "TransactionTypes");
 
             migrationBuilder.DropTable(
                 name: "Sales");

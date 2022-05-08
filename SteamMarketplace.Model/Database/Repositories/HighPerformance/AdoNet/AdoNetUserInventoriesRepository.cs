@@ -55,13 +55,15 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [UserInventories] (Id, UserId, ItemId) VALUES (@Id, @UserId, @ItemId)";
+                var query = $"INSERT INTO [UserInventories] (Id, UserId, ItemId, AddedAt) VALUES (@Id, @UserId, @ItemId, " +
+                    $"@AddedAt)";
 
                 var parameters = new List<SqlParameter>()
                 {
                     new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
                     new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.UserId },
-                    new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ItemId }
+                    new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ItemId },
+                    new SqlParameter() { ParameterName = "@AddedAt", SqlDbType = SqlDbType.DateTime2, Value = entity.AddedAt }
                 };
 
                 _context.ExecuteQuery(query, parameters);
