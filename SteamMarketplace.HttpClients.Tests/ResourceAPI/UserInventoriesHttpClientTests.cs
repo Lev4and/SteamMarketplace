@@ -27,7 +27,7 @@ namespace SteamMarketplace.HttpClients.Tests.ResourceAPI
             var response = await _httpContext.ResourceAPI.UserInventories
                 .GetUserInventoryAsync(new UserInventoriesFilters()
                 {
-                    UserId = Guid.Parse("21F7B496-C675-4E8A-A34C-FC5EC0762FDB"),
+                    UserId = _authorization.GetUserId(),
                     Pagination = new Pagination()
                     {
                         Page = 1,

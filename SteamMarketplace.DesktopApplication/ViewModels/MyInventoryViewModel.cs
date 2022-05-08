@@ -8,12 +8,14 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommonModels = SteamMarketplace.Model.Common;
+using HttpClientsServices = SteamMarketplace.HttpClients.Common.Services;
 
 namespace SteamMarketplace.DesktopApplication.ViewModels
 {
     public class MyInventoryViewModel : BindableBase
     {
         private readonly HttpContext _httpContext;
+        private readonly HttpClientsServices.Authorization _authorization;
 
         public bool Loading { get; set; }
 
@@ -42,14 +44,15 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
             return LoadInventoryAsync();
         }, () => Filters.Pagination.Page < Pagination.PagesCount);
 
-        public MyInventoryViewModel(HttpContext httpContext)
+        public MyInventoryViewModel(HttpContext httpContext, HttpClientsServices.Authorization authorization)
         {
             _httpContext = httpContext;
+            _authorization = authorization;
 
             Loading = false;
             Filters = new UserInventoriesFilters()
             {
-                UserId = Guid.Parse("21F7B496-C675-4E8A-A34C-FC5EC0762FDB"),
+                UserId = _authorization.GetUserId(),
                 Pagination = new Pagination()
                 {
                     Page = 1,

@@ -56,6 +56,25 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
         }
 
+        public Guid GetCurrencyIdByLiteral(string literal)
+        {
+            if (string.IsNullOrEmpty(literal))
+            {
+                throw new ArgumentNullException("literal", "The literal must not be empty.");
+            }
+
+            var query = $"SELECT TOP(1) Id " +
+                $"FROM Currencies " +
+                $"WHERE Currencies.Literal = @Literal";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@Literal", SqlDbType = SqlDbType.NVarChar, Value = literal }
+            };
+
+            return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
+        }
+
         public bool Save(Currency entity, bool checkOnUnique = true)
         {
             if (entity == null)

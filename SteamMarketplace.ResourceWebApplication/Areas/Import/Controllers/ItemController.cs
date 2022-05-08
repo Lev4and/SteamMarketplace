@@ -44,7 +44,9 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Import.Controllers
                 return BadRequest(new BaseResponseModel<Guid>(Guid.Empty, Statuses.InvalidData));
             }
 
-            var result = new BaseResponseModel<Guid>(_importer.Import(item), Statuses.Success);
+            var result = new BaseResponseModel<Guid>(_importer.Import(item, Guid.Parse(User.Claims.First((claim) => 
+                claim.Type == "id").Value), Guid.Parse(User.Claims.First((claim) => claim.Type == "currencyId").Value)),  
+                Statuses.Success);
 
             if (result.Result != Guid.Empty)
             {

@@ -30,7 +30,9 @@ namespace SteamMarketplace.AuthorizationWebApplication.Services
 
             var claims = new List<Claim>()
             {
+                new Claim("id", $"{user.Id}"),
                 new Claim("role", await GetRoleAsync(user)),
+                new Claim("currencyId", $"{user.CurrencyId}"),
                 new Claim(JwtRegisteredClaimNames.Sub, $"{user.Id}"),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)

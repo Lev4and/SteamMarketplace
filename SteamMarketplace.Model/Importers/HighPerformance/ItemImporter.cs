@@ -84,7 +84,7 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
             }
         }
 
-        private void SaveStackItems(Entities.Item item, CSMoney.Item cSMoneyItem, bool withStack = true)
+        private void SaveStackItems(Entities.Item item, CSMoney.Item cSMoneyItem, Guid userId, decimal rateCurrency, bool withStack = true)
         {
             if (item == null)
             {
@@ -104,35 +104,35 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
                     {
                         if (!_dataManager.Items.Contains((long)stackItem.Id))
                         {
-                            SaveItem(GetItem(item, stackItem), cSMoneyItem, false);
+                            SaveItem(GetItem(item, stackItem), cSMoneyItem, userId, rateCurrency, false);
                         }
                     }
                 }
             }
         }
 
-        private void AddInInventory(Guid itemId)
+        private void AddInInventory(Guid itemId, Guid userId)
         {
             if (itemId == Guid.Empty)
             {
                 throw new ArgumentNullException("itemId", "The item id must not be empty.");
             }
 
-            _importerContext.UserInventory.Import(Guid.Parse("21F7B496-C675-4E8A-A34C-FC5EC0762FDB"), itemId);
+            _importerContext.UserInventory.Import(userId, itemId);
         }
 
-        private void PutUpForSale(Guid itemId, double price)
+        private void PutUpForSale(Guid itemId, Guid userId, double price, decimal rateCurrency)
         {
             if (itemId == Guid.Empty)
             {
                 throw new ArgumentNullException("itemId", "The item id must not be empty.");
             }
 
-            _importerContext.Sale.Import(Guid.Parse("21F7B496-C675-4E8A-A34C-FC5EC0762FDB"), itemId,
-                Convert.ToDecimal(price), Convert.ToDecimal(price));
+            _importerContext.Sale.Import(userId, itemId,
+                Convert.ToDecimal(price) * rateCurrency, Convert.ToDecimal(price));
         }
 
-        private Guid SaveItem(Entities.Item item, CSMoney.Item cSMoneyItem, bool withStack = true)
+        private Guid SaveItem(Entities.Item item, CSMoney.Item cSMoneyItem, Guid userId, decimal rateCurrency, bool withStack = true)
         {
             if (item == null)
             {
@@ -150,16 +150,16 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
 
             SaveStickers(item.Id, cSMoneyItem.Stickers);
 
-            AddInInventory(item.Id);
+            AddInInventory(item.Id, userId);
 
-            PutUpForSale(item.Id, cSMoneyItem.Price);
+            PutUpForSale(item.Id, userId, cSMoneyItem.Price, rateCurrency);
 
-            SaveStackItems(item, cSMoneyItem, withStack);
+            SaveStackItems(item, cSMoneyItem, userId, rateCurrency, withStack);
 
             return item.Id;
         }
 
-        public Guid Import(CSMoney.Item item)
+        public Guid Import(CSMoney.Item item, Guid userId, Guid currencyId)
         {
             if (item == null)
             {
@@ -168,7 +168,9 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
 
             if (!_dataManager.Items.Contains((long)item.Id))
             {
-                return SaveItem(GetItem(item), item);
+                var rateCurrency = _dataManager.ExchangeRates.GetRateCurrency(currencyId);
+
+                return SaveItem(GetItem(item), item, userId, rateCurrency);
             }
 
             return Guid.Empty;

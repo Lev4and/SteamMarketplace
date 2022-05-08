@@ -2,7 +2,9 @@
 {
     public class ResourceAPIRoutes
     {
-        public const string Authorization = "http://steam.marketplace.authorization.api.u1321851.plsk.regruhosting.ru/api/authorization/login/";
+        //public const string Authorization = "http://steam.marketplace.authorization.api.u1321851.plsk.regruhosting.ru/api/authorization/login/";
+
+        public const string Authorization = "https://localhost:7138/api/authorization/login/";
 
         //public const string Domain = "steam.marketplace.resource.api.u1321851.plsk.regruhosting.ru/api";
 
@@ -15,6 +17,10 @@
         public const string CSMoneyStorePath = "csMoney/store/";
 
         public const string CSMoneyStoreQuery = "inventory";
+
+        public const string ImportExchangeRatePath = "import/exchangeRate/";
+
+        public const string ImportExchangeRateQuery = "import";
 
         public const string ImportItemPath = "import/item/";
 

@@ -8,6 +8,8 @@ namespace SteamMarketplace.Model.Importers
 
         public CollectionImporter Collection { get; }
 
+        public ExchangeRateImporter ExchangeRate { get; }
+
         public ItemImageImporter ItemImage { get; }
 
         public ItemNestedImporter ItemNested { get; }
@@ -23,11 +25,12 @@ namespace SteamMarketplace.Model.Importers
         public UserInventoryImporter UserInventory { get; }
 
         public HighPerformanceImporterContext(ApplicationImporter application, CollectionImporter collection,
-            ItemImageImporter itemImage, ItemNestedImporter itemNested, QualityImporter quality,
+            ExchangeRateImporter exchangeRate, ItemImageImporter itemImage, ItemNestedImporter itemNested, QualityImporter quality,
             RarityImporter rarity, SaleImporter sale, TypeImporter type, UserInventoryImporter userInventory)
         {
             Application = application;
             Collection = collection;
+            ExchangeRate = exchangeRate;
             ItemImage = itemImage;
             ItemNested = itemNested;
             Quality = quality;

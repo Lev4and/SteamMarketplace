@@ -30,6 +30,7 @@ builder.Services.AddSingleton<HttpClients.CSMoney.StoreHttpClient>();
 builder.Services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.CBRExchangeRatesHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>();
+builder.Services.AddSingleton<HttpClients.ResourceAPI.ImportExchangeRateHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
@@ -41,6 +42,7 @@ builder.Services.AddTransient<UserManager<ApplicationUser>>();
 builder.Services.AddTransient<AdoNetAbstract.IApplicationsRepository, AdoNet.AdoNetApplicationsRepository>();
 builder.Services.AddTransient<AdoNetAbstract.ICollectionsRepository, AdoNet.AdoNetCollectionsRepository>();
 builder.Services.AddTransient<AdoNetAbstract.ICurrenciesRepository, AdoNet.AdoNetCurrenciesRepository>();
+builder.Services.AddTransient<AdoNetAbstract.IExchangeRatesRepository, AdoNet.AdoNetExchangeRatesRepository>();
 builder.Services.AddTransient<AdoNetAbstract.IItemImagesRepository, AdoNet.AdoNetItemImagesRepository>();
 builder.Services.AddTransient<AdoNetAbstract.IItemNestedsRepository, AdoNet.AdoNetItemNestedsRepository>();
 builder.Services.AddTransient<AdoNetAbstract.IItemsRepository, AdoNet.AdoNetItemsRepository>();
@@ -62,6 +64,7 @@ builder.Services.AddDbContext<SteamMarketplaceDbContext>((options) =>
 
 builder.Services.AddTransient<ApplicationImporter>();
 builder.Services.AddTransient<CollectionImporter>();
+builder.Services.AddTransient<ExchangeRateImporter>();
 builder.Services.AddTransient<ItemImageImporter>();
 builder.Services.AddTransient<ItemImporter>();
 builder.Services.AddTransient<ItemNestedImporter>();

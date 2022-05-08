@@ -11,10 +11,13 @@ var services = new ServiceCollection()
     .AddSingleton<HttpClients.Common.Services.Authorization>()
     .AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>()
     .AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>()
-    .AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>()
+    .AddSingleton<HttpClients.CBR.LatestHttpClient>()
+    .AddSingleton<HttpClients.CBR.CBRHttpContext>()
     .AddSingleton<HttpClients.CSMoney.StoreHttpClient>()
     .AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>()
+    .AddSingleton<HttpClients.ResourceAPI.CBRExchangeRatesHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.ImportExchangeRateHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>()
@@ -28,6 +31,19 @@ var authorization = serviceProvider.GetService<HttpClients.Common.Services.Autho
 authorization.LoginByAdministrator();
 
 var stopwatch = new Stopwatch();
+
+var exchangeRateResponse = await httpContext.ResourceAPI.CBRExchangeRates.GetLatestExchangeRateAsync();
+
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][IMPORT] Download latest exchange rate");
+
+
+if (exchangeRateResponse?.Result != null)
+{
+    Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][IMPORT] Save latest exchange rate");
+
+    await httpContext.ResourceAPI.ImportExchangeRate.ImportAsync(exchangeRateResponse.Result);
+}
 
 while (true)
 {
@@ -49,17 +65,17 @@ while (true)
             {
                 stopwatch.Restart();
 
-                var responce = await httpContext.ResourceAPI.ImportItem.ImportAsync(item);
+                var importResponse = await httpContext.ResourceAPI.ImportItem.ImportAsync(item);
 
                 stopwatch.Stop();
 
-                if (responce.Result != Guid.Empty)
+                if (importResponse.Result != Guid.Empty)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][IMPORT] Successful item " +
                         $"import from CS.Money ({stopwatch.ElapsedMilliseconds}ms) FullName - {item.FullName} " +
                         $"CSMoneyId - {(long)item.Id} Price - {item.Price.ToString("C2", new CultureInfo("en-US"))} " +
-                        $"Id - {responce.Result}");
+                        $"Id - {importResponse.Result}");
                 }
                 else
                 {

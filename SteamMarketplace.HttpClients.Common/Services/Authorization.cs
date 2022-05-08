@@ -14,6 +14,16 @@ namespace SteamMarketplace.HttpClients.Common.Services
             _tokenHandler = new JwtSecurityTokenHandler();
         }
 
+        private string GetClaimValue(string claimName)
+        {
+            if (string.IsNullOrEmpty(claimName))
+            {
+                throw new ArgumentNullException(nameof(claimName));
+            }
+
+            return _token != null ? _token.Claims.FirstOrDefault(claim => claim.Type == claimName)?.Value ?? "" : ""; 
+        }
+
         public bool IsOverdue()
         {
             return _token == null || _token?.ValidTo.Subtract(DateTime.Now.ToUniversalTime()).Minutes < 20;
@@ -27,6 +37,16 @@ namespace SteamMarketplace.HttpClients.Common.Services
         public string GetToken()
         {
             return _token?.RawData ?? "";
+        }
+
+        public Guid GetUserId()
+        {
+            return _token != null ? Guid.Parse(GetClaimValue("id")) : Guid.Empty;
+        }
+
+        public Guid GetCurrencyId()
+        {
+            return _token != null ? Guid.Parse(GetClaimValue("currencyId")) : Guid.Empty;
         }
 
         public Login GetAccount()
