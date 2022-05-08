@@ -23,9 +23,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<HttpClients.Common.Services.Authorization>();
 builder.Services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
 builder.Services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>();
+builder.Services.AddSingleton<HttpClients.CBR.LatestHttpClient>();
+builder.Services.AddSingleton<HttpClients.CBR.CBRHttpContext>();
 builder.Services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();
 builder.Services.AddSingleton<HttpClients.CSMoney.StoreHttpClient>();
 builder.Services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();
+builder.Services.AddSingleton<HttpClients.ResourceAPI.CBRExchangeRatesHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();
@@ -110,8 +113,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddSignalR(options =>
 {
-    //options.ClientTimeoutInterval = TimeSpan.FromMinutes(30);
-    //options.KeepAliveInterval = TimeSpan.FromMinutes(15);
     options.MaximumReceiveMessageSize = 8388608;
     options.EnableDetailedErrors = true;
 });
@@ -176,6 +177,11 @@ app.UseStatusCodePages(context =>
         response.Redirect("/api/error/notFound");
     }
 
+    if (response.StatusCode == (int)HttpStatusCode.Forbidden)
+    {
+        response.Redirect("/api/error/forbidden");
+    }
+
     if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
     {
         response.Redirect("/api/error/unauthorized");
@@ -193,21 +199,16 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<OnlineHub>("/store/online"/*, options =>
-    {
-        options.TransportSendTimeout = TimeSpan.FromMinutes(30);
-    }*/);
-    endpoints.MapHub<ImportHub>("/store/items/import"/*, options =>
-    {
-        options.TransportSendTimeout = TimeSpan.FromMinutes(30);
-    }*/);
-    endpoints.MapHub<AutoImportHub>("/store/items/import/auto"/*, options =>
-    {
-        options.TransportSendTimeout = TimeSpan.FromMinutes(30);
-    }*/);
+    endpoints.MapHub<OnlineHub>("/store/online");
+    endpoints.MapHub<ImportHub>("/store/items/import");
+    endpoints.MapHub<AutoImportHub>("/store/items/import/auto");
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "api/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapAreaControllerRoute(
+        name: "cBRArea",
+        areaName: "CBR",
+        pattern: "api/cBR/{controller=Home}/{action=Index}/{id?}");
     endpoints.MapAreaControllerRoute(
         name: "csMoneyArea",
         areaName: "CSMoney",

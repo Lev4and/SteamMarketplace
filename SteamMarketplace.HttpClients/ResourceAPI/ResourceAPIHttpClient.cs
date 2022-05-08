@@ -6,7 +6,7 @@ namespace SteamMarketplace.HttpClients.ResourceAPI
     public class ResourceAPIHttpClient : AuthorizationHttpClient
     {
         public ResourceAPIHttpClient(string path, Services.Authorization authorization) : 
-            base($"http://{ResourceAPIRoutes.Domain}/{path}", ResourceAPIRoutes.Authorization, authorization)
+            base($"https://{ResourceAPIRoutes.Domain}/{path}", ResourceAPIRoutes.Authorization, authorization)
         {
             if (path == null)
             {

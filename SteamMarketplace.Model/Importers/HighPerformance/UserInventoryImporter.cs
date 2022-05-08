@@ -17,7 +17,8 @@ namespace SteamMarketplace.Model.Importers.HighPerformance
             var result = new Entities.UserInventory
             {
                 UserId = userId,
-                ItemId = itemId
+                ItemId = itemId,
+                AddedAt = DateTime.Now.ToUniversalTime()
             };
 
             _dataManager.UserInventories.Save(result, false);

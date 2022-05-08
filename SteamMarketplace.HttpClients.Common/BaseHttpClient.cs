@@ -87,7 +87,7 @@ namespace SteamMarketplace.HttpClients.Common
             {
                 return await (await Client.GetAsync(query)).GetJsonResultAsync<T>();
             }
-            catch
+            catch (Exception ex)
             {
                 return Activator.CreateInstance<T>();
             }

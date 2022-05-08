@@ -26,6 +26,14 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         }
 
         [HttpGet]
+        [Route("forbidden")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 200)]
+        public IActionResult Forbidden()
+        {
+            return Ok(new BaseResponseModel<object?>(null, Statuses.Forbidden));
+        }
+
+        [HttpGet]
         [Route("unauthorized")]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 200)]
         public IActionResult Unauthorized()
