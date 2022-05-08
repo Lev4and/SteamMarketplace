@@ -7,6 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:SteamMarketplace.DesktopApplication.Views.Pages.MyInventory"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:ta="clr-namespace:SteamMarketplace.DesktopApplication.TriggerActions"
     Title="Мой инвентарь"
     d:DesignHeight="450"
@@ -30,21 +31,59 @@
                 </Style.Triggers>
             </Style>
         </Grid.Style>
-        <ListBox
-            x:Name="MyInventoryListBox"
-            HorizontalContentAlignment="Stretch"
-            ItemTemplate="{StaticResource MyInventoryListBoxItemDataTemplate}"
-            ItemsSource="{Binding Path=MyInventory, UpdateSourceTrigger=PropertyChanged}">
-            <i:Interaction.Triggers>
-                <et:RoutedEventTrigger RoutedEvent="ScrollViewer.ScrollChanged">
-                    <ta:CustomCommandAction Command="{Binding ScrollViewerChanged}" />
-                </et:RoutedEventTrigger>
-            </i:Interaction.Triggers>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <ListBox
+                x:Name="MyInventoryListBox"
+                HorizontalContentAlignment="Stretch"
+                ItemTemplate="{StaticResource MyInventoryListBoxItemDataTemplate}"
+                ItemsSource="{Binding Path=MyInventory, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Button
+                    VerticalAlignment="Center"
+                    Command="{Binding Path=PreviousPage}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                    <mdt:PackIcon Kind="ChevronLeft" Width="35" Height="35" />
+                </Button>
+            </Grid>
+            <Grid Grid.Column="1" Margin="15,0">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="22"
+                    FontWeight="Bold">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Страница {0} из {1}">
+                            <Binding Path="Pagination.Page" />
+                            <Binding Path="Pagination.PagesCount" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button
+                    VerticalAlignment="Center"
+                    Command="{Binding Path=NextPage}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                    <mdt:PackIcon Kind="ChevronRight" Width="35" Height="35" />
+                </Button>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

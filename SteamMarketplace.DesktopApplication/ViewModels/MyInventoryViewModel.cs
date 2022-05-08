@@ -6,8 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
+using CommonModels = SteamMarketplace.Model.Common;
 
 namespace SteamMarketplace.DesktopApplication.ViewModels
 {
@@ -19,6 +19,8 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
 
         public UserInventoriesFilters Filters { get; set; }
 
+        public CommonModels.Pagination Pagination { get; set; }
+
         public ObservableCollection<UserInventory> MyInventory { get; set; }
 
         public ICommand Loaded => new AsyncCommand(() =>
@@ -26,10 +28,19 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
             return LoadedAsync();
         });
 
-        public ICommand ScrollViewerChanged => new AsyncCommand<object>((obj) =>
+        public ICommand PreviousPage => new AsyncCommand(() =>
         {
-            return LoadAsync(obj as ScrollChangedEventArgs);
-        });
+            Filters.Pagination.PreviousPage();
+
+            return LoadInventoryAsync();
+        }, () => Filters.Pagination.Page > 1);
+
+        public ICommand NextPage => new AsyncCommand(() =>
+        {
+            Filters.Pagination.NextPage();
+
+            return LoadInventoryAsync();
+        }, () => Filters.Pagination.Page < Pagination.PagesCount);
 
         public MyInventoryViewModel(HttpContext httpContext)
         {
@@ -45,7 +56,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
                     Limit = 50
                 }
             };
-
+            Pagination = new CommonModels.Pagination(1, 50, 0);
             MyInventory = new ObservableCollection<UserInventory>();
         }
 
@@ -62,6 +73,10 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
 
             if (response.Status.Code == HttpStatusCode.OK)
             {
+                Pagination = response.Result.PageInfo;
+
+                MyInventory.Clear();
+
                 foreach (var item in response.Result.Items)
                 {
                     MyInventory.Add(item);
@@ -69,16 +84,6 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
             }
 
             Loading = false;
-        }
-
-        private async Task LoadAsync(ScrollChangedEventArgs eventArgs)
-        {
-            if ((int)(eventArgs.VerticalOffset / (eventArgs.ExtentHeight - eventArgs.ViewportHeight) * 100) >= 80)
-            {
-                Filters.Pagination.NextPage();
-
-                await LoadInventoryAsync();
-            }
         }
     }
 }

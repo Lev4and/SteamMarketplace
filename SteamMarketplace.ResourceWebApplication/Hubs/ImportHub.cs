@@ -27,6 +27,22 @@ namespace SteamMarketplace.ResourceWebApplication.Hubs
             await Clients.All.SendAsync("Online", Connections.Count);
         }
 
+        public async Task AddInGroup(string groupName)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+            _logger.LogInformation($"Microsoft.AspNetCore.SignalR ImportHub Connection {Context.ConnectionId} " +
+                $"attached to the group {groupName}");
+        }
+
+        public async Task RemoveFromGroup(string groupName)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+            _logger.LogInformation($"Microsoft.AspNetCore.SignalR ImportHub Connection {Context.ConnectionId} " +
+                $"poked the group {groupName}");
+        }
+
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             await base.OnDisconnectedAsync(exception);

@@ -10,5 +10,10 @@
         {
             Page += 1;
         }
+
+        public void PreviousPage()
+        {
+            Page -= 1;
+        }
     }
 }
