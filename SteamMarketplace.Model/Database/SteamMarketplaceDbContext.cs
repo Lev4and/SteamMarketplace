@@ -359,7 +359,7 @@ namespace SteamMarketplace.Model.Database
             builder.Entity<ApplicationUser>().HasData(new ApplicationUser
             {
                 Id = Guid.Parse("21F7B496-C675-4E8A-A34C-FC5EC0762FDB"),
-                CurrencyId = Guid.Parse("3DE91537-D302-4DD7-8803-B2BF6C973D26"),
+                CurrencyId = Guid.Parse("CF7B0C49-42A1-483D-97F8-B88711F8546C"),
                 UserName = "Admin",
                 NormalizedUserName = "ADMIN",
                 Email = "andrey.levchenko.2001@gmail.com",

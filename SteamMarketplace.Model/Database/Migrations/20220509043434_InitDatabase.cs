@@ -490,8 +490,8 @@ namespace SteamMarketplace.Model.Database.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"), "0457298f-d282-450c-811a-d3c7701415c7", "Игрок", "Игрок" },
-                    { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "d7582e98-c4e4-4d62-b1d2-7958f7d13782", "Администратор", "АДМИНИСТРАТОР" }
+                    { new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"), "c1b1b628-e399-4902-b6a4-6a09ebfcb935", "Игрок", "Игрок" },
+                    { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "84bd9c1a-2513-4897-bbfc-5cbcdf834f28", "Администратор", "АДМИНИСТРАТОР" }
                 });
 
             migrationBuilder.InsertData(
@@ -550,7 +550,7 @@ namespace SteamMarketplace.Model.Database.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CurrencyId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RegisteredAt", "SecurityStamp", "TwoFactorEnabled", "UserName", "WalletBalance" },
-                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "740cb51a-7856-43de-a4d8-86611c9e7564", new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAELhP3zJs6B8XaArcL7dHxgyXXnmkx9NY0D8Gbai60sPvSNyByjnmEkhjegaKakzodQ==", null, false, new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", false, "Admin", 1000000m });
+                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "7422fb50-e50b-41f3-9db7-9bc5c5699b23", new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEJY/PrC/KaMfHXS8LjovTdBlFznQNMRri0fCU14N044BdzA/HQ7IaGuY3HdeWSmCyA==", null, false, new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", false, "Admin", 1000000m });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

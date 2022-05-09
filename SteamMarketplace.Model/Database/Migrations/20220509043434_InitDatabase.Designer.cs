@@ -12,7 +12,7 @@ using SteamMarketplace.Model.Database;
 namespace SteamMarketplace.Model.Database.Migrations
 {
     [DbContext(typeof(SteamMarketplaceDbContext))]
-    [Migration("20220508074306_InitDatabase")]
+    [Migration("20220509043434_InitDatabase")]
     partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -232,14 +232,14 @@ namespace SteamMarketplace.Model.Database.Migrations
                         {
                             Id = new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "740cb51a-7856-43de-a4d8-86611c9e7564",
-                            CurrencyId = new Guid("3de91537-d302-4dd7-8803-b2bf6c973d26"),
+                            ConcurrencyStamp = "7422fb50-e50b-41f3-9db7-9bc5c5699b23",
+                            CurrencyId = new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"),
                             Email = "andrey.levchenko.2001@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDREY.LEVCHENKO.2001@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAELhP3zJs6B8XaArcL7dHxgyXXnmkx9NY0D8Gbai60sPvSNyByjnmEkhjegaKakzodQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJY/PrC/KaMfHXS8LjovTdBlFznQNMRri0fCU14N044BdzA/HQ7IaGuY3HdeWSmCyA==",
                             PhoneNumberConfirmed = false,
                             RegisteredAt = new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SecurityStamp = "",
@@ -280,14 +280,14 @@ namespace SteamMarketplace.Model.Database.Migrations
                         new
                         {
                             Id = new Guid("b867520a-92db-4658-be39-84da53a601c0"),
-                            ConcurrencyStamp = "d7582e98-c4e4-4d62-b1d2-7958f7d13782",
+                            ConcurrencyStamp = "84bd9c1a-2513-4897-bbfc-5cbcdf834f28",
                             Name = "Администратор",
                             NormalizedName = "АДМИНИСТРАТОР"
                         },
                         new
                         {
                             Id = new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"),
-                            ConcurrencyStamp = "0457298f-d282-450c-811a-d3c7701415c7",
+                            ConcurrencyStamp = "c1b1b628-e399-4902-b6a4-6a09ebfcb935",
                             Name = "Игрок",
                             NormalizedName = "Игрок"
                         });
