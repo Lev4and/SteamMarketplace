@@ -44,24 +44,31 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
         }
 
-        public Dictionary<Guid, Tuple<Guid, decimal>> GetRandomSales(int limit)
+        public List<Sale> GetRandomSales(Guid buyerId, int limit)
         {
-            var query = $"SELECT TOP(@Limit) Id, ItemId, PriceUsd " +
+            var query = $"SELECT TOP(@Limit) Id, SellerId, ItemId, Price, PriceUsd " +
                     $"FROM Sales " +
-                    $"ORDER BY NEWID() " +
-                    $"WHERE Sales.SoldAt IS NULL AND Sales.CancelledAt IS NULL";
+                    $"WHERE Sales.SoldAt IS NULL AND Sales.CancelledAt IS NULL AND Sales.SellerId != @BuyerId " +
+                    $"ORDER BY NEWID()";
 
             var parameters = new List<SqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@Limit", SqlDbType = SqlDbType.Int, Value = limit }
+                new SqlParameter() { ParameterName = "@Limit", SqlDbType = SqlDbType.Int, Value = limit },
+                new SqlParameter() { ParameterName = "@BuyerId", SqlDbType = SqlDbType.UniqueIdentifier, Value = buyerId },
             };
 
-            var result = new Dictionary<Guid, Tuple<Guid, decimal>>();
+            var result = new List<Sale>();
 
             foreach (DataRow item in _context.ExecuteQuery(query, parameters).Rows)
             {
-                result.Add(item.Field<Guid>("Id"), new Tuple<Guid, decimal>(item.Field<Guid>("ItemId"), 
-                    item.Field<decimal>("PriceUsd")));
+                result.Add(new Sale
+                {
+                    Id = item.Field<Guid>("Id"),
+                    SellerId = item.Field<Guid>("SellerId"),
+                    ItemId = item.Field<Guid>("ItemId"),
+                    Price = item.Field<decimal>("Price"),
+                    PriceUsd = item.Field<decimal>("PriceUsd")
+                });
             }
 
             return result;

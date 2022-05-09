@@ -6,6 +6,10 @@ namespace SteamMarketplace.Model.Database
     {
         public IApplicationsRepository Applications { get; }
 
+        public IApplicationUsersRepository ApplicationUsers { get; }
+
+        public IApplicatonRolesRepository ApplicatonRoles { get; }
+
         public ICollectionsRepository Collections { get; }
 
         public ICurrenciesRepository Currencies { get; }
@@ -28,15 +32,26 @@ namespace SteamMarketplace.Model.Database
 
         public ISalesRepository Sales { get; }
 
+        public ITransactionsRepository Transactions { get; }
+
+        public ITransactionTypesRepository TransactionTypes { get; }
+
         public IUserInventoriesRepository UserInventories { get; }
 
-        public HighPerformanceDataManager(IApplicationsRepository applications, ICollectionsRepository collections,
-            ICurrenciesRepository currencies, IExchangeRatesRepository exchangeRates, IItemsRepository items, IItemImagesRepository itemImages,
+        public IUserRolesRepository UserRoles { get; }
+
+        public HighPerformanceDataManager(IApplicationsRepository applications, 
+            IApplicationUsersRepository applicationUsers, IApplicatonRolesRepository applicatonRoles, 
+            ICollectionsRepository collections, ICurrenciesRepository currencies, 
+            IExchangeRatesRepository exchangeRates, IItemsRepository items, IItemImagesRepository itemImages,
             IItemNestedsRepository itemNesteds, IItemTypesRepository itemTypes, IPurchasesRepository purchases,
-            IQualitiesRepository qualities, IRaritiesRepository rarities, ISalesRepository sales,
-            IUserInventoriesRepository userInventories)
+            IQualitiesRepository qualities, IRaritiesRepository rarities, ISalesRepository sales, 
+            ITransactionsRepository transactions, ITransactionTypesRepository transactionTypes, 
+            IUserInventoriesRepository userInventories, IUserRolesRepository userRoles)
         {
             Applications = applications;
+            ApplicationUsers = applicationUsers;
+            ApplicatonRoles = applicatonRoles;
             Collections = collections;
             Currencies = currencies;
             ExchangeRates = exchangeRates;
@@ -48,7 +63,10 @@ namespace SteamMarketplace.Model.Database
             Qualities = qualities;
             Rarities = rarities;
             Sales = sales;
+            Transactions = transactions;
+            TransactionTypes = transactionTypes;
             UserInventories = userInventories;
+            UserRoles = userRoles;
         }
     }
 }

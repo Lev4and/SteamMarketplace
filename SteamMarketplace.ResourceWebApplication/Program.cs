@@ -11,6 +11,7 @@ using SteamMarketplace.Model.Importers;
 using SteamMarketplace.Model.Importers.HighPerformance;
 using SteamMarketplace.ResourceWebApplication.Hubs;
 using SteamMarketplace.Services;
+using SteamMarketplace.Services.Randomizers;
 using System.Net;
 using AdoNet = SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet;
 using AdoNetAbstract = SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
@@ -32,6 +33,9 @@ builder.Services.AddSingleton<HttpClients.ResourceAPI.CBRExchangeRatesHttpClient
 builder.Services.AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ImportExchangeRateHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>();
+builder.Services.AddSingleton<HttpClients.ResourceAPI.RandomizePurchasesHttpClient>();
+builder.Services.AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>();
+builder.Services.AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
 builder.Services.AddSingleton<HttpClients.HttpContext>();
@@ -40,6 +44,8 @@ builder.Services.AddTransient<RoleManager<ApplicatonRole>>();
 builder.Services.AddTransient<UserManager<ApplicationUser>>();
 
 builder.Services.AddTransient<AdoNetAbstract.IApplicationsRepository, AdoNet.AdoNetApplicationsRepository>();
+builder.Services.AddTransient<AdoNetAbstract.IApplicationUsersRepository, AdoNet.AdoNetApplicationUsersRepository>();
+builder.Services.AddTransient<AdoNetAbstract.IApplicatonRolesRepository, AdoNet.AdoNetApplicatonRolesRepository>();
 builder.Services.AddTransient<AdoNetAbstract.ICollectionsRepository, AdoNet.AdoNetCollectionsRepository>();
 builder.Services.AddTransient<AdoNetAbstract.ICurrenciesRepository, AdoNet.AdoNetCurrenciesRepository>();
 builder.Services.AddTransient<AdoNetAbstract.IExchangeRatesRepository, AdoNet.AdoNetExchangeRatesRepository>();
@@ -51,7 +57,10 @@ builder.Services.AddTransient<AdoNetAbstract.IPurchasesRepository, AdoNet.AdoNet
 builder.Services.AddTransient<AdoNetAbstract.IQualitiesRepository, AdoNet.AdoNetQualitiesRepository>();
 builder.Services.AddTransient<AdoNetAbstract.IRaritiesRepository, AdoNet.AdoNetRaritiesRepository>();
 builder.Services.AddTransient<AdoNetAbstract.ISalesRepository, AdoNet.AdoNetSalesRepository>();
+builder.Services.AddTransient<AdoNetAbstract.ITransactionsRepository, AdoNet.AdoNetTransactionsRepository>();
+builder.Services.AddTransient<AdoNetAbstract.ITransactionTypesRepository, AdoNet.AdoNetTransactionTypesRepository>();
 builder.Services.AddTransient<AdoNetAbstract.IUserInventoriesRepository, AdoNet.AdoNetUserInventoriesRepository>();
+builder.Services.AddTransient<AdoNetAbstract.IUserRolesRepository, AdoNet.AdoNetUserRolesRepository>();
 builder.Services.AddTransient<HighPerformanceDataManager>();
 
 builder.Services.AddTransient<ObjectRelationalAbstract.IUserInventoriesRepository, ObjectRelational.EFUserInventoriesRepository>();
@@ -76,6 +85,9 @@ builder.Services.AddTransient<UserInventoryImporter>();
 builder.Services.AddTransient<HighPerformanceImporterContext>();
 
 builder.Services.AddTransient<AutoImport>();
+builder.Services.AddTransient<PurchaseRandomizer>();
+builder.Services.AddTransient<SaleRandomizer>();
+builder.Services.AddTransient<UserRandomizer>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicatonRole>(options =>
 {
@@ -220,6 +232,10 @@ app.UseEndpoints(endpoints =>
         name: "importArea",
         areaName: "Import",
         pattern: "api/import/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapAreaControllerRoute(
+        name: "randomizeArea",
+        areaName: "Randomize",
+        pattern: "api/randomize/{controller=Home}/{action=Index}/{id?}");
 });
 
 app.Run();

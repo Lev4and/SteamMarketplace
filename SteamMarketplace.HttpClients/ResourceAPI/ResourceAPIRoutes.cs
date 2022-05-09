@@ -26,6 +26,18 @@
 
         public const string ImportItemQuery = "import";
 
+        public const string RandomizePurchasesPath = "randomize/purchases/";
+
+        public const string RandomizePurchasesQuery = "buyItems";
+
+        public const string RandomizeSalesPath = "randomize/sales/";
+
+        public const string RandomizeSalesQuery = "exposeItemsOnSale";
+
+        public const string RandomizeUsersPath = "randomize/users/";
+
+        public const string RandomizeUsersQuery = "create";
+
         public const string UserInventoriesPath = "userInventories/";
 
         public const string UserInventoriesQuery = "inventory";

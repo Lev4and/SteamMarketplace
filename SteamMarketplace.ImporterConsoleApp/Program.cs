@@ -20,6 +20,9 @@ var services = new ServiceCollection()
     .AddSingleton<HttpClients.ResourceAPI.ImportExchangeRateHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.RandomizePurchasesHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>()
     .AddSingleton<HttpClients.HttpContext>();
 

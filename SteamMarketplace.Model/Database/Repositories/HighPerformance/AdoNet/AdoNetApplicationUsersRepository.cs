@@ -38,6 +38,20 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return result.Count > 0;
         }
 
+        public Guid GetCurrencyId(Guid userId)
+        {
+            var query = $"SELECT TOP(1) Id, CurrencyId " +
+                $"FROM AspNetUsers " +
+                $"WHERE AspNetUsers.Id = @Id";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
+            };
+
+            return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("CurrencyId");
+        }
+
         public Guid GetRandomUserId()
         {
             var query = $"SELECT TOP(1) Id " +
@@ -68,6 +82,20 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
         }
 
+        public decimal GetWalletBalance(Guid userId)
+        {
+            var query = $"SELECT TOP(1) Id, WalletBalance " +
+                $"FROM AspNetUsers " +
+                $"WHERE AspNetUsers.Id = @Id";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
+            };
+
+            return _context.ExecuteQuery(query, parameters).Rows[0].Field<decimal>("WalletBalance");
+        }
+
         public void ReduceWalletBalance(Guid userId, decimal value)
         {
             var query = $"UPDATE AspNetUsers " +
@@ -77,7 +105,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             var parameters = new List<SqlParameter>()
             {
                 new SqlParameter() { ParameterName = "@Value", SqlDbType = SqlDbType.Decimal, Value = value },
-                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = value }
+                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
             };
 
             _context.ExecuteQuery(query, parameters);
@@ -108,13 +136,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 {
                     new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
                     new SqlParameter() { ParameterName = "@CurrencyId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.CurrencyId },
-                    new SqlParameter() { ParameterName = "@WalletBalance", SqlDbType = SqlDbType.Decimal, Value = entity.CurrencyId },
+                    new SqlParameter() { ParameterName = "@WalletBalance", SqlDbType = SqlDbType.Decimal, Value = entity.WalletBalance },
                     new SqlParameter() { ParameterName = "@RegisteredAt", SqlDbType = SqlDbType.DateTime2, Value = entity.RegisteredAt },
                     new SqlParameter() { ParameterName = "@UserName", SqlDbType = SqlDbType.NVarChar, Value = entity.UserName.GetDbValue() },
                     new SqlParameter() { ParameterName = "@NormalizedUserName", SqlDbType = SqlDbType.NVarChar, Value = entity.NormalizedUserName.GetDbValue() },
                     new SqlParameter() { ParameterName = "@Email", SqlDbType = SqlDbType.NVarChar, Value = entity.Email.GetDbValue() },
                     new SqlParameter() { ParameterName = "@NormalizedEmail", SqlDbType = SqlDbType.NVarChar, Value = entity.NormalizedEmail.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@EmailConfirmed", SqlDbType = SqlDbType.Bit, Value = entity.NormalizedEmail },
+                    new SqlParameter() { ParameterName = "@EmailConfirmed", SqlDbType = SqlDbType.Bit, Value = entity.EmailConfirmed },
                     new SqlParameter() { ParameterName = "@PasswordHash", SqlDbType = SqlDbType.NVarChar, Value = entity.PasswordHash.GetDbValue() },
                     new SqlParameter() { ParameterName = "@SecurityStamp", SqlDbType = SqlDbType.NVarChar, Value = entity.SecurityStamp.GetDbValue() },
                     new SqlParameter() { ParameterName = "@ConcurrencyStamp", SqlDbType = SqlDbType.NVarChar, Value = entity.ConcurrencyStamp.GetDbValue() },
@@ -145,7 +173,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             var parameters = new List<SqlParameter>()
             {
                 new SqlParameter() { ParameterName = "@Value", SqlDbType = SqlDbType.Decimal, Value = value },
-                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = value }
+                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
             };
 
             _context.ExecuteQuery(query, parameters);

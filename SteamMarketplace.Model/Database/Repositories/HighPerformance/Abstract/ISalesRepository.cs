@@ -10,7 +10,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
 
         Guid GetSaleId(Guid itemId);
 
-        Dictionary<Guid, Tuple<Guid, decimal>> GetRandomSales(int limit);
+        List<Sale> GetRandomSales(Guid buyerId, int limit);
 
         void CloseSale(Guid saleId);
     }

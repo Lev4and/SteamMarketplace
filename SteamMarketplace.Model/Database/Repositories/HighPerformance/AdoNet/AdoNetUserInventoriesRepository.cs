@@ -44,6 +44,45 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             _context.ExecuteQuery(query, parameters);
         }
 
+        public int GetCountItems(Guid userId)
+        {
+            var query = $"SELECT COUNT(*) AS [Count] " +
+                $"FROM UserInventories " +
+                $"WHERE UserInventories.UserId = @UserId";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
+            };
+
+            return _context.ExecuteQuery(query, parameters).Rows[0].Field<int>("Count");
+        }
+
+        public Dictionary<Guid, decimal> GetRandomItems(Guid userId, int limit)
+        {
+            var query = $"SELECT TOP(@Limit) UserInventories.ItemId, (SELECT TOP(1) Sales.PriceUsd " +
+                $"FROM Sales WHERE Sales.ItemId = UserInventories.ItemId AND NOT Sales.SoldAt IS NULL ORDER BY " +
+                $"Sales.SoldAt DESC) AS PriceUsd " +
+                $"FROM UserInventories " +
+                $"WHERE UserInventories.UserId = @UserId " +
+                $"ORDER BY NEWID()";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@Limit", SqlDbType = SqlDbType.Int, Value = limit },
+                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
+            };
+
+            var result = new Dictionary<Guid, decimal>();
+
+            foreach (DataRow item in _context.ExecuteQuery(query, parameters).Rows)
+            {
+                result.Add(item.Field<Guid>("ItemId"), item.Field<decimal>("PriceUsd"));
+            }
+
+            return result;
+        }
+
         public Guid GetUserInventoryId(Guid userId, Guid itemId)
         {
             var query = $"SELECT TOP(1) Id " +
