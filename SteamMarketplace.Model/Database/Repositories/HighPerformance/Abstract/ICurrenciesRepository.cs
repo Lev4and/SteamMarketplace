@@ -8,6 +8,8 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
 
         bool Save(Currency entity, bool checkOnUnique = true);
 
+        Guid GetRandomCurrencyId();
+
         Guid GetCurrencyId(string cultureInfoName);
 
         Guid GetCurrencyIdByLiteral(string literal);

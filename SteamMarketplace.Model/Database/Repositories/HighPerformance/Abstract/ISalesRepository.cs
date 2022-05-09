@@ -9,5 +9,9 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
         bool Save(Sale entity, bool checkOnUnique = true);
 
         Guid GetSaleId(Guid itemId);
+
+        Dictionary<Guid, Tuple<Guid, decimal>> GetRandomSales(int limit);
+
+        void CloseSale(Guid saleId);
     }
 }

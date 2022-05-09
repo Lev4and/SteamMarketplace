@@ -41,5 +41,10 @@
         {
             return value != null ? value : DBNull.Value;
         }
+
+        public static object GetDbValue(this DateTimeOffset? value)
+        {
+            return value != null ? value : DBNull.Value;
+        }
     }
 }

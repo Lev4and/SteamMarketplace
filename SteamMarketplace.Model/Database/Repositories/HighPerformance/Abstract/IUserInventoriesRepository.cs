@@ -9,5 +9,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
         bool Save(UserInventory entity, bool checkOnUnique = true);
 
         Guid GetUserInventoryId(Guid userId, Guid itemId);
+
+        void DeleteItemFromUserInventory(Guid userId, Guid itemId);
     }
 }

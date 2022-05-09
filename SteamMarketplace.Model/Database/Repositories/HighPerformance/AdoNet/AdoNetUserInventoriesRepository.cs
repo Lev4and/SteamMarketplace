@@ -29,6 +29,21 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
         }
 
+        public void DeleteItemFromUserInventory(Guid userId, Guid itemId)
+        {
+            var query = $"DELETE " +
+                $"FROM UserInventories " +
+                $"WHERE UserInventories.UserId = @UserId AND UserInventories.ItemId = @ItemId";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId },
+                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+            };
+
+            _context.ExecuteQuery(query, parameters);
+        }
+
         public Guid GetUserInventoryId(Guid userId, Guid itemId)
         {
             var query = $"SELECT TOP(1) Id " +

@@ -15,6 +15,21 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             _context = context;
         }
 
+        public void CloseSale(Guid saleId)
+        {
+            var query = $"UPDATE [Sales] " +
+                    $"SET SoldAt = @SoldAt " +
+                    $"WHERE Sales.Id = @Id";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@SoldAt", SqlDbType = SqlDbType.DateTime2, Value = DateTime.UtcNow },
+                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = saleId },
+            };
+
+            _context.ExecuteQuery(query, parameters);
+        }
+
         public bool Contains(Guid itemId)
         {
             var query = $"SELECT TOP(1) * " +
@@ -27,6 +42,29 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
+        }
+
+        public Dictionary<Guid, Tuple<Guid, decimal>> GetRandomSales(int limit)
+        {
+            var query = $"SELECT TOP(@Limit) Id, ItemId, PriceUsd " +
+                    $"FROM Sales " +
+                    $"ORDER BY NEWID() " +
+                    $"WHERE Sales.SoldAt IS NULL AND Sales.CancelledAt IS NULL";
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter() { ParameterName = "@Limit", SqlDbType = SqlDbType.Int, Value = limit }
+            };
+
+            var result = new Dictionary<Guid, Tuple<Guid, decimal>>();
+
+            foreach (DataRow item in _context.ExecuteQuery(query, parameters).Rows)
+            {
+                result.Add(item.Field<Guid>("Id"), new Tuple<Guid, decimal>(item.Field<Guid>("ItemId"), 
+                    item.Field<decimal>("PriceUsd")));
+            }
+
+            return result;
         }
 
         public Guid GetSaleId(Guid itemId)

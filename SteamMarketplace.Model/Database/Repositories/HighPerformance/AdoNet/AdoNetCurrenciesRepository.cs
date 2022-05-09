@@ -75,6 +75,17 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
         }
 
+        public Guid GetRandomCurrencyId()
+        {
+            var query = $"SELECT TOP(1) Id " +
+                $"FROM Currencies " +
+                $"ORDER BY NEWID()";
+
+            var parameters = new List<SqlParameter>();
+
+            return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
+        }
+
         public bool Save(Currency entity, bool checkOnUnique = true)
         {
             if (entity == null)
