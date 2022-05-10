@@ -16,13 +16,15 @@
 
         public RandomizeUsersHttpClient RandomizeUsers { get; }
 
+        public SalesHttpClient Sales { get; }
+
         public UserInventoriesHttpClient UserInventories { get; }
 
         public ResourceAPIHttpContext(CBRExchangeRatesHttpClient cBRExchangeRates, 
             CSMoneyStoreHttpClient cSMoneyStore, ImportExchangeRateHttpClient importExchangeRate, 
             ImportItemHttpClient importItem, RandomizePurchasesHttpClient randomizePurchases, 
             RandomizeSalesHttpClient randomizeSales, RandomizeUsersHttpClient randomizeUsers, 
-            UserInventoriesHttpClient userInventories)
+            SalesHttpClient sales, UserInventoriesHttpClient userInventories)
         {
             CBRExchangeRates = cBRExchangeRates;
             CSMoneyStore = cSMoneyStore;
@@ -31,6 +33,7 @@
             RandomizePurchases = randomizePurchases;
             RandomizeSales = randomizeSales;
             RandomizeUsers = randomizeUsers;
+            Sales = sales;
             UserInventories = userInventories;
         }
     }

@@ -4,10 +4,13 @@ namespace SteamMarketplace.Model.Database
 {
     public class DefaultDataManager
     {
+        public ISalesRepository Sales { get; }
+
         public IUserInventoriesRepository UserInventories { get; }
 
-        public DefaultDataManager(IUserInventoriesRepository userInventories)
+        public DefaultDataManager(ISalesRepository sales, IUserInventoriesRepository userInventories)
         {
+            Sales = sales;
             UserInventories = userInventories;
         }
     }

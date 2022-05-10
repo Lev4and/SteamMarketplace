@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SteamMarketplace.Model.Database.AuxiliaryTypes;
+using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
 {
     public interface ISalesRepository
     {
+        int GetCountSales(Guid userId);
 
+        IQueryable<Sale> GetSales(SalesFilters filters);
     }
 }

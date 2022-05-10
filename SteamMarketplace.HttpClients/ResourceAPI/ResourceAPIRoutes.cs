@@ -41,5 +41,9 @@
         public const string UserInventoriesPath = "userInventories/";
 
         public const string UserInventoriesQuery = "inventory";
+
+        public const string SalesPath = "sales/";
+
+        public const string SalesMySalesQuery = "mySales";
     }
 }

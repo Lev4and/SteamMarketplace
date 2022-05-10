@@ -4,17 +4,17 @@ using System.Windows.Data;
 
 namespace SteamMarketplace.DesktopApplication.Converters
 {
-    [ValueConversion(typeof(DateTime), typeof(DateTime))]
+    [ValueConversion(typeof(DateTime?), typeof(DateTime?))]
     public class UniversalTimeToLocalTime : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDateTime(value).ToLocalTime();
+            return value != null ? System.Convert.ToDateTime(value).ToLocalTime() : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDateTime(value).ToUniversalTime();
+            return value != null ? System.Convert.ToDateTime(value).ToUniversalTime() : null;
         }
     }
 }

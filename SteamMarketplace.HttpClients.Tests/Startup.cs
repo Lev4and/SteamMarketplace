@@ -22,6 +22,7 @@ namespace SteamMarketplace.HttpClients.Tests
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
+            services.AddSingleton<HttpClients.ResourceAPI.SalesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();
             services.AddSingleton<HttpContext>();
         }

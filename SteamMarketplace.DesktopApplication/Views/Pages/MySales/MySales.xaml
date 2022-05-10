@@ -1,0 +1,188 @@
+﻿<Page
+    x:Class="SteamMarketplace.DesktopApplication.Views.Pages.MySales.MySales"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="clr-namespace:SteamMarketplace.DesktopApplication.Behaviors"
+    xmlns:c="clr-namespace:SteamMarketplace.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:et="clr-namespace:SteamMarketplace.DesktopApplication.EventTriggers"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:SteamMarketplace.DesktopApplication.Views.Pages.MySales"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:ta="clr-namespace:SteamMarketplace.DesktopApplication.TriggerActions"
+    Title="Мои продажи"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{StaticResource PageBackgroundBrush}"
+    DataContext="{Binding MySalesViewModel, Source={StaticResource ViewModelLocator}}"
+    WindowTitle="SteamMarketplace - Мои продажи"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <c:UniversalTimeToLocalTime x:Key="UniversalTimeToLocalTime" />
+    </Page.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=Loaded}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Margin="5">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Loading, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Opacity" Value="0.25" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <DataGrid
+                CellStyle="{StaticResource DefaultDataGridCellStyle}"
+                ColumnHeaderStyle="{StaticResource DefaultDataGridColumnHeaderStyle}"
+                ItemsSource="{Binding Path=MySales, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource DefaultDataGridStyle}"
+                VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Выставлено в">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                    Text="{Binding Path=ExposedAt, Converter={StaticResource UniversalTimeToLocalTime}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Фото">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Width="32"
+                                    Height="32"
+                                    Margin="5"
+                                    BorderBrush="Black"
+                                    BorderThickness="1">
+                                    <Image Source="{Binding Path=Item.Image.SteamImg}" Stretch="Uniform" />
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Название">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Path=Item.FullName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Цена">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                    Text="{Binding Path=Price, StringFormat={}{0:C2}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Цена (USD)">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Language="us-US"
+                                    Text="{Binding Path=PriceUsd, StringFormat={}{0:C2}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Продано в">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                    Text="{Binding Path=SoldAt, Converter={StaticResource UniversalTimeToLocalTime}, TargetNullValue=Не продано}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Отменено в">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                    Text="{Binding Path=CancelledAt, Converter={StaticResource UniversalTimeToLocalTime}, TargetNullValue=Не отменено}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Покупатель">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Path=Purchase.Buyer.UserName, TargetNullValue=Нет покупателя}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Куплено за">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    b:LanguageBehavior.Language="{Binding Path=Purchase.Buyer.Currency.CultureInfoName}"
+                                    Text="{Binding Path=Purchase.Price, StringFormat={}{0:C2}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Button
+                    VerticalAlignment="Center"
+                    Command="{Binding Path=PreviousPage}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                    <mdt:PackIcon
+                        Width="35"
+                        Height="35"
+                        Kind="ChevronLeft" />
+                </Button>
+            </Grid>
+            <Grid Grid.Column="1" Margin="15,0">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="22"
+                    FontWeight="Bold">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Страница {0} из {1}">
+                            <Binding Path="Pagination.Page" />
+                            <Binding Path="Pagination.PagesCount" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button
+                    VerticalAlignment="Center"
+                    Command="{Binding Path=NextPage}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                    <mdt:PackIcon
+                        Width="35"
+                        Height="35"
+                        Kind="ChevronRight" />
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
