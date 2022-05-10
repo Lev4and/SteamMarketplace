@@ -15,7 +15,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
     public class MyInventoryViewModel : BindableBase
     {
         private readonly HttpContext _httpContext;
-        private readonly HttpClientsServices.Authorization _authorization;
+        private HttpClientsServices.Authorization _authorization;
 
         public bool Loading { get; set; }
 
@@ -27,6 +27,8 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
 
         public ICommand Loaded => new AsyncCommand(() =>
         {
+            Filters.UserId = _authorization.GetUserId();
+
             return LoadedAsync();
         });
 
@@ -52,7 +54,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
             Loading = false;
             Filters = new UserInventoriesFilters()
             {
-                UserId = _authorization.GetUserId(),
+                UserId = Guid.Empty,
                 Pagination = new Pagination()
                 {
                     Page = 1,

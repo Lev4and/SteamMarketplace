@@ -61,7 +61,7 @@ namespace SteamMarketplace.Services.Randomizers
                 WalletBalance = 0,
                 EmailConfirmed = true,
                 PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, userName),
-                SecurityStamp = string.Empty
+                SecurityStamp = ""
             };
 
             _dataManager.ApplicationUsers.Save(user);

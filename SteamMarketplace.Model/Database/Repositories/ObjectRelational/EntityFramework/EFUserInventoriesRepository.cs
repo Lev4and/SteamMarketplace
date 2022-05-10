@@ -43,10 +43,8 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                     .ThenInclude(item => item.Collection)
                 .Include(userInventory => userInventory.Item)
                     .ThenInclude(item => item.Application)
-                .Include(userInventory => userInventory.Item)
-                    .ThenInclude(item => item.Sales.Where(sale => 
-                        sale.SoldAt == null))
                 .Where(userInventory => userInventory.UserId == filters.UserId)
+                .OrderByDescending(userInventory => userInventory.AddedAt)
                 .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
                 .Take(filters.Pagination.Limit)
                 .AsNoTracking();

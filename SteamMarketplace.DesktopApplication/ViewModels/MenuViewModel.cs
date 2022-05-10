@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using SteamMarketplace.DesktopApplication.Services;
+using SteamMarketplace.HttpClients;
 using SteamMarketplace.Hubs;
 using SteamMarketplace.Hubs.HubEventArgs;
 using System;
@@ -14,6 +15,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
     public class MenuViewModel : BindableBase, IDisposable
     {
         private readonly HubContext _hubContext;
+        private readonly HttpContext _httpContext;
         private readonly MenuPageService _menuPageService;
 
         public int Online { get; set; }
@@ -47,12 +49,13 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
             Application.Current.Shutdown();
         });
 
-        public MenuViewModel(HubContext hubContext, MenuPageService menuPageService)
+        public MenuViewModel(HubContext hubContext, HttpContext httpContext, MenuPageService menuPageService)
         {
             Online = 0;
             PageSource = new Pages.Dashboard.Dashboard();
 
             _hubContext = hubContext;
+            _httpContext = httpContext;
 
             _menuPageService = menuPageService;
             _menuPageService.OnPageChanged += (page) => { IsLeftDrawerOpen = false; PageSource = page; };
@@ -66,7 +69,10 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
         private async Task LoadedAsync()
         {
             _hubContext.ResourceAPI.Online.OnlineChanged += Online_OnlineChanged;
+            
+            var exchangeRates = await _httpContext.ResourceAPI.CBRExchangeRates.GetLatestExchangeRateAsync();
 
+            await _httpContext.ResourceAPI.ImportExchangeRate.ImportAsync(exchangeRates.Result);
             await _hubContext.ResourceAPI.Online.Connect();
         }
 
