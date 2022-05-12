@@ -23,6 +23,8 @@ namespace SteamMarketplace.DesktopApplication.ViewModels.Locators
 
         public MySalesViewModel MySalesViewModel => _provider.GetRequiredService<MySalesViewModel>();
 
+        public ShopViewModel ShopViewModel => _provider.GetRequiredService<ShopViewModel>();
+
         public static void Init()
         {
             var services = new ServiceCollection();
@@ -34,6 +36,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels.Locators
             services.AddTransient<MenuViewModel>();
             services.AddSingleton<MyInventoryViewModel>();
             services.AddSingleton<MySalesViewModel>();
+            services.AddTransient<ShopViewModel>();
 
             services.AddSingleton<HttpClients.Common.Services.Authorization>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
@@ -50,6 +53,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels.Locators
             services.AddSingleton<HttpClients.ResourceAPI.RandomizePurchasesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>();
+            services.AddSingleton<HttpClients.ResourceAPI.ItemsHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.SalesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();

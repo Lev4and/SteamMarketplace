@@ -63,17 +63,17 @@ while (true)
         Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][RANDOMIZER] The item was purchased within ({stopwatch.ElapsedMilliseconds}ms)");
     }
 
-    if (task >= 9)
-    {
-        stopwatch.Restart();
+    //if (task >= 9)
+    //{
+    //    stopwatch.Restart();
 
-        await httpContext.ResourceAPI.RandomizeUsers.Create();
+    //    await httpContext.ResourceAPI.RandomizeUsers.Create();
 
-        stopwatch.Stop();
+    //    stopwatch.Stop();
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][RANDOMIZER] New user has been created within ({stopwatch.ElapsedMilliseconds}ms)");
-    }
+    //    Console.ForegroundColor = ConsoleColor.Green;
+    //    Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][RANDOMIZER] New user has been created within ({stopwatch.ElapsedMilliseconds}ms)");
+    //}
 }
 
 Console.ReadLine();

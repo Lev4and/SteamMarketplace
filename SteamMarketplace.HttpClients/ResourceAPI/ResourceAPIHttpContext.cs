@@ -16,6 +16,8 @@
 
         public RandomizeUsersHttpClient RandomizeUsers { get; }
 
+        public ItemsHttpClient Items { get; }
+
         public SalesHttpClient Sales { get; }
 
         public UserInventoriesHttpClient UserInventories { get; }
@@ -24,7 +26,7 @@
             CSMoneyStoreHttpClient cSMoneyStore, ImportExchangeRateHttpClient importExchangeRate, 
             ImportItemHttpClient importItem, RandomizePurchasesHttpClient randomizePurchases, 
             RandomizeSalesHttpClient randomizeSales, RandomizeUsersHttpClient randomizeUsers, 
-            SalesHttpClient sales, UserInventoriesHttpClient userInventories)
+            ItemsHttpClient items, SalesHttpClient sales, UserInventoriesHttpClient userInventories)
         {
             CBRExchangeRates = cBRExchangeRates;
             CSMoneyStore = cSMoneyStore;
@@ -33,6 +35,7 @@
             RandomizePurchases = randomizePurchases;
             RandomizeSales = randomizeSales;
             RandomizeUsers = randomizeUsers;
+            Items = items;
             Sales = sales;
             UserInventories = userInventories;
         }

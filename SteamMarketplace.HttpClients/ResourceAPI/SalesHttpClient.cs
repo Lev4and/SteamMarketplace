@@ -15,6 +15,11 @@ namespace SteamMarketplace.HttpClients.ResourceAPI
 
         public async Task<PagedResponseModel<Sale>> GetMySalesAsync(SalesFilters filters)
         {
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
             await AuthorizeAsync();
 
             return await PostAsync<PagedResponseModel<Sale>>(ResourceAPIRoutes.SalesMySalesQuery, filters);

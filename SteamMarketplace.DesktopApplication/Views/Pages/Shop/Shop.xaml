@@ -1,0 +1,234 @@
+﻿<Page
+    x:Class="SteamMarketplace.DesktopApplication.Views.Pages.Shop.Shop"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="clr-namespace:SteamMarketplace.DesktopApplication.Behaviors"
+    xmlns:c="clr-namespace:SteamMarketplace.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:et="clr-namespace:SteamMarketplace.DesktopApplication.EventTriggers"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:SteamMarketplace.DesktopApplication.Views.Pages.Shop"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:ta="clr-namespace:SteamMarketplace.DesktopApplication.TriggerActions"
+    Title="Магазин"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{StaticResource PageBackgroundBrush}"
+    DataContext="{Binding ShopViewModel, Source={StaticResource ViewModelLocator}}"
+    WindowTitle="SteamMarketplace - Магазин"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=Loaded}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Loading, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Opacity" Value="0.25" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5" />
+        <Grid
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Margin="0,0,5,0">
+                <ComboBox
+                    x:Name="SearchString"
+                    mdt:HintAssist.Hint="Поиск по названию"
+                    FontSize="24"
+                    FontWeight="Medium"
+                    IsDropDownOpen="True"
+                    IsEditable="True"
+                    IsTextSearchEnabled="False"
+                    ItemsSource="{Binding Path=SearchSuggestions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    Text="{Binding Path=Filters.SearchString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    ToolTip="{Binding ElementName=SearchString, Path=Text}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="KeyUp">
+                            <i:InvokeCommandAction Command="{Binding Path=SearchStringChanged}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </Grid>
+            <Grid Grid.Column="1" Margin="5,0,0,0">
+                <Button
+                    Width="50"
+                    Height="50"
+                    Command="{Binding Path=Search}"
+                    Style="{StaticResource ToFindButtonStyle}"
+                    ToolTip="Найти">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=Search}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5">
+            <GroupBox
+                BorderThickness="3"
+                FontSize="24"
+                FontWeight="Medium"
+                Header="Фильтры">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="5,0">
+                        <Grid Margin="0,0,0,10">
+                            <Button
+                                VerticalAlignment="Center"
+                                mdt:ButtonAssist.CornerRadius="0"
+                                Command="{Binding Path=Search}"
+                                Content="Применить фильтры"
+                                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                ToolTip="Применить фильтры">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding Path=Search}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                        <Grid Margin="0,5,0,0">
+                            <Button
+                                VerticalAlignment="Center"
+                                mdt:ButtonAssist.CornerRadius="0"
+                                Command="{Binding Path=Reset}"
+                                Content="Сбросить фильтры"
+                                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                ToolTip="Сбросить фильтры">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding Path=Reset}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <DataGrid
+                    CellStyle="{StaticResource DefaultDataGridCellStyle}"
+                    ColumnHeaderStyle="{StaticResource DefaultDataGridColumnHeaderStyle}"
+                    ItemsSource="{Binding Path=GroupedItems, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource DefaultDataGridStyle}"
+                    VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Фото">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Width="64"
+                                        Height="64"
+                                        Margin="5"
+                                        BorderBrush="Black"
+                                        BorderThickness="1">
+                                        <Image Source="{Binding Path=SteamImg}" Stretch="Uniform" />
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Название">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=FullName}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Количество">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=Count}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Цена">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=MinPriceUsd, StringFormat={}{0:C2}, ConverterCulture=us-US}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Button
+                        VerticalAlignment="Center"
+                        Command="{Binding Path=PreviousPage}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                        <mdt:PackIcon
+                            Width="35"
+                            Height="35"
+                            Kind="ChevronLeft" />
+                    </Button>
+                </Grid>
+                <Grid Grid.Column="1" Margin="15,0">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="22"
+                        FontWeight="Bold">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}Страница {0} из {1}">
+                                <Binding Path="Pagination.Page" />
+                                <Binding Path="Pagination.PagesCount" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Button
+                        VerticalAlignment="Center"
+                        Command="{Binding Path=NextPage}"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+                        <mdt:PackIcon
+                            Width="35"
+                            Height="35"
+                            Kind="ChevronRight" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

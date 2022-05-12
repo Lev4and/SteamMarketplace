@@ -8,7 +8,7 @@
 
         public const string Domain = "steam.marketplace.resource.api.u1321851.plsk.regruhosting.ru/api";
 
-        //public const string Domain = "localhost:5001/api";
+        //public const string Domain = "localhost:44317/api";
 
         public const string CBRExchangeRatesPath = "cBR/exchangeRates/";
 
@@ -45,5 +45,11 @@
         public const string SalesPath = "sales/";
 
         public const string SalesMySalesQuery = "mySales";
+
+        public const string ItemsPath = "items/";
+
+        public const string ItemsGroupedItemsQuery = "groupedItems";
+
+        public const string ItemsSearchSuggestionsQuery = "searchSuggestions";
     }
 }

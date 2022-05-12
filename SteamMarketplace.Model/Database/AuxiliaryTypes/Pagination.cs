@@ -6,6 +6,11 @@
 
         public int Limit { get; set; }
 
+        public void Reset()
+        {
+            Page = 1;
+        }
+
         public void NextPage()
         {
             Page += 1;

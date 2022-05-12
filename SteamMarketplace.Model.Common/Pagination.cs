@@ -31,7 +31,7 @@
             Limit = limit;
             TotalItems = totalItems;
 
-            PagesCount = totalItems > 0 && limit > 0 ? Convert.ToInt32(Math.Round((double)totalItems / (double)limit, 0)) : 0;
+            PagesCount = totalItems > 0 && limit > 0 ? Convert.ToInt32(Math.Ceiling((double)totalItems / (double)limit)) : 0;
         }
     }
 }
