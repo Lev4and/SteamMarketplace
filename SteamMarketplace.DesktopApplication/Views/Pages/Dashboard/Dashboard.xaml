@@ -10,7 +10,6 @@
     xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:ta="clr-namespace:SteamMarketplace.DesktopApplication.TriggerActions"
     xmlns:uc="clr-namespace:SteamMarketplace.DesktopApplication.Views.UserControls"
-    xmlns:dc="clr-namespace:SteamMarketplace.DesktopApplication.Views.UserControls.DashboardCards"
     Title="Приборная панель"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -28,7 +27,7 @@
         HorizontalScrollBarVisibility="Disabled"
         VerticalScrollBarVisibility="Auto">
         <WrapPanel ItemHeight="125" ItemWidth="225">
-            
+            <!--<uc:CurrentOnlineDashboardCard />-->
         </WrapPanel>
     </ScrollViewer>
 </Page>

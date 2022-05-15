@@ -21,6 +21,14 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Count();
         }
 
+        public int GetCountSalesItem(string fullName)
+        {
+            return _context.Sales
+                .Include(sale => sale.Item)
+                .Where(sale => sale.SoldAt == null && sale.CancelledAt == null && sale.Item.FullName == fullName)
+                .Count();
+        }
+
         public IQueryable<Sale> GetSales(SalesFilters filters)
         {
             return _context.Sales
@@ -35,6 +43,41 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .OrderByDescending(sale => sale.ExposedAt)
                 .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
                 .Take(filters.Pagination.Limit)
+                .AsNoTracking();
+        }
+
+        public IQueryable<Sale> GetSalesItem(SalesItemFilters filters)
+        {
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
+            return _context.Sales
+                .Include(sale => sale.Item)
+                    .ThenInclude(item => item.Image)
+                .Include(sale => sale.Seller)
+                    .ThenInclude(seller => seller.Currency)
+                .Where(sale => sale.SoldAt == null && sale.CancelledAt == null && sale.Item.FullName == filters.FullName)
+                .OrderBy(sale => sale.PriceUsd)
+                .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
+                .Take(filters.Pagination.Limit)
+                .AsNoTracking();
+        }
+
+        public IQueryable<PricesDynamic> GetPricesDynamicsItem(string fullName)
+        {
+            return _context.Sales
+                .Include(sale => sale.Item)
+                .Where(sale => sale.SoldAt != null && sale.Item.FullName == fullName)
+                .GroupBy(sale => sale.SoldAt.Value)
+                .Select(group => new PricesDynamic
+                {
+                    Date = group.Key,
+                    CountSold = group.Count(),
+                    MinPriceUsd = group.Min(group => group.PriceUsd)
+                })
+                .OrderBy(pricesDynamic => pricesDynamic.Date)
                 .AsNoTracking();
         }
     }

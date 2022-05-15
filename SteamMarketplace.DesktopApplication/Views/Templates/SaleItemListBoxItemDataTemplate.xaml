@@ -1,0 +1,170 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="clr-namespace:SteamMarketplace.DesktopApplication.Behaviors"
+    xmlns:c="clr-namespace:SteamMarketplace.DesktopApplication.Converters"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <c:UniversalTimeToLocalTime x:Key="UniversalTimeToLocalTime" />
+    <DataTemplate x:Key="SaleItemListBoxItemDataTemplate">
+        <Grid MinHeight="100" Margin="8">
+            <Border
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="5">
+                <Grid Margin="8,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="88" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Border
+                            Width="88"
+                            Height="88"
+                            VerticalAlignment="Center"
+                            BorderBrush="Black"
+                            BorderThickness="1">
+                            <Image Source="{Binding Path=Item.Image.SteamImg}" Stretch="Uniform" />
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="15,0">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="22"
+                            FontWeight="Bold"
+                            Foreground="Black"
+                            Text="{Binding Path=Item.FullName}"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                    <Grid Grid.Column="2" Margin="15,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                    FontSize="22"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    Text="{Binding Path=Price, StringFormat={}{0:C2}}" />
+                            </Grid>
+                            <Grid Grid.Column="1" Margin="30,0,0,0">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="22"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    Language="us-US"
+                                    Text="{Binding Path=PriceUsd, StringFormat={}{0:C2}}" />
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="1" Margin="30,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <!--<RowDefinition />-->
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Margin="0,0,2.5,0">
+                                    <mdt:PackIcon
+                                        x:Name="IconCalendarClock"
+                                        Width="{Binding ElementName=IconCalendarClock, Path=Height}"
+                                        Height="Auto"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Kind="CalendarClock" />
+                                </Grid>
+                                <Grid Grid.Column="1" Margin="2.5,0,0,0">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                        Text="{Binding Path=ExposedAt, Converter={StaticResource UniversalTimeToLocalTime}}" />
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Row="1" Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Margin="0,0,2.5,0">
+                                    <mdt:PackIcon
+                                        x:Name="IconCalendarCheck"
+                                        Width="{Binding ElementName=IconCalendarCheck, Path=Height}"
+                                        Height="Auto"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Kind="CalendarCheck" />
+                                </Grid>
+                                <Grid Grid.Column="1" Margin="2.5,0,0,0">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                        Text="{Binding Path=SoldAt, Converter={StaticResource UniversalTimeToLocalTime}, TargetNullValue=Не продано}" />
+                                </Grid>
+                            </Grid>
+                            <!--<Grid Grid.Row="2" Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Margin="0,0,2.5,0">
+                                    <mdt:PackIcon
+                                        x:Name="IconAccountCash"
+                                        Width="{Binding ElementName=IconAccountCash, Path=Height}"
+                                        Height="Auto"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Kind="AccountCash" />
+                                </Grid>
+                                <Grid Grid.Column="1" Margin="2.5,0,0,0">
+                                    <TextBlock b:LanguageBehavior.Language="{Binding Path=Purchase.Buyer.Currency.CultureInfoName}" VerticalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} ({1}) {2:C2}">
+                                                <Binding Path="Purchase.Buyer.UserName" TargetNullValue="Нет покупателя" />
+                                                <Binding Path="Purchase.Buyer.Currency.CultureInfoName" TargetNullValue="-" />
+                                                <Binding Path="Purchase.Price" TargetNullValue="NaN" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Grid>
+                            </Grid>-->
+                            <Grid Grid.Row="2" Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Margin="0,0,2.5,0">
+                                    <mdt:PackIcon
+                                        x:Name="IconCalendarRemove"
+                                        Width="{Binding ElementName=IconCalendarRemove, Path=Height}"
+                                        Height="Auto"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Kind="CalendarRemove" />
+                                </Grid>
+                                <Grid Grid.Column="1" Margin="2.5,0,0,0">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                        Text="{Binding Path=CancelledAt, Converter={StaticResource UniversalTimeToLocalTime}, TargetNullValue=Не отменено}" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

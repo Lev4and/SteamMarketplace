@@ -22,6 +22,8 @@
 
                 <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Templates/ImportedItemListBoxItemDataTemplate.xaml" />
                 <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Templates/MyInventoryListBoxItemDataTemplate.xaml" />
+                <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Templates/GroupedItemListBoxItemDataTemplate.xaml" />
+                <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Templates/SaleItemListBoxItemDataTemplate.xaml" />
                 <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Templates/ButtonTemplates.xaml" />
 
                 <ResourceDictionary Source="/SteamMarketplace.DesktopApplication;component/Views/Styles/DataGrid.xaml" />

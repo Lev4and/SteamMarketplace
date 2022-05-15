@@ -1,0 +1,43 @@
+﻿<UserControl
+    x:Class="SteamMarketplace.DesktopApplication.Views.UserControls.Pagination"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteamMarketplace.DesktopApplication.Views.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes"
+    x:Name="This"
+    mc:Ignorable="d">
+    <Grid>
+        <ListBox
+            x:Name="PaginationListBox"
+            HorizontalContentAlignment="Stretch"
+            ItemsSource="{Binding ElementName=This, Path=Items, UpdateSourceTrigger=PropertyChanged}"
+            SelectedValue="{Binding ElementName=This, Path=Page, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Width" Value="80" />
+                    <Setter Property="Margin" Value="15,15" />
+                    <Setter Property="FontSize" Value="22" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </Grid>
+</UserControl>

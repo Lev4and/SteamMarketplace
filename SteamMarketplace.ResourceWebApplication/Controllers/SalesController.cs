@@ -26,13 +26,13 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpPost]
         [Route("mySales")]
-        public async Task<IActionResult> GetInventory([FromBody] SalesFilters filters)
+        public async Task<IActionResult> GetMySales([FromBody] SalesFilters filters)
         {
             if (filters == null)
             {
                 _logger.LogWarning($"Validation failed. Invalid filters param.");
 
-                return BadRequest(new BaseResponseModel<List<Sale>>(new List<Sale>(), Statuses.InvalidData));
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
             }
 
             var count = _dataManager.Sales.GetCountSales(filters.UserId);
@@ -40,6 +40,40 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
             return Ok(new PagedResponseModel<Sale>(result, filters.Pagination.Page,
                 filters.Pagination.Limit, count, Statuses.Success));
+        }
+
+        [HttpPost]
+        [Route("item")]
+        public async Task<IActionResult> GetSalesItem([FromBody] SalesItemFilters filters)
+        {
+            if (filters == null)
+            {
+                _logger.LogWarning($"Validation failed. Invalid filters param.");
+
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            var count = _dataManager.Sales.GetCountSalesItem(filters.FullName);
+            var result = await _dataManager.Sales.GetSalesItem(filters).ToListAsync();
+
+            return Ok(new PagedResponseModel<Sale>(result, filters.Pagination.Page,
+                filters.Pagination.Limit, count, Statuses.Success));
+        }
+
+        [HttpGet]
+        [Route("pricesDynamics")]
+        public async Task<IActionResult> GetPricesDynamicsItem([FromQuery(Name = "name")] string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                _logger.LogWarning($"Validation failed. Invalid fullName param.");
+
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            var result = await _dataManager.Sales.GetPricesDynamicsItem(fullName).ToListAsync();
+
+            return Ok(new BaseResponseModel<List<PricesDynamic>>(result, Statuses.Success));
         }
     }
 }

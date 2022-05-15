@@ -1,4 +1,5 @@
 ﻿using SteamMarketplace.Authorization.Models;
+using SteamMarketplace.Model.Database.Entities;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace SteamMarketplace.HttpClients.Common.Services
@@ -6,6 +7,7 @@ namespace SteamMarketplace.HttpClients.Common.Services
     public class Authorization
     {
         private Login? _account;
+        private ApplicationUser? _user;
         private JwtSecurityToken? _token;
         private readonly JwtSecurityTokenHandler _tokenHandler;
 

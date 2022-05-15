@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:ta="clr-namespace:SteamMarketplace.DesktopApplication.TriggerActions"
+    xmlns:uc="clr-namespace:SteamMarketplace.DesktopApplication.Views.UserControls"
     Title="Магазин"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -44,7 +45,25 @@
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            Margin="5" />
+            Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Margin="0,0,5,0">
+                <Button
+                    Width="50"
+                    Height="50"
+                    Command="{Binding Path=Info}"
+                    Style="{StaticResource DetailsButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=Info}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </Grid>
+        </Grid>
         <Grid
             Grid.Row="0"
             Grid.Column="1"
@@ -59,7 +78,7 @@
                     mdt:HintAssist.Hint="Поиск по названию"
                     FontSize="24"
                     FontWeight="Medium"
-                    IsDropDownOpen="True"
+                    IsDropDownOpen="False"
                     IsEditable="True"
                     IsTextSearchEnabled="False"
                     ItemsSource="{Binding Path=SearchSuggestions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -141,93 +160,22 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <DataGrid
-                    CellStyle="{StaticResource DefaultDataGridCellStyle}"
-                    ColumnHeaderStyle="{StaticResource DefaultDataGridColumnHeaderStyle}"
-                    ItemsSource="{Binding Path=GroupedItems, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource DefaultDataGridStyle}"
-                    VerticalScrollBarVisibility="Auto">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Фото">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border
-                                        Width="64"
-                                        Height="64"
-                                        Margin="5"
-                                        BorderBrush="Black"
-                                        BorderThickness="1">
-                                        <Image Source="{Binding Path=SteamImg}" Stretch="Uniform" />
-                                    </Border>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Название">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=FullName}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Количество">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=Count}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Цена">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=MinPriceUsd, StringFormat={}{0:C2}, ConverterCulture=us-US}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <ListBox
+                    x:Name="GroupedItemsListBox"
+                    HorizontalContentAlignment="Stretch"
+                    SelectedValuePath="FullName"
+                    SelectedValue="{Binding Path=FullName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    ItemTemplate="{StaticResource GroupedItemListBoxItemDataTemplate}"
+                    ItemsSource="{Binding Path=GroupedItems, UpdateSourceTrigger=PropertyChanged}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
             </Grid>
-            <Grid Grid.Row="1" Margin="0,15,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Button
-                        VerticalAlignment="Center"
-                        Command="{Binding Path=PreviousPage}"
-                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
-                        <mdt:PackIcon
-                            Width="35"
-                            Height="35"
-                            Kind="ChevronLeft" />
-                    </Button>
-                </Grid>
-                <Grid Grid.Column="1" Margin="15,0">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="22"
-                        FontWeight="Bold">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}Страница {0} из {1}">
-                                <Binding Path="Pagination.Page" />
-                                <Binding Path="Pagination.PagesCount" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Grid>
-                <Grid Grid.Column="2">
-                    <Button
-                        VerticalAlignment="Center"
-                        Command="{Binding Path=NextPage}"
-                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
-                        <mdt:PackIcon
-                            Width="35"
-                            Height="35"
-                            Kind="ChevronRight" />
-                    </Button>
-                </Grid>
+            <Grid Grid.Row="1">
+                <uc:Pagination Items="{Binding Path=Pagination.Items, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Page="{Binding Path=Filters.Pagination.Page, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
         </Grid>
     </Grid>

@@ -23,8 +23,8 @@
                                 <MultiBinding StringFormat="{}Пользователь {0} выставил на продажу {1} за {2:C2} в {3:yyyy-MM-dd HH:mm:ss}">
                                     <Binding Path="UserName" />
                                     <Binding Path="Item.FullName" />
-                                    <Binding Path="Item.Price" ConverterCulture="en-US" />
-                                    <Binding Path="ExposedAt" Converter="{StaticResource UniversalTimeToLocalTime}"  />
+                                    <Binding ConverterCulture="en-US" Path="Item.Price" />
+                                    <Binding Converter="{StaticResource UniversalTimeToLocalTime}" Path="ExposedAt" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>

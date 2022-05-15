@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SteamMarketplace.Authorization.Models\SteamMarketplace.Authorization.Models.csproj" />
     <ProjectReference Include="..\SteamMarketplace.Model.Common\SteamMarketplace.Model.Common.csproj" />
+    <ProjectReference Include="..\SteamMarketplace.Model\SteamMarketplace.Model.csproj" />
   </ItemGroup>
 
 </Project>
