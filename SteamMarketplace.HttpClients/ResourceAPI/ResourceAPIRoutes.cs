@@ -51,5 +51,9 @@
         public const string ItemsGroupedItemsQuery = "groupedItems";
 
         public const string ItemsSearchSuggestionsQuery = "searchSuggestions";
+
+        public const string PurchasesPath = "purchases/";
+
+        public const string PurchasesMyPurchasesQuery = "myPurchases";
     }
 }

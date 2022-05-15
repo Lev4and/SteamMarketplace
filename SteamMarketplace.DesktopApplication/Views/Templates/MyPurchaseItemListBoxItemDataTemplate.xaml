@@ -5,7 +5,7 @@
     xmlns:c="clr-namespace:SteamMarketplace.DesktopApplication.Converters"
     xmlns:mdt="http://materialdesigninxaml.net/winfx/xaml/themes">
     <c:UniversalTimeToLocalTime x:Key="UniversalTimeToLocalTime" />
-    <DataTemplate x:Key="SaleItemListBoxItemDataTemplate">
+    <DataTemplate x:Key="MyPurchaseItemListBoxItemDataTemplate">
         <Grid MinHeight="100" Margin="8">
             <Border
                 BorderBrush="Black"
@@ -24,7 +24,7 @@
                             VerticalAlignment="Center"
                             BorderBrush="Black"
                             BorderThickness="1">
-                            <Image Source="{Binding Path=Item.Image.SteamImg}" Stretch="Uniform" />
+                            <Image Source="{Binding Path=Sale.Item.Image.SteamImg}" Stretch="Uniform" />
                         </Border>
                     </Grid>
                     <Grid Grid.Column="1" Margin="15,0">
@@ -33,7 +33,7 @@
                             FontSize="22"
                             FontWeight="Bold"
                             Foreground="Black"
-                            Text="{Binding Path=Item.FullName}"
+                            Text="{Binding Path=Sale.Item.FullName}"
                             TextWrapping="Wrap" />
                     </Grid>
                     <Grid Grid.Column="2" Margin="15,0,0,0">
@@ -49,7 +49,7 @@
                             <Grid Grid.Column="0">
                                 <TextBlock
                                     VerticalAlignment="Center"
-                                    b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
+                                    b:LanguageBehavior.Language="{Binding Path=Buyer.Currency.CultureInfoName}"
                                     FontSize="22"
                                     FontWeight="Bold"
                                     Foreground="Black"
@@ -65,35 +65,12 @@
                                     Text="{Binding Path=PriceUsd, StringFormat={}{0:C2}}" />
                             </Grid>
                         </Grid>
-                        <Grid Grid.Column="1" Margin="30,0,0,0">
+                        <Grid Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
-                                <!--<RowDefinition />-->
-                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="0,0,2.5,0">
-                                    <mdt:PackIcon
-                                        x:Name="IconCalendarClock"
-                                        Width="{Binding ElementName=IconCalendarClock, Path=Height}"
-                                        Height="Auto"
-                                        VerticalAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Kind="CalendarClock" />
-                                </Grid>
-                                <Grid Grid.Column="1" Margin="2.5,0,0,0">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
-                                        Text="{Binding Path=ExposedAt, Converter={StaticResource UniversalTimeToLocalTime}}" />
-                                </Grid>
-                            </Grid>
-                            <Grid Grid.Row="1" Margin="0,5,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
@@ -110,55 +87,32 @@
                                 <Grid Grid.Column="1" Margin="2.5,0,0,0">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
-                                        Text="{Binding Path=SoldAt, Converter={StaticResource UniversalTimeToLocalTime}, TargetNullValue=Не продано}" />
+                                        b:LanguageBehavior.Language="{Binding Path=Buyer.Currency.CultureInfoName}"
+                                        Text="{Binding Path=PurchaseAt, Converter={StaticResource UniversalTimeToLocalTime}}" />
                                 </Grid>
                             </Grid>
-                            <!--<Grid Grid.Row="2" Margin="0,5,0,0">
+                            <Grid Grid.Row="1" Margin="0,5,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0" Margin="0,0,2.5,0">
                                     <mdt:PackIcon
-                                        x:Name="IconAccountCash"
-                                        Width="{Binding ElementName=IconAccountCash, Path=Height}"
+                                        x:Name="IconAccount"
+                                        Width="{Binding ElementName=IconAccount, Path=Height}"
                                         Height="Auto"
                                         VerticalAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        Kind="AccountCash" />
+                                        Kind="Account" />
                                 </Grid>
                                 <Grid Grid.Column="1" Margin="2.5,0,0,0">
-                                    <TextBlock b:LanguageBehavior.Language="{Binding Path=Purchase.Buyer.Currency.CultureInfoName}" VerticalAlignment="Center">
+                                    <TextBlock b:LanguageBehavior.Language="{Binding Path=Sale.Seller.Currency.CultureInfoName}" VerticalAlignment="Center">
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} ({1}) {2:C2}">
-                                                <Binding Path="Purchase.Buyer.UserName" TargetNullValue="Нет покупателя" />
-                                                <Binding Path="Purchase.Buyer.Currency.CultureInfoName" TargetNullValue="-" />
-                                                <Binding Path="Purchase.Price" TargetNullValue="NaN" />
+                                            <MultiBinding StringFormat="{}{0}">
+                                                <Binding Path="Sale.Seller.UserName" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
-                                </Grid>
-                            </Grid>-->
-                            <Grid Grid.Row="2" Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="0,0,2.5,0">
-                                    <mdt:PackIcon
-                                        x:Name="IconCalendarRemove"
-                                        Width="{Binding ElementName=IconCalendarRemove, Path=Height}"
-                                        Height="Auto"
-                                        VerticalAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Kind="CalendarRemove" />
-                                </Grid>
-                                <Grid Grid.Column="1" Margin="2.5,0,0,0">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        b:LanguageBehavior.Language="{Binding Path=Seller.Currency.CultureInfoName}"
-                                        Text="{Binding Path=CancelledAt, Converter={StaticResource UniversalTimeToLocalTime}, TargetNullValue=Не отменено}" />
                                 </Grid>
                             </Grid>
                         </Grid>

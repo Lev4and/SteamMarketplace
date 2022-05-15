@@ -38,6 +38,7 @@ builder.Services.AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>(
 builder.Services.AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.ItemsHttpClient>();
+builder.Services.AddSingleton<HttpClients.ResourceAPI.PurchasesHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.SalesHttpClient>();
 builder.Services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
 builder.Services.AddSingleton<HttpClients.HttpContext>();
@@ -66,6 +67,7 @@ builder.Services.AddTransient<AdoNetAbstract.IUserRolesRepository, AdoNet.AdoNet
 builder.Services.AddTransient<HighPerformanceDataManager>();
 
 builder.Services.AddTransient<ObjectRelationalAbstract.IItemsRepository, ObjectRelational.EFItemsRepository>();
+builder.Services.AddTransient<ObjectRelationalAbstract.IPurchasesRepository, ObjectRelational.EFPurchasesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.ISalesRepository, ObjectRelational.EFSalesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IUserInventoriesRepository, ObjectRelational.EFUserInventoriesRepository>();
 builder.Services.AddTransient<DefaultDataManager>();

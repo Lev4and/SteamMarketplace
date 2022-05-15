@@ -21,6 +21,8 @@ namespace SteamMarketplace.DesktopApplication.ViewModels.Locators
 
         public MyInventoryViewModel MyInventoryViewModel => _provider.GetRequiredService<MyInventoryViewModel>();
 
+        public MyPurchasesViewModel MyPurchasesViewModel => _provider.GetRequiredService<MyPurchasesViewModel>();
+
         public MySalesViewModel MySalesViewModel => _provider.GetRequiredService<MySalesViewModel>();
 
         public ShopViewModel ShopViewModel => _provider.GetRequiredService<ShopViewModel>();
@@ -29,14 +31,15 @@ namespace SteamMarketplace.DesktopApplication.ViewModels.Locators
         {
             var services = new ServiceCollection();
 
-            services.AddTransient<AuthorizationViewModel>();
-            services.AddTransient<DashboardViewModel>();
-            services.AddTransient<ImportOnlineViewModel>();
-            services.AddTransient<MainWindowViewModel>();
-            services.AddTransient<MenuViewModel>();
+            services.AddSingleton<AuthorizationViewModel>();
+            services.AddSingleton<DashboardViewModel>();
+            services.AddSingleton<ImportOnlineViewModel>();
+            services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<MenuViewModel>();
             services.AddSingleton<MyInventoryViewModel>();
+            services.AddSingleton<MyPurchasesViewModel>();
             services.AddSingleton<MySalesViewModel>();
-            services.AddTransient<ShopViewModel>();
+            services.AddSingleton<ShopViewModel>();
 
             services.AddSingleton<HttpClients.Common.Services.Authorization>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
@@ -54,6 +57,7 @@ namespace SteamMarketplace.DesktopApplication.ViewModels.Locators
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ItemsHttpClient>();
+            services.AddSingleton<HttpClients.ResourceAPI.PurchasesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.SalesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>();

@@ -49,6 +49,11 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
             _menuPageService.ChangePage(new Pages.MySales.MySales());
         });
 
+        public ICommand MyPurchases => new DelegateCommand(() =>
+        {
+            _menuPageService.ChangePage(new Pages.MyPurchases.MyPurchases());
+        });
+
         public ICommand MyInventory => new DelegateCommand(() =>
         {
             _menuPageService.ChangePage(new Pages.MyInventory.MyInventory());

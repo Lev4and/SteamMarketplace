@@ -133,6 +133,14 @@
                                     </Grid>
                                     <Grid>
                                         <uc:MenuButton
+                                            x:Name="MyPurchases"
+                                            HorizontalContentAlignment="Left"
+                                            Command="{Binding Path=MyPurchases}"
+                                            Kind="Cart"
+                                            Text="Мои покупки" />
+                                    </Grid>
+                                    <Grid>
+                                        <uc:MenuButton
                                             x:Name="MyInventory"
                                             HorizontalContentAlignment="Left"
                                             Command="{Binding Path=MyInventory}"
