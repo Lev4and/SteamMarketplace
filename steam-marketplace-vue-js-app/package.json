@@ -1,0 +1,53 @@
+{
+  "name": "steam-marketplace-vue-js-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@microsoft/signalr": "^6.0.5",
+    "ant-design-vue": "^1.7.8",
+    "apexcharts": "^3.35.2",
+    "axios": "^0.27.2",
+    "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3",
+    "vue": "^2.6.11",
+    "vue-apexcharts": "^1.6.2",
+    "vue-router": "^3.2.0",
+    "vue-tiny-slider": "^0.1.39",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-eslint": "~4.5.15",
+    "@vue/cli-plugin-router": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
