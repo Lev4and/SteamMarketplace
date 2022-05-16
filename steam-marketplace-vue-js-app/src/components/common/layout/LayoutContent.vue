@@ -6,18 +6,25 @@
     <a-layout-content class="content" >
       <router-view />
     </a-layout-content>
+    <layout-footer />
   </a-layout>
 </template>
 
 <script>
+  import LayoutFooter from '@/components/common/layout/LayoutFooter'
+
   export default {
     name: 'LayoutContent',
+
+    components: {
+      LayoutFooter,
+    },
   }
 </script>
 
 <style scoped>
   .layout-content {
-    padding: 0 24px 24px;
+    padding: 0 24px;
   }
   .layout-content .content {
     margin: 0;
