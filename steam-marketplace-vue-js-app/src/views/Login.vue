@@ -59,7 +59,6 @@
 </template>
 
 <script>
-  import API from '@/api'
   import { Login } from '@/services/utils/modelsUtils'
 
   export default {
@@ -79,20 +78,7 @@
         this.form.validateFields(async (err, values) => {
           if (!err) {
             this.isLoading = true
-            const response = await API.authorization.login(new Login(values.login, values.password))
-            if (response.status.isSuccessful()) {
-              this.$notification['success']({
-                message: 'Успех',
-                description:
-                  'Успешная авторизация.',
-              })
-            } else {
-              this.$notification['error']({
-                message: 'Ошибка',
-                description:
-                  response.status.message,
-              })
-            }
+            console.log(await this.$store.dispatch('auth/login', new Login(values.login, values.password)))
             this.isLoading = false
           }
         })
