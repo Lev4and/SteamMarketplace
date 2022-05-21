@@ -15,7 +15,7 @@ const routes = [
       title: 'Главная',
       authRequired: true, 
     },
-    component: Home
+    component: Home,
   },
   {
     path: '/login',
