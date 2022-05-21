@@ -36,6 +36,9 @@ const getters = {
   currentUser(state) {
     return state.currentUser
   },
+  roleName(state) {
+    return state.accessTokenPayload.role
+  },
   accessToken(state) {
     return state.accessToken
   },

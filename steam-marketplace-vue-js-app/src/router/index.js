@@ -11,12 +11,18 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    meta: { authRequired: true },
+    meta: { 
+      title: 'Главная',
+      authRequired: true, 
+    },
     component: Home
   },
   {
     path: '/login',
     name: 'Login',
+    meta: {
+      title: 'Авторизация',
+    },
     component: Login
   },
 ]
