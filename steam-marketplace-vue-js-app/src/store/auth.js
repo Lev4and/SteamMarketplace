@@ -12,14 +12,17 @@ const state = {
 }
 
 const mutations = {
+  setIsAuthorized(state, value) {
+    state.isAuthorized = value
+  },
+  setCurrentUser(state, user) {
+    state.currentUser = user
+  },
   setAccessToken(state, accessToken) {
     state.accessToken = accessToken
   },
   setAccessTokenPayload(state, payload) {
     state.accessTokenPayload = payload
-  },
-  setIsAuthorized(state, value) {
-    state.isAuthorized = value
   },
   setLogin(state, login) {
     state.login = login
@@ -50,6 +53,7 @@ const actions = {
         commit('setAccessTokenPayload', await dispatch('decodeAccessToken'))
         commit('setLogin', login)
         commit('setIsAuthorized', true)
+        commit('setCurrentUser', await dispatch('getUserInfo'))
         return true
       } else Vue.error(response.status.message, 'Ошибка авторизации')
     } catch (exception) {
@@ -60,6 +64,7 @@ const actions = {
   logout({ commit }) {
     commit('setAccessToken', '')
     commit('setAccessTokenPayload', null)
+    commit('setCurrentUser', null)
     commit('setLogin', null)
     commit('setIsAuthorized', false)
   },
@@ -70,14 +75,31 @@ const actions = {
     return !state.accessTokenPayload || moment.unix(state.accessTokenPayload.exp).diff(moment(), 'minutes') < 20
   },
   async tryGetAccessToken({ state, dispatch }) {
-    if (state.login) {
-      if (!(await dispatch('isOverdue'))) {
+    try {
+      if (state.login) {
+        if (!(await dispatch('isOverdue'))) {
+          return state.accessToken
+        }
+        await dispatch('login', state.login)
         return state.accessToken
       }
-      await dispatch('login', state.login)
-      return state.accessToken
+    } catch (exception) {
+      Vue.error(exception.message, 'Ошибка авторизации')
     }
     return ''
+  },
+  async getUserInfo({ state }) {
+    try {
+      if (state.isAuthorized) {
+        const response = await API.users.getCurrentUser()
+        if (response.status.isSuccessful()) {
+          return response.result
+        } else Vue.error('Ошибка при получении данных о пользователе', 'Ошибка')
+      }
+    } catch (exception) {
+      Vue.error('Ошибка при получении данных о пользователе', 'Ошибка')
+    }
+    return null
   },
 }
 
