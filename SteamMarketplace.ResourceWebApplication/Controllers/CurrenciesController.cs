@@ -25,6 +25,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("all")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllCurrencies()
         {
             return Ok(new BaseResponseModel<List<Currency>>(await _dataManager.Currencies.GetAllCurrencies()

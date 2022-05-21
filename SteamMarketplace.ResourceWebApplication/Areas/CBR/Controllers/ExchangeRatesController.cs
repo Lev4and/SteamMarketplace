@@ -21,6 +21,7 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.CBR.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("latest")]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<LatestExchangeRate>), 200)]
