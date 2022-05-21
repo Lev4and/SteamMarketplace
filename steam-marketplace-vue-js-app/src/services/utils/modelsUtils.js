@@ -4,7 +4,7 @@ export function Status(status) {
   this.code = status.code
   this.name = status.name
   this.message = status.message
-  this.isSuccessful = () => { return this.code === 200 }
+  this.isSuccessful = () => this.code === 200
 }
 
 export function Pagination(pageInfo) {
@@ -21,7 +21,7 @@ export function Paged(result) {
 }
 
 export function BaseResponseModel(response) {
-  this.result = response.result
+  this.result = response?.result
   this.status = new Status(response.status)
 }
 
@@ -32,7 +32,7 @@ export function DecorationBaseResponseModel(primary) {
 
 export function PagedResponseModel(response) {
   DecorationBaseResponseModel.apply(this, response)
-  this.result = new Paged(response.result)
+  this.result = new Paged(response?.result)
 }
 
 export function Login(login, password) {
