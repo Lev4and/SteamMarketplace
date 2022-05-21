@@ -1,4 +1,5 @@
 import auth from './auth'
+import common from './common'
 import exchangeRates from './exchangeRates'
 
 import Vue from 'vue'
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
+    common,
     exchangeRates,
   },
 })
