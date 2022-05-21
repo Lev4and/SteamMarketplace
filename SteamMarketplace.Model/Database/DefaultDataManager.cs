@@ -12,13 +12,16 @@ namespace SteamMarketplace.Model.Database
 
         public IUserInventoriesRepository UserInventories { get; }
 
+        public IUsersRepository Users { get; }
+
         public DefaultDataManager(IItemsRepository items, IPurchasesRepository purchases, ISalesRepository sales, 
-            IUserInventoriesRepository userInventories)
+            IUserInventoriesRepository userInventories, IUsersRepository users)
         {
             Items = items;
             Purchases = purchases;
             Sales = sales;
             UserInventories = userInventories;
+            Users = users;
         }
     }
 }

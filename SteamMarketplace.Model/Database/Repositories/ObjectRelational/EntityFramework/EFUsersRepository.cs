@@ -16,16 +16,12 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
             _userManager = userManager;
         }
 
-        public ApplicationUser GetUserById(Guid id, bool track = false)
+        public ApplicationUser GetUserById(Guid id)
         {
-            IQueryable<ApplicationUser> users = _userManager.Users;
-
-            if (!track)
-            {
-                users = users.AsNoTracking();
-            }
-
-            return users.SingleOrDefault(user => user.Id == id);
+            return _context.Users
+                .Include(user => user.Currency)
+                    .ThenInclude(currency => currency.Rates.OrderByDescending(rate => rate.DateTime).Take(1))
+                .FirstOrDefault(user => user.Id == id);
         }
     }
 }

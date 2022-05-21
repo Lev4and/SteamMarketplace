@@ -4,6 +4,6 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
 {
     public interface IUsersRepository
     {
-        ApplicationUser GetUserById(Guid id, bool track = false);
+        ApplicationUser GetUserById(Guid id);
     }
 }
