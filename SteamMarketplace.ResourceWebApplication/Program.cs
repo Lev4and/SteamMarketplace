@@ -72,6 +72,7 @@ builder.Services.AddTransient<ObjectRelationalAbstract.IItemsRepository, ObjectR
 builder.Services.AddTransient<ObjectRelationalAbstract.IItemTypesRepository, ObjectRelational.EFItemTypesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IPurchasesRepository, ObjectRelational.EFPurchasesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IQualitiesRepository, ObjectRelational.EFQualitiesRepository>();
+builder.Services.AddTransient<ObjectRelationalAbstract.IRaritiesRepository, ObjectRelational.EFRaritiesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.ISalesRepository, ObjectRelational.EFSalesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IUserInventoriesRepository, ObjectRelational.EFUserInventoriesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IUsersRepository, ObjectRelational.EFUsersRepository>();

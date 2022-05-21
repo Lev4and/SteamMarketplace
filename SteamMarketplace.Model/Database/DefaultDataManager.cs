@@ -16,6 +16,8 @@ namespace SteamMarketplace.Model.Database
 
         public IQualitiesRepository Qualities { get; }
 
+        public IRaritiesRepository Rarities { get; }
+
         public ISalesRepository Sales { get; }
 
         public IUserInventoriesRepository UserInventories { get; }
@@ -24,8 +26,8 @@ namespace SteamMarketplace.Model.Database
 
         public DefaultDataManager(ICollectionsRepository collections, ICurrenciesRepository currencies,
             IItemsRepository items, IItemTypesRepository itemTypes,
-            IPurchasesRepository purchases, IQualitiesRepository qualities, 
-            ISalesRepository sales, 
+            IPurchasesRepository purchases, IQualitiesRepository qualities,
+            IRaritiesRepository rarities, ISalesRepository sales, 
             IUserInventoriesRepository userInventories, IUsersRepository users)
         {
             Collections = collections;
@@ -34,6 +36,7 @@ namespace SteamMarketplace.Model.Database
             ItemTypes = itemTypes;
             Purchases = purchases;
             Qualities = qualities;
+            Rarities = rarities;
             Sales = sales;
             UserInventories = userInventories;
             Users = users;
