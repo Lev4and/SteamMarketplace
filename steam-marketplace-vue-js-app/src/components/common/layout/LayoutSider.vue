@@ -54,7 +54,7 @@
         return this.roleName === 'Администратор'
       },
       selectedMenuItems() {
-        return [this.$route.name.toLowerCase()]
+        return [this.$route.name?.toLowerCase() || '']
       },
     },
 
