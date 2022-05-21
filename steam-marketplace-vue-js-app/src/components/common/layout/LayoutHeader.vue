@@ -20,7 +20,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import AccountDropDown from './layoutHeader/AccountDropdown'
+  import AccountDropDown from '@/components/common/layout/layoutHeader/AccountDropdown'
 
   export default {
     name: 'LayoutHeader',
