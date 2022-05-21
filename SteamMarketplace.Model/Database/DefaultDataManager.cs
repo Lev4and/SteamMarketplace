@@ -6,6 +6,8 @@ namespace SteamMarketplace.Model.Database
     {
         public ICollectionsRepository Collections { get; }
 
+        public ICurrenciesRepository Currencies { get; }
+
         public IItemsRepository Items { get; }
 
         public IPurchasesRepository Purchases { get; }
@@ -16,11 +18,13 @@ namespace SteamMarketplace.Model.Database
 
         public IUsersRepository Users { get; }
 
-        public DefaultDataManager(ICollectionsRepository collections, IItemsRepository items, 
+        public DefaultDataManager(ICollectionsRepository collections, ICurrenciesRepository currencies,
+            IItemsRepository items, 
             IPurchasesRepository purchases, ISalesRepository sales, 
             IUserInventoriesRepository userInventories, IUsersRepository users)
         {
             Collections = collections;
+            Currencies = currencies;
             Items = items;
             Purchases = purchases;
             Sales = sales;
