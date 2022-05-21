@@ -85,8 +85,8 @@
         this.form.validateFields(async (err, values) => {
           if (!err) {
             this.isLoading = true
-            if (!this.isAuthorized) console.log(await this.$store.dispatch('auth/login', new Login(values.login, values.password)))
-            if (this.isAuthorized) console.log(await this.$store.dispatch('auth/tryGetAccessToken'))
+            const result = await this.$store.dispatch('auth/login', new Login(values.login, values.password))
+            if (result) this.$router.push(this.$route.query.redirectFrom || { name: 'Home' })
             this.isLoading = false
           }
         })
