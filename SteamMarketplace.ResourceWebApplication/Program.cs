@@ -213,7 +213,7 @@ app.UseStatusCodePages(context =>
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors();
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
