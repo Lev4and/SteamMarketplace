@@ -41,7 +41,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
-        builder.AllowAnyOrigin().AllowAnyMethod()
+        builder.WithOrigins("*").AllowAnyMethod()
             .AllowAnyHeader().AllowCredentials());
 });
 
