@@ -6,6 +6,10 @@
         <strong class="user-name" v-text="userName" />
       </div>
       <a-menu slot="overlay">
+          <a-menu-item>
+            <a-icon type="wallet" />
+            <strong v-text="walletBalanceFormat" />
+          </a-menu-item>
           <a-menu-item @click="logout">
             <a-icon type="close-circle" /> 
             <span v-text="'Выход'" />
@@ -27,6 +31,19 @@
       }),
       userName() {
         return this.currentUser?.userName || ''
+      },
+      currency() {
+        return this.currentUser?.currency?.literal || 'USD'
+      },
+      cultureInfoName() {
+        return this.currentUser?.currency?.cultureInfoName || 'us-US'
+      },
+      walletBalance() {
+        return this.currentUser?.walletBalance || 0
+      },
+      walletBalanceFormat() {
+        return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
+          .format(this.walletBalance)
       },
     },
 
