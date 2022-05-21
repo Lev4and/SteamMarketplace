@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import store from './store'
+import store from './store'
 
 
 import Antd from 'ant-design-vue'
@@ -15,6 +15,6 @@ Vue.use(VueApexCharts)
 
 new Vue({
   router,
-  // store,
+  store,
   render: h => h(App)
 }).$mount('#app')

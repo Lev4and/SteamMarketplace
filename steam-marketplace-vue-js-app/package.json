@@ -19,7 +19,7 @@
     "vue-apexcharts": "^1.6.2",
     "vue-router": "^3.2.0",
     "vue-tiny-slider": "^0.1.39",
-    "vuex": "^4.0.2"
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.15",
