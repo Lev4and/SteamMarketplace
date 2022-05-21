@@ -25,6 +25,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("all")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllCollections()
         {
             return Ok(new BaseResponseModel<List<Collection>>(await _dataManager.Collections.GetAllCollections()

@@ -25,6 +25,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("all")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllRarities()
         {
             return Ok(new BaseResponseModel<List<Rarity>>(await _dataManager.Rarities.GetAllRarities()

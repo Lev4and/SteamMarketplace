@@ -25,6 +25,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("all")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllQualities()
         {
             return Ok(new BaseResponseModel<List<Quality>>(await _dataManager.Qualities.GetAllQualities()
