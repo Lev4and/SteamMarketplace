@@ -25,6 +25,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("all")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllTransactionTypes()
         {
             return Ok(new BaseResponseModel<List<TransactionType>>(await _dataManager.TransactionTypes.GetAllTransactionTypes()
