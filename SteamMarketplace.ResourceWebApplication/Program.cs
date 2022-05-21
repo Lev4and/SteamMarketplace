@@ -70,6 +70,7 @@ builder.Services.AddTransient<ObjectRelationalAbstract.IItemsRepository, ObjectR
 builder.Services.AddTransient<ObjectRelationalAbstract.IPurchasesRepository, ObjectRelational.EFPurchasesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.ISalesRepository, ObjectRelational.EFSalesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IUserInventoriesRepository, ObjectRelational.EFUserInventoriesRepository>();
+builder.Services.AddTransient<ObjectRelationalAbstract.IUsersRepository, ObjectRelational.EFUsersRepository>();
 builder.Services.AddTransient<DefaultDataManager>();
 
 builder.Services.AddDbContext<SteamMarketplaceDbContext>((options) =>
