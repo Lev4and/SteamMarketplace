@@ -36,6 +36,6 @@ export function PagedResponseModel(response) {
 }
 
 export function Login(login, password) {
-  this.login = login
   this.password = password
+  this.emailOrLogin = login
 }
