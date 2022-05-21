@@ -66,6 +66,7 @@ builder.Services.AddTransient<AdoNetAbstract.IUserInventoriesRepository, AdoNet.
 builder.Services.AddTransient<AdoNetAbstract.IUserRolesRepository, AdoNet.AdoNetUserRolesRepository>();
 builder.Services.AddTransient<HighPerformanceDataManager>();
 
+builder.Services.AddTransient<ObjectRelationalAbstract.ICollectionsRepository, ObjectRelational.EFCollectionsRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IItemsRepository, ObjectRelational.EFItemsRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IPurchasesRepository, ObjectRelational.EFPurchasesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.ISalesRepository, ObjectRelational.EFSalesRepository>();
