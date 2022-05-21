@@ -59,6 +59,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import { Login } from '@/services/utils/modelsUtils'
 
   export default {
@@ -72,13 +73,20 @@
       this.form = this.$form.createForm(this, { name: 'normal_login' })
     },
 
+    computed: {
+      ...mapGetters({
+        isAuthorized: 'auth/isAuthorized',
+      }),
+    },
+
     methods: {
       handleSubmit(event) {
         event.preventDefault()
         this.form.validateFields(async (err, values) => {
           if (!err) {
             this.isLoading = true
-            console.log(await this.$store.dispatch('auth/login', new Login(values.login, values.password)))
+            if (!this.isAuthorized) console.log(await this.$store.dispatch('auth/login', new Login(values.login, values.password)))
+            if (this.isAuthorized) console.log(await this.$store.dispatch('auth/tryGetAccessToken'))
             this.isLoading = false
           }
         })
