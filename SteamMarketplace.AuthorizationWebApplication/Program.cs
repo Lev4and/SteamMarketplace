@@ -83,5 +83,5 @@ app.UseStatusCodePages(context =>
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseRouting();
-app.UseCors();
+app.UseCors("CorsPolicy");
 app.Run();
