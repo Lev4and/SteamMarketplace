@@ -6,8 +6,10 @@
       :style="{ height: '100%', borderRight: 0 }"
     >
       <a-menu-item v-if="isAuthorized" key="home">
-        <a-icon type="layout" /> 
-        <span v-text="'Главная'" />
+        <router-link :to="{ name: 'Home' }">
+          <a-icon type="layout" /> 
+          <span v-text="'Главная'" />
+        </router-link>
       </a-menu-item>
       <a-menu-item v-if="isAuthorized && isAdministrator" key="dashboard">
         <a-icon type="dashboard" /> 
