@@ -6,8 +6,10 @@
       :style="{ height: '100%', borderRight: 0 }"
     >
       <a-menu-item v-if="isAuthorized" key="home">
-        <a-icon type="layout" /> 
-        <span v-text="'Главная'" />
+        <router-link :to="{ name: 'Home' }">
+          <a-icon type="layout" /> 
+          <span v-text="'Главная'" />
+        </router-link>
       </a-menu-item>
       <a-menu-item v-if="isAuthorized && isAdministrator" key="dashboard">
         <a-icon type="dashboard" /> 
@@ -16,6 +18,12 @@
       <a-sub-menu v-if="isAuthorized && isAdministrator" key="database">
         <span slot="title"><a-icon type="database" /> База данных</span>
       </a-sub-menu>
+      <a-menu-item v-if="isAuthorized" key="csmoney">
+        <router-link :to="{ name: 'CSMoney' }">
+          <a-icon type="shopping-cart" />
+          <span v-text="'Магазин CS.Money'" />
+        </router-link>
+      </a-menu-item>
       <a-menu-item v-if="isAuthorized" key="store">
         <a-icon type="shopping-cart" />
         <span v-text="'Магазин'" />
