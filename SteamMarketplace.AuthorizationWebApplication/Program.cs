@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SteamMarketplace.AuthorizationWebApplication.Extensions;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Database;
 using SteamMarketplace.Model.Database.Entities;
@@ -57,6 +58,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseStatusCodePages(context =>
 {
