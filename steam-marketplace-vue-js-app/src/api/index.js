@@ -1,6 +1,7 @@
 import * as authorization from '@/api/authorization'
 import * as cbr from '@/api/cbr'
 import * as collections from '@/api/collections'
+import * as сSMoney from '@/api/cSMoney'
 import * as currencies from '@/api/currencies'
 import * as imports from '@/api/imports'
 import * as itemTypes from '@/api/itemTypes'
@@ -13,6 +14,7 @@ const API = {
   authorization,
   cbr,
   collections,
+  сSMoney,
   currencies,
   imports,
   itemTypes,
