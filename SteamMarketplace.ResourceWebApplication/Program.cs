@@ -9,6 +9,7 @@ using SteamMarketplace.Model.Database;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Importers;
 using SteamMarketplace.Model.Importers.HighPerformance;
+using SteamMarketplace.ResourceWebApplication.Extensions;
 using SteamMarketplace.ResourceWebApplication.Hubs;
 using SteamMarketplace.Services;
 using SteamMarketplace.Services.Randomizers;
@@ -190,6 +191,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseStatusCodePages(context =>
 {
