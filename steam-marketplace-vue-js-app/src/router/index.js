@@ -30,6 +30,7 @@ const routes = [
     path: '/cSMoney',
     name: 'CSMoney',
     meta: {
+      authRequired: true,
       title: 'Магазин CS.Money',
     },
     component: CSMoney
