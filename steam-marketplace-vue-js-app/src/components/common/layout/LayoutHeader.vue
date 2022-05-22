@@ -7,9 +7,7 @@
     </router-link>
     <a-row class="row" type="flex">
       <a-col flex="8">
-        <div class="title">
-          <strong v-text="title" />
-        </div>
+        
       </a-col>
       <a-col v-if="isAuthorized" flex="2">
         <account-drop-down />
@@ -33,9 +31,6 @@
       ...mapGetters({
         isAuthorized: 'auth/isAuthorized',
       }),
-      title() {
-        return this.$route.meta.title
-      },
     },
   }
 </script>
@@ -58,11 +53,5 @@
   }
   .header .row {
     width: 100%;
-  }
-  .title strong {
-    margin: 0 auto;
-    color: white;
-    font-size: 24px;
-    text-transform: uppercase;
   }
 </style>
