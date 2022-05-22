@@ -69,6 +69,7 @@ builder.Services.AddTransient<HighPerformanceDataManager>();
 
 builder.Services.AddTransient<ObjectRelationalAbstract.ICollectionsRepository, ObjectRelational.EFCollectionsRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.ICurrenciesRepository, ObjectRelational.EFCurrenciesRepository>();
+builder.Services.AddTransient<ObjectRelationalAbstract.IExchangeRatesRepository, ObjectRelational.EFExchangeRatesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IItemsRepository, ObjectRelational.EFItemsRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IItemTypesRepository, ObjectRelational.EFItemTypesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IPurchasesRepository, ObjectRelational.EFPurchasesRepository>();
