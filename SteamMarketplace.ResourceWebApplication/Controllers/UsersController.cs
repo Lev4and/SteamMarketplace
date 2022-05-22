@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Database;
+using SteamMarketplace.Model.Extensions;
 using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.ResourceWebApplication.Controllers
@@ -26,8 +27,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         [Route("currentUser")]
         public IActionResult GetCurrentUser()
         {
-            return Ok(new BaseResponseModel<ApplicationUser>(_dataManager.Users.GetUserById(Guid.Parse(User.Claims.First((claim) =>
-                claim.Type == "id").Value)), Statuses.Success));
+            return Ok(new BaseResponseModel<ApplicationUser>(_dataManager.Users.GetUserById(Guid.Parse(User.Claims.GetValue("id"))), Statuses.Success));
         }
     }
 }
