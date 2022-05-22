@@ -16,6 +16,12 @@
       <a-sub-menu v-if="isAuthorized && isAdministrator" key="database">
         <span slot="title"><a-icon type="database" /> База данных</span>
       </a-sub-menu>
+      <a-menu-item v-if="isAuthorized" key="csmoney">
+        <router-link :to="{ name: 'CSMoney' }">
+          <a-icon type="shopping-cart" />
+          <span v-text="'Магазин CS.Money'" />
+        </router-link>
+      </a-menu-item>
       <a-menu-item v-if="isAuthorized" key="store">
         <a-icon type="shopping-cart" />
         <span v-text="'Магазин'" />

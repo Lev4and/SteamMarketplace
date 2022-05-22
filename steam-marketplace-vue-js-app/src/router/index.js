@@ -4,6 +4,7 @@ import { some as _some } from 'lodash'
 import store from '@/store'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
+import CSMoney from '@/views/CSMoney'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,14 @@ const routes = [
       title: 'Авторизация',
     },
     component: Login
+  },
+  {
+    path: '/cSMoney',
+    name: 'CSMoney',
+    meta: {
+      title: 'Магазин CS.Money',
+    },
+    component: CSMoney
   },
 ]
 
