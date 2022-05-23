@@ -5,6 +5,8 @@ import store from '@/store'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import CSMoney from '@/views/CSMoney'
+import Account from '@/views/Account'
+import MyInventory from '@/views/MyInventory'
 
 Vue.use(VueRouter)
 
@@ -12,28 +14,48 @@ const routes = [
   {
     path: '/',
     name: 'Home',
+    component: Home,
     meta: { 
       title: 'Главная',
       authRequired: true, 
     },
-    component: Home,
   },
   {
     path: '/login',
     name: 'Login',
+    component: Login,
     meta: {
       title: 'Авторизация',
     },
-    component: Login
   },
   {
     path: '/cSMoney',
     name: 'CSMoney',
+    component: CSMoney,
     meta: {
       authRequired: true,
       title: 'Магазин CS.Money',
     },
-    component: CSMoney
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: Account,
+    meta: {
+      authRequired: true,
+      title: 'Аккаунт',
+    },
+    children: [
+      {
+        path: 'myInventory/',
+        name: 'MyInventory',
+        component: MyInventory,
+        meta: {
+          authRequired: true,
+          title: 'Мой инвентарь',
+        },
+      }
+    ],
   },
 ]
 
