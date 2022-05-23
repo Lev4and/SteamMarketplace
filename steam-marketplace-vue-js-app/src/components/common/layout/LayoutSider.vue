@@ -38,6 +38,11 @@
       </a-menu-item>
       <a-sub-menu v-if="isAuthorized" key="account">
         <span slot="title"><a-icon type="user" /> Мой аккаунт</span>
+        <a-menu-item key="myinventory">
+          <router-link :to="{ name: 'MyInventory' }">
+            <span v-text="'Мой инвентарь'" />
+          </router-link>
+        </a-menu-item>
       </a-sub-menu>
       <a-menu-item v-if="isAuthorized" key="exit" @click="logout">
         <a-icon type="close-circle" /> 

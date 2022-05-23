@@ -8,6 +8,7 @@ import * as itemTypes from '@/api/itemTypes'
 import * as qualities from '@/api/qualities'
 import * as rarities from '@/api/rarities'
 import * as transactionTypes from '@/api/transactionTypes'
+import * as userInventories from '@/api/userInventories'
 import * as users from '@/api/users'
 
 const API = {
@@ -21,6 +22,7 @@ const API = {
   qualities,
   rarities,
   transactionTypes,
+  userInventories,
   users,
 }
 

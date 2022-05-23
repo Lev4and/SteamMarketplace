@@ -7,7 +7,7 @@
         style="font-size: 96px"
         spin
       />
-      <a-row :gutter="[8,16]">
+      <a-row :gutter="[8,8]">
         <template v-for="item in items">
           <a-col :key="item.id" :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
             <cS-money-item :item="item" />

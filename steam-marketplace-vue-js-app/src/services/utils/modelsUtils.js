@@ -31,8 +31,8 @@ export function DecorationBaseResponseModel(primary) {
 }
 
 export function PagedResponseModel(response) {
-  DecorationBaseResponseModel.apply(this, response)
   this.result = new Paged(response?.result)
+  DecorationBaseResponseModel.apply(this, response)
 }
 
 export function Login(login, password) {
