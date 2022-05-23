@@ -93,7 +93,9 @@
           },
         }
         const response = await API.userInventories.getMyInventory(filters)
-        this.result = response.result
+        if (response.status.isSuccessful()) {
+          this.result = response.result
+        }
         this.isLoading = false
       },
     },
