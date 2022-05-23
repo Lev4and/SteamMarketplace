@@ -1,7 +1,6 @@
 import store from '@/store'
 import { resourceAPIClient } from '@/api/axios'
 import { responsePost } from '@/services/utils/responseUtils'
-/* import { PagedResponseModel } from '@/services/utils/modelsUtils' */
 
 export const getMyInventory = async (filters) => {
   const config = {
