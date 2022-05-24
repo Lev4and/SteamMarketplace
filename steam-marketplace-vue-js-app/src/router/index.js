@@ -4,6 +4,7 @@ import { some as _some } from 'lodash'
 import store from '@/store'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
+import Logout from '@/views/Logout'
 import CSMoney from '@/views/CSMoney'
 import Account from '@/views/Account'
 import Purchases from '@/views/Purchases'
@@ -27,6 +28,15 @@ const routes = [
     component: Login,
     meta: {
       title: 'Авторизация',
+    },
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout,
+    meta: {
+      title: 'Выход',
+      authRequired: true,
     },
   },
   {

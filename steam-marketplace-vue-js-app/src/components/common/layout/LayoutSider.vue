@@ -49,9 +49,11 @@
           </router-link>
         </a-menu-item>
       </a-sub-menu>
-      <a-menu-item v-if="isAuthorized" key="exit" @click="logout">
-        <a-icon type="close-circle" /> 
-        <span v-text="'Выход'" />
+      <a-menu-item v-if="isAuthorized" key="logout">
+        <router-link :to="{ name: 'Logout' }">
+          <a-icon type="close-circle" /> 
+          <span v-text="'Выход'" />
+        </router-link>
       </a-menu-item>
     </a-menu>
   </a-layout-sider>

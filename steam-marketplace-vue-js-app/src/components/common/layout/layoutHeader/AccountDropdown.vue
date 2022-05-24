@@ -6,14 +6,16 @@
         <strong class="user-name" v-text="userName" />
       </div>
       <a-menu slot="overlay">
-          <a-menu-item>
-            <a-icon type="wallet" />
-            <strong v-text="walletBalanceFormat" />
-          </a-menu-item>
-          <a-menu-item @click="logout">
-            <a-icon type="close-circle" /> 
+        <a-menu-item>
+          <a-icon type="wallet" />
+          <strong v-text="walletBalanceFormat" />
+        </a-menu-item>
+        <a-menu-item>
+          <router-link :to="{ name: 'Logout' }">
+            <a-icon type="close-circle" style="margin-right: 8px;" /> 
             <span v-text="'Выход'" />
-          </a-menu-item>
+          </router-link>
+        </a-menu-item>
       </a-menu>
     </a-dropdown>
   </div>
@@ -44,13 +46,6 @@
       walletBalanceFormat() {
         return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
           .format(this.walletBalance)
-      },
-    },
-
-    methods: {
-      async logout() {
-        await this.$store.dispatch('auth/logout')
-        this.$router.push({ name: 'Login' })
       },
     },
   }
