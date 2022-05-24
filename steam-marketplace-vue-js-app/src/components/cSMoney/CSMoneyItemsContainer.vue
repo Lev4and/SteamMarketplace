@@ -7,12 +7,26 @@
         style="font-size: 96px"
         spin
       />
-      <a-row :gutter="[8,8]">
-        <template v-for="item in items">
-          <a-col :key="item.id" :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
-            <cS-money-item :item="item" />
-          </a-col>
-        </template>
+      <a-row :gutter="[0,16]">
+        <a-col :span="24" class="items-container">
+          <a-row :gutter="[8,8]">
+            <template v-for="item in items">
+              <a-col :key="item.id" :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
+                <cS-money-item :item="item" />
+              </a-col>
+            </template>
+          </a-row>
+        </a-col>
+        <a-col :span="24">
+          <a-pagination
+            v-model="page"
+            class="pagination"
+            show-quick-jumper
+            :page-size="limit"
+            :total="total"
+            :show-total="total => `Total ${total} items`"
+          />
+        </a-col>
       </a-row>
     </a-spin>
   </div>
@@ -20,7 +34,6 @@
 
 <script>
   import API from '@/api'
-  import EventBus from '@/services/eventBus'
   import CSMoneyItem from '@/components/cSMoney/CSMoneyItem'
 
   export default {
@@ -32,42 +45,40 @@
 
     data: () => ({
       limit: 50,
-      items: [],
-      offset: 0,
+      total: 150000,
+      result: {},
       isLoading: false,
     }),
 
+    computed: {
+      page: {
+        get() {
+          return parseInt(this.$route.query.p) || 1
+        },
+        set(value) {
+          this.$router.push({ query: { p: value } })
+        },
+      },
+      items() {
+        return this.result?.items || []
+      },
+    },
+
     watch: {
-      offset: {
+      page: {
         async handler() {
           await this.loadItems()
         },
-        deep: true,
         immediate: true,
       },
     },
 
-    mounted() {
-      EventBus.$on('content-scrolled', this.onScroll)
-    },
-
-    beforeDestroy() {
-      EventBus.$off('content-scrolled', this.onScroll)
-    },
-
     methods: {
-      onScroll(event) {
-        if (!this.isLoading) {
-          if (event.target.scrollTop / (event.target.scrollHeight - event.target.offsetHeight) * 100 > 95) {
-            this.offset += this.limit
-          }
-        }
-      },
       async loadItems() {
         this.isLoading = true
-        const response = await API.cSMoney.getInventory(this.limit, this.offset)
+        const response = await API.cSMoney.getInventory(this.limit, (this.page - 1) * this.limit)
         if (response.status.isSuccessful()) {
-          this.items.push(...response.result.items || [])
+          this.result = response.result
         }
         this.isLoading = false
       },
@@ -87,7 +98,12 @@
 </style>
 
 <style scoped>
-  #cSMoneyItemsContainer {
+  #cSMoneyItemsContainer .items-container {
     padding-right: 10px;
+  }
+  ul.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 </style>

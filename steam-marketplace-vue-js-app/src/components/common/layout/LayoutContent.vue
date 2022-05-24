@@ -1,7 +1,7 @@
 <template>
   <a-layout class="layout-content">
     <breadcrumb />
-    <a-layout-content class="content" @scroll="onScroll">
+    <a-layout-content class="content">
       <router-view />
     </a-layout-content>
     <layout-footer />
@@ -9,7 +9,6 @@
 </template>
 
 <script>
-  import EventBus from '@/services/eventBus'
   import LayoutFooter from '@/components/common/layout/LayoutFooter'
   import Breadcrumb from '@/components/common/layout/layoutContent/Breadcrumb.vue'
 
@@ -19,12 +18,6 @@
     components: {
       Breadcrumb,
       LayoutFooter,
-    },
-
-    methods: {
-      onScroll(event) {
-        EventBus.$emit('content-scrolled', event)
-      },
     },
   }
 </script>
