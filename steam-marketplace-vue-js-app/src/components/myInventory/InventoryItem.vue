@@ -56,7 +56,7 @@
         return this.item.quality?.name?.toUpperCase() || ''
       },
       info() {
-        return _join(_filter([this.rarity, this.quality, this.float], (info) => info), ' / ')
+        return _join(_filter([this.rarity, this.quality, this.float], (info) => info), ' / ') || 'Нет информации'
       },
     },
   }

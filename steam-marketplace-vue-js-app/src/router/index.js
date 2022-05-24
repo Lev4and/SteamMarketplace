@@ -6,6 +6,7 @@ import Home from '@/views/Home'
 import Login from '@/views/Login'
 import CSMoney from '@/views/CSMoney'
 import Account from '@/views/Account'
+import Purchases from '@/views/Purchases'
 import MyInventory from '@/views/MyInventory'
 
 Vue.use(VueRouter)
@@ -54,7 +55,16 @@ const routes = [
           authRequired: true,
           title: 'Мой инвентарь',
         },
-      }
+      },
+      {
+        path: 'myPurchases/',
+        name: 'MyPurchases',
+        component: Purchases,
+        meta: {
+          authRequired: true,
+          title: 'Мои покупки',
+        },
+      },
     ],
   },
 ]
