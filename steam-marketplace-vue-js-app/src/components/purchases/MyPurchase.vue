@@ -25,19 +25,19 @@
           <div class="seller">
             <a-tooltip>
               <template slot="title">
-                <span>Продавец: {{ purchase.sale.seller.userName }}</span>
+                <span>Продавец: {{ seller }}</span>
               </template>
               <a-icon type="user" />
-              <span class="seller-title" v-text="purchase.sale.seller.userName" />
+              <span class="seller-title" v-text="seller" />
             </a-tooltip>
           </div>
           <div class="purchase-at">
             <a-tooltip>
               <template slot="title">
-                <span>Куплено в: {{ purchase.purchaseAt }}</span>
+                <span>Куплено в: {{ purchaseAtFormat }}</span>
               </template>
               <a-icon type="clock-circle" />
-              <span class="purchase-at-time" v-text="purchase.purchaseAt" />
+              <span class="purchase-at-time" v-text="purchaseAtFormat" />
             </a-tooltip>
           </div>
         </div>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   import { mapGetters } from 'vuex'
   import { first as _first, join as _join, filter as _filter } from 'lodash'
 
@@ -83,11 +84,15 @@
         return this.currentUser?.currency?.cultureInfoName || 'us-US'
       },
       price() {
-        return this.purchase.price
+        return this.purchase.priceUsd
       },
       priceFormat() {
         return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
           .format(this.price * this.exchangeRate)
+      },
+      purchaseAtFormat() {
+        moment.locale(this.cultureInfoName)
+        return moment.parseZone(this.purchase.purchaseAt).utc(true).local().format('LLLL')
       },
       item() {
         return this.purchase.sale.item
@@ -104,6 +109,9 @@
       },
       info() {
         return _join(_filter([this.rarity, this.quality, this.float], (info) => info), ' / ') || 'Нет информации'
+      },
+      seller() {
+        return this.purchase.sale.seller.userName
       },
     },
   }
