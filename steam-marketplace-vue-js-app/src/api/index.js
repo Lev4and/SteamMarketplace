@@ -4,6 +4,7 @@ import * as collections from '@/api/collections'
 import * as cSMoney from '@/api/cSMoney'
 import * as currencies from '@/api/currencies'
 import * as imports from '@/api/imports'
+import * as items from '@/api/items'
 import * as itemTypes from '@/api/itemTypes'
 import * as purchases from '@/api/purchases'
 import * as qualities from '@/api/qualities'
@@ -20,6 +21,7 @@ const API = {
   cSMoney,
   currencies,
   imports,
+  items,
   itemTypes,
   purchases,
   qualities,
