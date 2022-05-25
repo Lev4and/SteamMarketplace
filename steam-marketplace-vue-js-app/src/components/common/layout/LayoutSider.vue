@@ -48,6 +48,11 @@
             <span v-text="'Мои покупки'" />
           </router-link>
         </a-menu-item>
+        <a-menu-item key="mysales">
+          <router-link :to="{ name: 'MySales' }">
+            <span v-text="'Мои продажи'" />
+          </router-link>
+        </a-menu-item>
       </a-sub-menu>
       <a-menu-item v-if="isAuthorized" key="logout">
         <router-link :to="{ name: 'Logout' }">
