@@ -1,5 +1,5 @@
 <template>
-  <div id="myPurchases">
+  <div id="mySales">
     <a-spin :spinning="isLoading">
       <a-icon
         slot="indicator"
@@ -10,9 +10,9 @@
       <a-row :gutter="[0,16]">
         <a-col :span="24" class="items-container">
           <a-row :gutter="[8,8]">
-            <template v-for="purchase in myPurchases">
-              <a-col :key="purchase.id" :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
-                <my-purchase :purchase="purchase" />
+            <template v-for="sale in mySales">
+              <a-col :key="sale.id" :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
+                <my-sale :sale="sale" />
               </a-col>
             </template>
           </a-row>
@@ -35,13 +35,13 @@
 <script>
   import { mapGetters } from 'vuex'
   import API from '@/api'
-  import MyPurchase from '@/components/purchases/MyPurchase'
+  import MySale from '@/components/sales/MySale'
 
   export default {
-    name: 'MyPurchases',
+    name: 'MySales',
 
     components: {
-      MyPurchase,
+      MySale,
     },
 
     data: () => ({
@@ -62,7 +62,7 @@
           this.$router.push({ query: { p: value } })
         },
       },
-      myPurchases() {
+      mySales() {
         return this.result?.items || []
       },
       pagination() {
@@ -92,7 +92,7 @@
             limit: this.limit,
           },
         }
-        const response = await API.purchases.getMyPurchases(filters)
+        const response = await API.sales.getMySales(filters)
         if (response.status.isSuccessful()) {
           this.result = response.result
         }
@@ -103,7 +103,7 @@
 </script>
 
 <style>
-  #myPurchases .ant-spin.ant-spin-spinning {
+  #mySales .ant-spin.ant-spin-spinning {
     top: 50% !important;
     z-index: 4 !important;
     width: auto !important;
@@ -114,7 +114,7 @@
 </style>
 
 <style scoped>
-  #myPurchases .items-container {
+  #mySales .items-container {
     padding-right: 10px;
   }
   ul.pagination {

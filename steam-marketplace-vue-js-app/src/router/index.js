@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import { some as _some } from 'lodash'
 import store from '@/store'
 import Home from '@/views/Home'
+import Sales from '@/views/Sales'
 import Login from '@/views/Login'
 import Logout from '@/views/Logout'
 import CSMoney from '@/views/CSMoney'
@@ -73,6 +74,15 @@ const routes = [
         meta: {
           authRequired: true,
           title: 'Мои покупки',
+        },
+      },
+      {
+        path: 'mySales/',
+        name: 'MySales',
+        component: Sales,
+        meta: {
+          authRequired: true,
+          title: 'Мои продажи',
         },
       },
     ],
