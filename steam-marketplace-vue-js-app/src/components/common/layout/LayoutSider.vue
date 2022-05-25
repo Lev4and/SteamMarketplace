@@ -25,8 +25,10 @@
         </router-link>
       </a-menu-item>
       <a-menu-item v-if="isAuthorized" key="store">
-        <a-icon type="shopping-cart" />
-        <span v-text="'Магазин'" />
+        <router-link :to="{ name: 'Store' }">
+          <a-icon type="shopping-cart" />
+          <span v-text="'Магазин'" />
+        </router-link>
       </a-menu-item>
       <a-menu-item v-if="!isAuthorized" key="registration">
         <a-icon type="user-add" />

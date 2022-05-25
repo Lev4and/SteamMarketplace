@@ -4,6 +4,7 @@ import { some as _some } from 'lodash'
 import store from '@/store'
 import Home from '@/views/Home'
 import Sales from '@/views/Sales'
+import Store from '@/views/Store'
 import Login from '@/views/Login'
 import Logout from '@/views/Logout'
 import CSMoney from '@/views/CSMoney'
@@ -47,6 +48,15 @@ const routes = [
     meta: {
       authRequired: true,
       title: 'Магазин CS.Money',
+    },
+  },
+  {
+    path: '/store',
+    name: 'Store',
+    component: Store,
+    meta: {
+      authRequired: true,
+      title: 'Магазин',
     },
   },
   {
