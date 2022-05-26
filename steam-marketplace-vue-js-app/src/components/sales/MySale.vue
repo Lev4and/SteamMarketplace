@@ -59,6 +59,7 @@
   import moment from 'moment'
   import { mapGetters } from 'vuex'
   import { join as _join, filter as _filter } from 'lodash'
+  import { getNumberFormat, getCurrencyFormat } from '@/services/utils/formatUtils'
 
   export default {
     name: 'MySale',
@@ -87,16 +88,14 @@
         return this.sale.price
       },
       priceFormat() {
-        return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
-          .format(this.price)
+        return getCurrencyFormat(this.price, this.cultureInfoName, this.currency)
       },
       soldAtFormat() {
         moment.locale(this.cultureInfoName)
         return this.sale.soldAt ? moment.parseZone(this.sale.soldAt).utc(true).local().format('LLLL') : 'Не продано'
       },
       float() {
-        return this.item.float ? new Intl.NumberFormat(this.cultureInfoName, { maximumSignificantDigits: 6 })
-          .format(this.item.float) : ''
+        return this.item.float ? getNumberFormat(this.item.float, 6, this.cultureInfoName) : ''
       },
       rarity() {
         return this.item.rarity?.name?.toUpperCase() || ''

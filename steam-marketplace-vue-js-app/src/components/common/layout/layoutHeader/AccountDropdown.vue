@@ -23,6 +23,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import { getCurrencyFormat } from '@/services/utils/formatUtils'
 
   export default {
     name: 'AccountDropdown',
@@ -44,8 +45,7 @@
         return this.currentUser?.walletBalance || 0
       },
       walletBalanceFormat() {
-        return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
-          .format(this.walletBalance)
+        return getCurrencyFormat(this.walletBalance, this.cultureInfoName, this.currency)
       },
     },
   }

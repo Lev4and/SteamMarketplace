@@ -54,6 +54,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import { first as _first, filter as _filter, join as _join } from 'lodash'
+  import { getNumberFormat, getCurrencyFormat } from '@/services/utils/formatUtils'
 
   export default {
     name: 'CSMoneyItem',
@@ -85,12 +86,10 @@
         return (100 + (this.item.overprice || 0)) / 100
       },
       currentPrice() {
-        return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
-          .format(this.price * this.exchangeRate)
+        return getCurrencyFormat(this.price * this.exchangeRate, this.cultureInfoName, this.currency)
       },
       originalPrice() {
-        return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
-          .format(this.price * this.overprice * this.exchangeRate)
+        return getCurrencyFormat(this.price * this.overprice * this.exchangeRate, this.cultureInfoName, this.currency)
       },
       stickers() {
         return _filter(this.item.stickers || [], (sticker) => sticker)
@@ -99,8 +98,7 @@
         return this.item.stackSize || 0
       },
       float() {
-        return this.item.float ? new Intl.NumberFormat(this.cultureInfoName, { maximumSignificantDigits: 6 })
-          .format(this.item.float) : ''
+        return this.item.float ? getNumberFormat(this.item.float, 6, this.cultureInfoName) : ''
       },
       rarity() {
         return this.item.rarity?.toUpperCase() || ''
