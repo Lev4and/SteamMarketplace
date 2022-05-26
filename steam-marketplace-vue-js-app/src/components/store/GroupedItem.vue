@@ -30,6 +30,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import { getCurrencyFormat } from '@/services/utils/formatUtils'
 
   export default {
     name: 'GroupedItem',
@@ -55,8 +56,7 @@
         return this.item.minPrice
       },
       priceFormat() {
-        return new Intl.NumberFormat(this.cultureInfoName, { style: 'currency', currency: this.currency })
-          .format(this.price)
+        return getCurrencyFormat(this.price, this.cultureInfoName, this.currency)
       },
     },
   }
