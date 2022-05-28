@@ -1,4 +1,5 @@
 import auth from './auth'
+import skins from './skins'
 import common from './common'
 import exchangeRates from './exchangeRates'
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
   },
   modules: {
     auth,
+    skins,
     common,
     exchangeRates,
   },

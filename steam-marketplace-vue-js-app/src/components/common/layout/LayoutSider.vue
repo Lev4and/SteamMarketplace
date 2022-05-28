@@ -38,6 +38,14 @@
         <a-icon type="key" />
         <span v-text="'Забыли пароль ?'" />
       </a-menu-item>
+      <a-sub-menu v-if="isAuthorized && isAdministrator" key="import">
+        <span slot="title"><a-icon type="import" /> Импорт</span>
+        <a-menu-item key="skins">
+          <router-link :to="{ name: 'Skins' }">
+            <span v-text="'Скины из CS.Money'" />
+          </router-link>
+        </a-menu-item>
+      </a-sub-menu>
       <a-sub-menu v-if="isAuthorized" key="account">
         <span slot="title"><a-icon type="user" /> Мой аккаунт</span>
         <a-menu-item key="myinventory">
