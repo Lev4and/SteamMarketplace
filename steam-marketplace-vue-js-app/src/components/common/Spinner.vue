@@ -1,15 +1,13 @@
 <template>
-  <div id="spinner">
-    <a-spin
-        :spinning="loading"
-      >
-        <a-icon
-          slot="indicator"
-          type="loading"
-          style="font-size: 96px"
-          spin
-        />
-        <slot />
+  <div class="spinner">
+    <a-spin :spinning="loading">
+      <a-icon
+        slot="indicator"
+        type="loading"
+        style="font-size: 96px"
+        spin
+      />
+      <slot />
     </a-spin>
   </div>
 </template>
@@ -28,7 +26,7 @@
 </script>
 
 <style>
-  #spinner .ant-spin.ant-spin-spinning {
+  .spinner .ant-spin.ant-spin-spinning {
     top: 50% !important;
     left: 50% !important;
     z-index: 4 !important;

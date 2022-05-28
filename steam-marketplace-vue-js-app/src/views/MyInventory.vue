@@ -1,17 +1,17 @@
 <template>
   <div id="myInventory">
-    <inventory />
+    <inventory-items-container />
   </div>
 </template>
 
 <script>
-  import Inventory from '@/components/myInventory/Inventory'
+  import InventoryItemsContainer from '@/components/myInventory/InventoryItemsContainer'
 
   export default {
     name: 'MyInventory',
 
     components: {
-      Inventory,
+      InventoryItemsContainer,
     },
   }
 </script>

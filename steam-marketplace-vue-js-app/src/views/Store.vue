@@ -1,17 +1,17 @@
 <template>
   <div id="store">
-    <grouped-items />
+    <grouped-items-container />
   </div>
 </template>
 
 <script>
-  import GroupedItems from '@/components/store/GroupedItems'
+  import GroupedItemsContainer from '@/components/store/GroupedItemsContainer'
 
   export default {
     name: 'Store',
 
     components: {
-      GroupedItems,
+      GroupedItemsContainer,
     },
   }
 </script>

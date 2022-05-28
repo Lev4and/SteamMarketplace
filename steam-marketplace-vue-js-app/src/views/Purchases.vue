@@ -1,17 +1,17 @@
 <template>
   <div id="purchases">
-    <my-purchases />
+    <my-purchases-items-container />
   </div>
 </template>
 
 <script>
-  import MyPurchases from '@/components/purchases/MyPurchases'
+  import MyPurchasesItemsContainer from '@/components/purchases/MyPurchasesItemsContainer'
 
   export default {
     name: 'Purchases',
 
     components: {
-      MyPurchases,
+      MyPurchasesItemsContainer,
     },
   }
 </script>
