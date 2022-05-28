@@ -1,16 +1,16 @@
 <template>
-  <div id="cSMoneyItemsContainer">
+  <div id="mySalesItemsContainer">
     <layout-content-spinner :loading="loading">
       <items-grid-container :items="items">
         <template v-slot:item="{ item }">
-          <cS-money-item :item="item" />
+          <my-sale-item :sale="item" />
         </template>
         <template slot="pagination">
           <pagination
             v-model="page"
             class="pagination"
             :page-size="limit"
-            :total-items="150000"
+            :total-items="totalItems"
             @limit-changed="onLimitChanged"
           />
         </template>
@@ -22,26 +22,33 @@
 <script>
   import API from '@/api'
   import itemsContainer from '@/services/mixins/itemsContainer'
+  import MySaleItem from '@/components/sales/MySaleItem'
   import Pagination from '@/components/common/Pagination'
-  import CSMoneyItem from '@/components/cSMoney/CSMoneyItem'
   import ItemsGridContainer from '@/components/common/ItemsGridContainer'
   import LayoutContentSpinner from '@/components/common/layout/layoutContent/LayoutContentSpinner'
 
   export default {
-    name: 'CSMoneyItemsContainer',
+    name: 'MySalesItemsContainer',
 
     mixins: [itemsContainer],
 
     components: {
+      MySaleItem,
       Pagination,
-      CSMoneyItem,
       ItemsGridContainer,
       LayoutContentSpinner,
     },
 
     methods: {
       async getItems() {
-        return await API.cSMoney.getInventory(this.limit, (this.page - 1) * this.limit)
+        const filters = {
+          userId: this.currentUser.id,
+          pagination: {
+            page: this.page,
+            limit: this.limit,
+          },
+        }
+        return await API.sales.getMySales(filters)
       },
     },
   }

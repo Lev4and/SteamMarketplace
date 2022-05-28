@@ -1,17 +1,17 @@
 <template>
   <div id="sales">
-    <my-sales />
+    <my-sales-items-container />
   </div>
 </template>
 
 <script>
-  import MySales from '@/components/sales/MySales'
+  import MySalesItemsContainer from '@/components/sales/MySalesItemsContainer'
 
   export default {
     name: 'Sales',
 
     components: {
-      MySales,
+      MySalesItemsContainer,
     },
   }
 </script>

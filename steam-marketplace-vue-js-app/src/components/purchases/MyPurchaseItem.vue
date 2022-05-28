@@ -62,7 +62,7 @@
   import { getNumberFormat, getCurrencyFormat } from '@/services/utils/formatUtils'
 
   export default {
-    name: 'MyPurchase',
+    name: 'MyPurchaseItem',
 
     props: {
       purchase: {
