@@ -7,6 +7,7 @@ using SteamMarketplace.Model.Database;
 using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace SteamMarketplace.ResourceWebApplication.Controllers
 {
@@ -36,6 +37,18 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
             return Ok(new BaseResponseModel<List<string>>(await _dataManager.Items.GetSearchSuggestions(searchString)
                 .ToListAsync(), Statuses.Success));
+        }
+
+        [HttpGet]
+        [Route("{fullName}")]
+        public IActionResult GetItemByFullName([Required][FromRoute(Name = "fullName")] string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            return Ok(new BaseResponseModel<Item>(_dataManager.Items.GetItemByFullName(fullName), Statuses.Success));
         }
 
         [HttpPost]

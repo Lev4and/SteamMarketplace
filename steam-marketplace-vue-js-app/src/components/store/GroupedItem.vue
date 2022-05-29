@@ -32,6 +32,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import { first as _first } from 'lodash'
   import { getCurrencyFormat } from '@/services/utils/formatUtils'
 
   export default {
@@ -48,6 +49,9 @@
       ...mapGetters({
         currentUser: 'auth/currentUser',
       }),
+      exchangeRate() {
+        return _first(this.currentUser?.currency?.rates)?.rate || 1
+      },
       currency() {
         return this.currentUser?.currency?.literal || 'USD'
       },
@@ -55,10 +59,10 @@
         return this.currentUser?.currency?.cultureInfoName || 'us-US'
       },
       price() {
-        return this.item.minPrice
+        return this.item.minPriceUsd
       },
       priceFormat() {
-        return getCurrencyFormat(this.price, this.cultureInfoName, this.currency)
+        return getCurrencyFormat(this.price * this.exchangeRate, this.cultureInfoName, this.currency)
       },
     },
   }

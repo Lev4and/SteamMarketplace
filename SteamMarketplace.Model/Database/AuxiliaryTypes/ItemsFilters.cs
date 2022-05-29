@@ -2,8 +2,6 @@
 {
     public class ItemsFilters : Filters
     {
-        public Guid CurrencyId { get; set; }
-
         public string SearchString { get; set; }
 
         public ItemsFilters()
