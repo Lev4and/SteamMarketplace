@@ -48,8 +48,6 @@ namespace SteamMarketplace.DesktopApplication.ViewModels
 
         private protected override async Task LoadedAsync()
         {
-            Filters.CurrencyId = _authorization.GetCurrencyId();
-
             await base.LoadedAsync();
         }
 
