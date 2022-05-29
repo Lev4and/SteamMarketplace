@@ -78,14 +78,13 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
             return _context.Sales
                 .Include(sale => sale.Item)
                 .Where(sale => sale.SoldAt != null && sale.Item.FullName == fullName)
-                .GroupBy(sale => sale.SoldAt.Value)
+                .GroupBy(sale => new { sale.SoldAt.Value.Year, sale.SoldAt.Value.Month, sale.SoldAt.Value.Day, sale.SoldAt.Value.Hour })
                 .Select(group => new PricesDynamic
                 {
-                    Date = group.Key,
+                    Date = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
                     CountSold = group.Count(),
                     MinPriceUsd = group.Min(group => group.PriceUsd)
                 })
-                .OrderBy(pricesDynamic => pricesDynamic.Date)
                 .AsNoTracking();
         }
     }
