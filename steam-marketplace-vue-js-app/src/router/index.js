@@ -10,6 +10,7 @@ import Logout from '@/views/Logout'
 import CSMoney from '@/views/CSMoney'
 import Account from '@/views/Account'
 import Purchases from '@/views/Purchases'
+import StoreItem from '@/views/StoreItem'
 import MyInventory from '@/views/MyInventory'
 
 Vue.use(VueRouter)
@@ -60,6 +61,18 @@ const routes = [
     },
   },
   {
+    path: '/store/:fullName',
+    name: 'StoreItem',
+    component: StoreItem,
+    props: {
+      
+    },
+    meta: {
+      authRequired: true,
+      title: 'Скин',
+    },
+  },
+  {
     path: '/account',
     name: 'Account',
     component: Account,
@@ -106,6 +119,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(to, from)
   const authRequired = _some(to.matched, (route) => route.meta.authRequired)
   if (!authRequired) return next()
   if (store.getters['auth/isAuthorized']) return next()
