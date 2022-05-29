@@ -1,11 +1,11 @@
 <template>
   <div id="storeItem">
-    <a-row :gutter="[0,0]">
+    <a-row :gutter="[0,16]">
       <a-col :span="24">
-
+        <skin-info />
       </a-col>
       <a-col :span="24">
-
+        <skin-prices-dynamics />
       </a-col>
       <a-col :span="24">
 
@@ -15,31 +15,15 @@
 </template>
 
 <script>
+  import SkinInfo from '@/components/storeItem/SkinInfo'
+  import SkinPricesDynamics from '@/components/storeItem/SkinPricesDynamics'
+
   export default {
     name: 'StoreItem',
 
-    data: () => ({
-      item: null,
-    }),
-
-    computed: {
-      fullName() {
-        return this.$route.params.fullName
-      },
-    },
-
-    watch: {
-      fillName: {
-        handler() {
-          
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-
-    methods: {
-
+    components: {
+      SkinInfo,
+      SkinPricesDynamics,
     },
   }
 </script>
