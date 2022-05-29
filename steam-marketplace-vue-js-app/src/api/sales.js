@@ -10,6 +10,13 @@ export const getMySales = async (filters) => {
   return new BaseResponseModel(await responsePost(resourceAPIClient, '/api/sales/mySales', filters, config))
 }
 
+export const getSalesItem = async (filters) => {
+  const config = {
+    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+  }
+  return new BaseResponseModel(await responsePost(resourceAPIClient, '/api/sales/item', filters, config))
+}
+
 export const getPricesDynamicsItem = async (fullName) => {
   const config = {
     params: {
