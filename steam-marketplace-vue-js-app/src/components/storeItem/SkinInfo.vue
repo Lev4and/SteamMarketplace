@@ -177,7 +177,6 @@
           const response = await API.items.getItemByFullName(this.fullName)
           if (response.status.isSuccessful()) {
             this.item = response.result
-            console.log(this.item)
           }
         } catch (exception) {
           this.$error(exception.message, 'Ошибка при загрузке')

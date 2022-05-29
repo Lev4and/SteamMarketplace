@@ -1,6 +1,6 @@
 <template>
   <div id="storeItem">
-    <a-row :gutter="[0,16]">
+    <a-row :gutter="[0,32]">
       <a-col :span="24">
         <skin-info />
       </a-col>

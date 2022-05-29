@@ -14,6 +14,8 @@ Vue.use(Antd)
 Vue.use(VueApexCharts)
 Vue.use(AntNotify)
 
+Vue.component('apexchart', VueApexCharts)
+
 new Vue({
   router,
   store,
