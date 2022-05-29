@@ -133,7 +133,7 @@
         return this.$route.params.fullName
       },
       image() {
-        return this.item?.image?.image || ''
+        return this.item?.image?.steamImg || ''
       },
       float() {
         return this.item?.float || 0
