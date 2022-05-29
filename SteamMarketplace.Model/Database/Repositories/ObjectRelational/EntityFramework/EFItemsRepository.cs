@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.AuxiliaryTypes;
+using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract;
 
 namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFramework
@@ -64,6 +65,24 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
                 .Take(filters.Pagination.Limit)
                 .AsNoTracking();
+        }
+
+        public Item GetItemByFullName(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Include(item => item.Type)
+                .Include(item => item.Image)
+                .Include(item => item.Rarity)
+                .Include(item => item.Quality)
+                .Include(item => item.Collection)
+                .Include(item => item.Application)
+                .OrderBy(item => item.AddedAt)
+                .FirstOrDefault(item => item.FullName == fullName);
         }
 
         public IQueryable<string> GetSearchSuggestions(string searchString)
