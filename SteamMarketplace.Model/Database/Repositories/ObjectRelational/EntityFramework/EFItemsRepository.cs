@@ -37,15 +37,6 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 throw new ArgumentNullException("filters", "The filters must not be empty.");
             }
 
-            var exchangeRate = _context.ExchangeRates
-                .Include(exchangeRate => exchangeRate.Currency)
-                .Where(exchangeRate => exchangeRate.CurrencyId == filters.CurrencyId)
-                .OrderByDescending(exchangeRate => exchangeRate.DateTime)
-                .First();
-
-            var cultureInfoName = exchangeRate?.Currency?.CultureInfoName ?? "us-US";
-            var rate = exchangeRate?.Rate ?? 1;
-
             return _context.Sales
                 .Include(sale => sale.Item)
                     .ThenInclude(item => item.Image)
@@ -55,11 +46,9 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Select(group => new GroupedItem
                 {
                     Count = group.Count(),
-                    MinPrice = group.Min(sale => sale.PriceUsd) * rate,
                     MinPriceUsd = group.Min(sale => sale.PriceUsd),
                     FullName = group.Key.FullName,
                     SteamImg = group.First().Item.Image.SteamImg,
-                    CultureInfoName = cultureInfoName
                 })
                 .OrderByDescending(group => group.Count)
                 .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
