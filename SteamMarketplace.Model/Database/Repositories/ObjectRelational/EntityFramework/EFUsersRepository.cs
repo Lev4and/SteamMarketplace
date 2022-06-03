@@ -20,7 +20,7 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
         {
             return _context.Users
                 .Include(user => user.Currency)
-                    .ThenInclude(currency => currency.Rates.OrderByDescending(rate => rate.DateTime).Take(1))
+                    .ThenInclude(currency => currency.Rates.OrderByDescending(rate => rate.DateTime))
                 .FirstOrDefault(user => user.Id == id);
         }
     }
