@@ -6,7 +6,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { first as _first, map as _map } from 'lodash'
+  import { map as _map, findLast as _findLast } from 'lodash'
   import moment from 'moment'
   import API from '@/api'
   import { getCurrencyFormat } from '@/services/utils/formatUtils'
@@ -22,9 +22,6 @@
       ...mapGetters({
         currentUser: 'auth/currentUser',
       }),
-      exchangeRate() {
-        return _first(this.currentUser?.currency?.rates)?.rate || 1
-      },
       currency() {
         return this.currentUser?.currency?.literal || 'USD'
       },
@@ -91,7 +88,7 @@
         return {
           name: 'Цена',
           type: 'line',
-          data: _map(this.pricesDynamics, (price) => price.minPriceUsd * this.exchangeRate) 
+          data: _map(this.pricesDynamics, (price) => price.minPriceUsd * this.getExchangeRateByDate(price.date)) 
         }
       },
       series() {
@@ -118,6 +115,9 @@
         } catch (exception) {
           this.$error(exception.message, 'Ошибка при загрузке')
         }
+      },
+      getExchangeRateByDate(date) {
+        return _findLast(this.currentUser?.currency?.rates, (rate) => moment(date).isAfter(rate.dateTime))?.rate || 1
       },
     },
   }
