@@ -3,6 +3,7 @@ import * as cbr from '@/api/cbr'
 import * as collections from '@/api/collections'
 import * as cSMoney from '@/api/cSMoney'
 import * as currencies from '@/api/currencies'
+import * as exchangeRates from '@/api/exchangeRates'
 import * as imports from '@/api/imports'
 import * as items from '@/api/items'
 import * as itemTypes from '@/api/itemTypes'
@@ -20,6 +21,7 @@ const API = {
   collections,
   cSMoney,
   currencies,
+  exchangeRates,
   imports,
   items,
   itemTypes,
