@@ -3,17 +3,24 @@ import API from '@/api'
 
 const state = {
   latestExchangeRate: null,
+  exchangeRates: [],
 }
 
 const mutations = {
   setLatestExchangeRate(state, latestExchangeRate) {
     state.latestExchangeRate = latestExchangeRate
   },
+  setExchangeRates(state, exchangeRates) {
+    state.exchangeRates = exchangeRates
+  },
 }
 
 const getters = {
   latestExchangeRate(state) {
     return state.latestExchangeRate
+  },
+  exchangeRates(state) {
+    return state.exchangeRates
   },
 }
 
@@ -29,6 +36,15 @@ const actions = {
       } catch (exception) {
         Vue.error('Возникла ошибка при получении обменных курсов', 'Ошибка')
       }
+    }
+  },
+  async loadExchangeRates({ commit }, currencyId) {
+    try {
+      const response = await API.exchangeRates.getExchangeRates(currencyId)
+      if (response.status.isSuccessful()) commit('setLatestExchangeRate', response.result) 
+      else Vue.error(response.status.message, 'Ошибка')
+    } catch (exception) {
+      Vue.error('Возникла ошибка при получении обменных курсов', 'Ошибка')
     }
   },
   async import() {
