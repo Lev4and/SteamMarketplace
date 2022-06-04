@@ -51,6 +51,26 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
             return Ok(new BaseResponseModel<Item>(_dataManager.Items.GetItemByFullName(fullName), Statuses.Success));
         }
 
+        [HttpGet]
+        [Route("{fullName}/extendedInfo")]
+        public IActionResult GetExtendedInfoItemByFullName([Required][FromRoute(Name = "fullName")] string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            return Ok(new BaseResponseModel<ExtendedItem>(new ExtendedItem()
+            {
+                Count = _dataManager.Items.GetCountItems(fullName),
+                CountOwners = _dataManager.Items.GetCountOwnersItems(fullName),
+                Rarity = _dataManager.Items.GetRarityItem(fullName),
+                AverageFloat = _dataManager.Items.GetAverageFloatItem(fullName),
+                AddedAt = _dataManager.Items.GetMinAddedAtItem(fullName),
+                Item = _dataManager.Items.GetItemByFullName(fullName)
+            }, Statuses.Success));
+        }
+
         [HttpPost]
         [Route("groupedItems")]
         public async Task<IActionResult> GetGroupedItems([FromBody] ItemsFilters filters)
