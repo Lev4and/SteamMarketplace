@@ -7,6 +7,7 @@ import Sales from '@/views/Sales'
 import Store from '@/views/Store'
 import Login from '@/views/Login'
 import Logout from '@/views/Logout'
+import Online from '@/views/Online'
 import CSMoney from '@/views/CSMoney'
 import Account from '@/views/Account'
 import Purchases from '@/views/Purchases'
@@ -43,6 +44,15 @@ const routes = [
     },
   },
   {
+    path: '/online',
+    name: 'Online',
+    component: Online,
+    meta: {
+      title: 'Онлайн',
+      authRequired: true,
+    },
+  },
+  {
     path: '/cSMoney',
     name: 'CSMoney',
     component: CSMoney,
@@ -64,9 +74,6 @@ const routes = [
     path: '/store/:fullName',
     name: 'StoreItem',
     component: StoreItem,
-    props: {
-      
-    },
     meta: {
       authRequired: true,
       title: 'Скин',

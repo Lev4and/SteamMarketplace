@@ -7,6 +7,7 @@ import * as exchangeRates from '@/api/exchangeRates'
 import * as imports from '@/api/imports'
 import * as items from '@/api/items'
 import * as itemTypes from '@/api/itemTypes'
+import * as online from '@/api/online'
 import * as purchases from '@/api/purchases'
 import * as qualities from '@/api/qualities'
 import * as rarities from '@/api/rarities'
@@ -25,6 +26,7 @@ const API = {
   imports,
   items,
   itemTypes,
+  online: new online.OnlineHubClient(),
   purchases,
   qualities,
   rarities,
