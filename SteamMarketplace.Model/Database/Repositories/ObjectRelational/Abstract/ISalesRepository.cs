@@ -8,6 +8,8 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
     {
         int GetCountSales(Guid userId);
 
+        int GetCountActiveSales(Guid userId);
+
         int GetCountSalesItem(string fullName);
 
         IQueryable<Sale> GetSales(SalesFilters filters);

@@ -121,5 +121,12 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 })
                 .AsNoTracking();
         }
+
+        public int GetCountActiveSales(Guid userId)
+        {
+            return _context.Sales
+                .Where(sale => sale.SellerId == userId && sale.SoldAt == null && sale.CancelledAt == null)
+                .Count();
+        }
     }
 }
