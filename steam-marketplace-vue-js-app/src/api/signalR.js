@@ -1,5 +1,5 @@
 import * as signalR from '@microsoft/signalr'
-import { forEach as _forEach, lowerCase as _lowerCase } from 'lodash'
+import { forEach as _forEach } from 'lodash'
 import { resourceAPIUrl } from './config'
 
 export function SignalRClient(domain, path, methods) {
@@ -32,7 +32,7 @@ export function SignalRClient(domain, path, methods) {
     }
   }
   this.handlerMessage = (method, data) => {
-    document.dispatchEvent(new CustomEvent(_lowerCase(method), { 
+    document.dispatchEvent(new CustomEvent(method.toLowerCase(), { 
       bubbles: true,
       detail: { data: () => data }
     }))
