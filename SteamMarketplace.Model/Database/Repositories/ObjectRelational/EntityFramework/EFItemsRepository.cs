@@ -15,6 +15,18 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
             _context = context;
         }
 
+        public float? GetAverageFloatItem(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .Average(item => item.Float);
+        }
+
         public int GetCountGroupedItems(ItemsFilters filters)
         {
             if (filters == null)
@@ -27,6 +39,37 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Where(sale => sale.SoldAt == null && sale.CancelledAt == null 
                     && EF.Functions.Like(sale.Item.FullName, $"%{filters.SearchString}%"))
                 .GroupBy(sale => new { sale.Item.FullName })
+                .Count();
+        }
+
+        public int GetCountItems()
+        {
+            return _context.Items.Count();
+        }
+
+        public int GetCountItems(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .Count();
+        }
+
+        public int GetCountOwnersItems(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.UserInventories
+                .Include(userInventory => userInventory.Item)
+                .Where(userInventory => userInventory.Item.FullName == fullName)
+                .GroupBy(userInventory => userInventory.UserId)
                 .Count();
         }
 
@@ -72,6 +115,28 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Include(item => item.Application)
                 .OrderBy(item => item.AddedAt)
                 .FirstOrDefault(item => item.FullName == fullName);
+        }
+
+        public DateTime GetMinAddedAtItem(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .Min(item => item.AddedAt);
+        }
+
+        public double GetRarityItem(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return (double)GetCountItems(fullName) / (double)GetCountItems();
         }
 
         public IQueryable<string> GetSearchSuggestions(string searchString)
