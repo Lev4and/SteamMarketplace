@@ -15,6 +15,24 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
             _context = context;
         }
 
+        public IQueryable<AddedItemsDynamic> GetAddedItemsDynamics(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .GroupBy(item => new { item.AddedAt.Year, item.AddedAt.Month, item.AddedAt.Day, item.AddedAt.Hour })
+                .Select(group => new AddedItemsDynamic
+                {
+                    Date = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
+                    CountAdded = group.Count(),
+                })
+                .AsNoTracking();
+        }
+
         public float? GetAverageFloatItem(string fullName)
         {
             if (string.IsNullOrEmpty(fullName))
