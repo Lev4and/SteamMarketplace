@@ -7,6 +7,7 @@ using SteamMarketplace.Model.Database;
 using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
+using SteamMarketplace.Model.Extensions;
 
 namespace SteamMarketplace.ResourceWebApplication.Controllers
 {
@@ -41,6 +42,14 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
             return Ok(new PagedResponseModel<Sale>(result, filters.Pagination.Page,
                 filters.Pagination.Limit, count, Statuses.Success));
+        }
+
+        [HttpGet]
+        [Route("mySales/count")]
+        public IActionResult GetCountActiveSales()
+        {
+            return Ok(new BaseResponseModel<int>(_dataManager.Sales.GetCountActiveSales(Guid.Parse(User.Claims.GetValue("id"))), 
+                Statuses.Success));
         }
 
         [HttpPost]
