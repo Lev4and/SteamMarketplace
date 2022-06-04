@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Database;
+using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
 
@@ -74,6 +75,22 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
             var result = await _dataManager.Sales.GetPricesDynamicsItem(fullName).ToListAsync();
 
             return Ok(new BaseResponseModel<List<PricesDynamic>>(result, Statuses.Success));
+        }
+
+        [HttpGet]
+        [Route("exposedSalesDynamics")]
+        public async Task<IActionResult> GetExposedSalesDynamicsItem([FromQuery(Name = "name")] string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                _logger.LogWarning($"Validation failed. Invalid fullName param.");
+
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            var result = await _dataManager.Sales.GetExposedSalesDynamicsItem(fullName).ToListAsync();
+
+            return Ok(new BaseResponseModel<List<ExposedSalesDynamic>>(result, Statuses.Success));
         }
     }
 }

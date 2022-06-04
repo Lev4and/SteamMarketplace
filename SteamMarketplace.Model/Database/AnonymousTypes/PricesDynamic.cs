@@ -1,4 +1,4 @@
-﻿namespace SteamMarketplace.Model.Database.AuxiliaryTypes
+﻿namespace SteamMarketplace.Model.Database.AnonymousTypes
 {
     public class PricesDynamic
     {

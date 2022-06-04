@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract;
@@ -83,6 +84,11 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
 
         public IQueryable<PricesDynamic> GetPricesDynamicsItem(string fullName)
         {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
             return _context.Sales
                 .Include(sale => sale.Item)
                 .Where(sale => sale.SoldAt != null && sale.Item.FullName == fullName)
@@ -91,6 +97,26 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 {
                     Date = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
                     CountSold = group.Count(),
+                    MinPriceUsd = group.Min(group => group.PriceUsd)
+                })
+                .AsNoTracking();
+        }
+
+        public IQueryable<ExposedSalesDynamic> GetExposedSalesDynamicsItem(string fullName)
+        {
+            if(string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Sales
+                .Include(sale => sale.Item)
+                .Where(sale => sale.Item.FullName == fullName)
+                .GroupBy(sale => new { sale.ExposedAt.Year, sale.ExposedAt.Month, sale.ExposedAt.Day, sale.ExposedAt.Hour })
+                .Select(group => new ExposedSalesDynamic
+                {
+                    Date = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
+                    CountExposed = group.Count(),
                     MinPriceUsd = group.Min(group => group.PriceUsd)
                 })
                 .AsNoTracking();
