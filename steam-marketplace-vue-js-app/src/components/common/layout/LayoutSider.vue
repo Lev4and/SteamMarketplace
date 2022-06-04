@@ -65,7 +65,14 @@
         </a-menu-item>
         <a-menu-item key="mysales">
           <router-link :to="{ name: 'MySales' }">
-            <span v-text="'Мои продажи'" />
+            <a-row type="flex" align="middle" justify="space-between">
+              <a-col>
+                <span v-text="'Мои продажи'" />
+              </a-col>
+              <a-col>
+                <a-badge :count="countActiveSales" :showZero="true" :overflowCount="50" />
+              </a-col>
+          </a-row>
           </router-link>
         </a-menu-item>
       </a-sub-menu>
@@ -81,12 +88,14 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import API from '@/api'
 
   export default {
     name: 'LayoutSider',
 
     data: () => ({
       countOnlineUsers: 0,
+      countActiveSales: 0,
     }),
 
     computed: {
@@ -99,6 +108,15 @@
       },
       selectedMenuItems() {
         return [this.$route.name?.toLowerCase() || '']
+      },
+    },
+
+    watch: {
+      isAuthorized: {
+        async handler(newValue) {
+          if (newValue) await this.loadCountActiveSales()
+        },
+        immediate: true,
       },
     },
 
@@ -117,6 +135,16 @@
       },
       onOnlineChanged(event) {
         this.countOnlineUsers = event?.detail?.data?.() || 0
+      },
+      async loadCountActiveSales() {
+        try {
+          const response = await API.sales.getCountActiveSales()
+          if (response.status.isSuccessful()) {
+            this.countActiveSales = response.result || 0
+          }
+        } catch (exception) {
+          this.$error(exception.message, 'Ошибка при загрузке активных продаж')
+        }
       },
     },
   }
