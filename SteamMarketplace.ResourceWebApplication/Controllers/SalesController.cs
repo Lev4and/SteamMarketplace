@@ -45,7 +45,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         }
 
         [HttpGet]
-        [Route("mySales/count")]
+        [Route("mySales/active/count")]
         public IActionResult GetCountActiveSales()
         {
             return Ok(new BaseResponseModel<int>(_dataManager.Sales.GetCountActiveSales(Guid.Parse(User.Claims.GetValue("id"))), 
