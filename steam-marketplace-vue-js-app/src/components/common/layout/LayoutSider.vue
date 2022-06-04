@@ -103,11 +103,11 @@
     },
 
     mounted() {
-      document.addEventListener('online-changed', this.onOnlineChanged)
+      document.addEventListener('onlinechanged', this.onOnlineChanged)
     },
 
     beforeDestroy() {
-      document.removeEventListener('online-changed', this.onOnlineChanged)
+      document.removeEventListener('onlinechanged', this.onOnlineChanged)
     },
 
     methods: {

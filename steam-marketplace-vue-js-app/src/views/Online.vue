@@ -48,15 +48,15 @@
     },
 
     async mounted() {
-      document.addEventListener('online-users', this.onReceivedOnlineUsers)
-      document.addEventListener('user-connected', this.onUserConnected)
-      document.addEventListener('user-disconnected', this.onUserDisconnected)
+      document.addEventListener('onlineusers', this.onReceivedOnlineUsers)
+      document.addEventListener('userconnected', this.onUserConnected)
+      document.addEventListener('userdisconnected', this.onUserDisconnected)
     },
 
     beforeDestroy() {
-      document.removeEventListener('online-users', this.onReceivedOnlineUsers)
-      document.removeEventListener('user-connected', this.onUserConnected)
-      document.removeEventListener('user-disconnected', this.onUserDisconnected)
+      document.removeEventListener('onlineusers', this.onReceivedOnlineUsers)
+      document.removeEventListener('userconnected', this.onUserConnected)
+      document.removeEventListener('userdisconnected', this.onUserDisconnected)
     },
 
     methods: {
