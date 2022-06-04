@@ -11,6 +11,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+  import API from '@/api'
   import LayoutContent from '@/components/common/layout/LayoutContent'
   import LayoutHeader from '@/components/common/layout/LayoutHeader'
   import LayoutSider from '@/components/common/layout/LayoutSider'
@@ -22,6 +24,36 @@
       LayoutContent,
       LayoutHeader,
       LayoutSider,
+    },
+
+    computed: {
+      ...mapGetters({
+        currentUser: 'auth/currentUser',
+      }),
+    },
+
+    watch: {
+      currentUser: {
+        async handler(newValue) {
+          if (newValue) await this.connect()
+          else await this.disconnect()
+        },
+        immediate: true,
+      },
+    },
+
+    async beforeDestroy() {
+      await this.disconnect()
+    },
+
+    methods: {
+      async connect() {
+        await API.online.connect()
+        await API.online.matchUser(this.currentUser)
+      },
+      async disconnect() {
+        await API.online.disconnect()
+      },
     },
   }
 </script>

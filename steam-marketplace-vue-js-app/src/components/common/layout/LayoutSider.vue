@@ -15,6 +15,19 @@
         <a-icon type="dashboard" /> 
         <span v-text="'Приборная панель'" />
       </a-menu-item>
+      <a-menu-item v-if="isAuthorized" key="online">
+        <router-link :to="{ name: 'Online' }">
+          <a-row type="flex" align="middle" justify="space-between">
+            <a-col>
+              <a-icon type="global" /> 
+              <span v-text="'Онлайн'" />
+            </a-col>
+            <a-col>
+              <a-badge :count="countOnlineUsers" :showZero="true" :overflowCount="1000" />
+            </a-col>
+          </a-row>
+        </router-link>
+      </a-menu-item>
       <a-sub-menu v-if="isAuthorized && isAdministrator" key="database">
         <span slot="title"><a-icon type="database" /> База данных</span>
       </a-sub-menu>
@@ -72,6 +85,10 @@
   export default {
     name: 'LayoutSider',
 
+    data: () => ({
+      countOnlineUsers: 0,
+    }),
+
     computed: {
       ...mapGetters({
         roleName: 'auth/roleName',
@@ -85,10 +102,21 @@
       },
     },
 
+    mounted() {
+      document.addEventListener('onlinechanged', this.onOnlineChanged)
+    },
+
+    beforeDestroy() {
+      document.removeEventListener('onlinechanged', this.onOnlineChanged)
+    },
+
     methods: {
       async logout() {
         await this.$store.dispatch('auth/logout')
         this.$router.push({ name: 'Login' })
+      },
+      onOnlineChanged(event) {
+        this.countOnlineUsers = event?.detail?.data?.() || 0
       },
     },
   }
