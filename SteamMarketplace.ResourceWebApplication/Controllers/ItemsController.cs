@@ -32,8 +32,6 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         {
             if (string.IsNullOrEmpty(searchString))
             {
-                _logger.LogWarning($"Validation failed. Invalid filters param.");
-
                 return BadRequest(new BaseResponseModel<List<string>>(new List<string>(), Statuses.InvalidData));
             }
 
@@ -47,8 +45,6 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         {
             if (string.IsNullOrEmpty(fullName))
             {
-                _logger.LogWarning($"Validation failed. Invalid filters param.");
-
                 return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
             }
 
@@ -61,8 +57,6 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         {
             if (string.IsNullOrEmpty(fullName))
             {
-                _logger.LogWarning($"Validation failed. Invalid filters param.");
-
                 return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
             }
 
@@ -75,22 +69,6 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
                 AddedAt = _dataManager.Items.GetMinAddedAtItem(fullName),
                 Item = _dataManager.Items.GetItemByFullName(fullName)
             }, Statuses.Success));
-        }
-
-        [HttpGet]
-        [Route("{fullName}/addedItemsDynamics")]
-        public async Task<IActionResult> GetAddedItemsDynamics([Required][FromRoute(Name = "fullName")] string fullName)
-        {
-            if (string.IsNullOrEmpty(fullName))
-            {
-                _logger.LogWarning($"Validation failed. Invalid filters param.");
-
-                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
-            }
-
-            var result = await _dataManager.Items.GetAddedItemsDynamics(fullName).ToListAsync();
-
-            return Ok(new BaseResponseModel<List<AddedItemsDynamic>>(result, Statuses.Success));
         }
 
         [HttpPost]

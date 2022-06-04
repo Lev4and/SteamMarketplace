@@ -25,7 +25,5 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
         IQueryable<string> GetSearchSuggestions(string searchString);
 
         IQueryable<GroupedItem> GetGroupedItems(ItemsFilters filters);
-
-        IQueryable<AddedItemsDynamic> GetAddedItemsDynamics(string fullName);
     }
 }
