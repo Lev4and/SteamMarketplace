@@ -12,8 +12,10 @@
         </router-link>
       </a-menu-item>
       <a-menu-item v-if="isAuthorized && isAdministrator" key="dashboard">
-        <a-icon type="dashboard" /> 
-        <span v-text="'Приборная панель'" />
+        <router-link :to="{ name: 'Dashboard' }">
+          <a-icon type="dashboard" /> 
+          <span v-text="'Приборная панель'" />
+        </router-link>
       </a-menu-item>
       <a-menu-item v-if="isAuthorized" key="online">
         <router-link :to="{ name: 'Online' }">
