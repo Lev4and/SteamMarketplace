@@ -1,4 +1,5 @@
 ﻿using SteamMarketplace.Model.Database;
+using SteamMarketplace.Model.Database.Entities;
 using Entities = SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.Model.Importers.HighPerformance

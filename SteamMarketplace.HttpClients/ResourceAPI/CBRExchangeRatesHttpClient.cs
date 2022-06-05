@@ -11,11 +11,11 @@ namespace SteamMarketplace.HttpClients.ResourceAPI
 
         }
 
-        public async Task<BaseResponseModel<LatestExchangeRate>> GetLatestExchangeRateAsync()
+        public async Task<BaseResponseModel<DailyExchangeRate>> GetLatestExchangeRateAsync()
         {
             await AuthorizeAsync();
 
-            return await GetAsync<BaseResponseModel<LatestExchangeRate>>(ResourceAPIRoutes.CBRLatestExchangeRatesQuery);
+            return await GetAsync<BaseResponseModel<DailyExchangeRate>>(ResourceAPIRoutes.CBRLatestExchangeRatesQuery);
         }
     }
 }

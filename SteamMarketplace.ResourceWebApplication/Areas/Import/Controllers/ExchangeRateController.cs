@@ -29,15 +29,21 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Import.Controllers
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<bool>), 200)]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
-        public IActionResult Import([FromBody] LatestExchangeRate latestExchangeRate)
+        public IActionResult Import([FromBody] DailyExchangeRate dailyExchangeRate)
         {
-            if (latestExchangeRate == null)
+            if (dailyExchangeRate == null)
             {
                 return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
             }
 
-            return Ok(new BaseResponseModel<bool>(_importer.Import(latestExchangeRate.Timestamp, latestExchangeRate.Rates), 
-                Statuses.Success));
+            if (dailyExchangeRate.Valute == null)
+            {
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            return Ok(new BaseResponseModel<bool>(_importer.Import(dailyExchangeRate.Timestamp, 
+                dailyExchangeRate.Valute.ToDictionary(key => key.Key, value => 1 / value.Value.Value * 
+                    value.Value.Nominal)), Statuses.Success));
         }
     }
 }

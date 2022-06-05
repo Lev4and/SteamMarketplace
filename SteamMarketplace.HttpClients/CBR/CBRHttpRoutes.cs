@@ -7,5 +7,9 @@
         public const string LatestPath = "";
 
         public const string LatestQuery = "latest.js";
+
+        public const string DailyPath = "archive/";
+
+        public const string DailyQuery = "daily_json.js";
     }
 }

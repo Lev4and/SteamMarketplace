@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SteamMarketplace.HttpClients.CBR.ResponseModels;
 using SteamMarketplace.Model.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace SteamMarketplace.ResourceWebApplication.Areas.CBR.Controllers
 {
@@ -22,12 +23,23 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.CBR.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("daily")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
+        [ProducesResponseType(typeof(BaseResponseModel<DailyExchangeRate>), 200)]
+        public async Task<IActionResult> GetDaily([Required][FromQuery(Name = "date")] DateTime date)
+        {
+            return Ok(new BaseResponseModel<DailyExchangeRate>(await _httpContext.CBR.Daily.GetDailyExchangeRateAsync(date),
+                Statuses.Success));
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         [Route("latest")]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
-        [ProducesResponseType(typeof(BaseResponseModel<LatestExchangeRate>), 200)]
+        [ProducesResponseType(typeof(BaseResponseModel<DailyExchangeRate>), 200)]
         public async Task<IActionResult> GetLatest()
         {
-            return Ok(new BaseResponseModel<LatestExchangeRate>(await _httpContext.CBR.Latest.GetLatestExchangeRateAsync(), 
+            return Ok(new BaseResponseModel<DailyExchangeRate>(await _httpContext.CBR.Daily.GetDailyExchangeRateAsync(DateTime.Now), 
                 Statuses.Success));
         }
     }
