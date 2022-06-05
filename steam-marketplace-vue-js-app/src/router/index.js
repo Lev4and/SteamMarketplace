@@ -12,7 +12,9 @@ import CSMoney from '@/views/CSMoney'
 import Account from '@/views/Account'
 import Purchases from '@/views/Purchases'
 import StoreItem from '@/views/StoreItem'
+import Dashboard from '@/views/Dashboard'
 import MyInventory from '@/views/MyInventory'
+import CurrencyExchangeRate from '@/views/CurrencyExchangeRate'
 
 Vue.use(VueRouter)
 
@@ -41,6 +43,24 @@ const routes = [
     meta: {
       title: 'Выход',
       authRequired: true,
+    },
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      title: 'Приборная панель',
+      authRequired: true,
+    },
+  },
+  {
+    path: '/currency/:literal/exchangeRate',
+    name: 'CurrencyExchangeRate',
+    component: CurrencyExchangeRate,
+    meta: {
+      authRequired: true,
+      title: 'Курс валюты',
     },
   },
   {

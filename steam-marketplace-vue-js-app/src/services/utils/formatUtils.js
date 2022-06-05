@@ -24,8 +24,16 @@ export const declineByNumber = (number, words, showNumeral = false) => {
   return ''
 }
 
-export const getNumberFormat = (number, minimumFractionDigits, locales = 'us-US') => {
-  return new Intl.NumberFormat(locales, { minimumFractionDigits: minimumFractionDigits }).format(number)
+export const getNumberFormat = (number, maximumFractionDigits, locales = 'us-US') => {
+  return new Intl.NumberFormat(locales, { maximumFractionDigits: maximumFractionDigits }).format(number)
+}
+
+export const getPercentFormat = (number, maximumFractionDigits, locales = 'us-US') => {
+  return new Intl.NumberFormat(locales, {
+    style: 'percent',
+    maximumFractionDigits: maximumFractionDigits,
+    signDisplay: 'exceptZero'
+  }).format(number)
 }
 
 export const getCurrencyFormat = (number, locales = 'us-US', currency = 'USD') => {
