@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using System;
 using System.Threading.Tasks;
 using Xunit;
 using Services = SteamMarketplace.HttpClients.Common.Services;
@@ -21,11 +21,18 @@ namespace SteamMarketplace.HttpClients.Tests.ResourceAPI
         {
             _authorization.LoginByAdministrator();
 
-            var exchangeRateResponse = await _httpContext.ResourceAPI.CBRExchangeRates.GetLatestExchangeRateAsync();
+            var date = new DateTime(2022, 1, 1);
 
-            if (exchangeRateResponse.Result != null)
+            while (date <= DateTime.Now.Date)
             {
-                await _httpContext.ResourceAPI.ImportExchangeRate.ImportAsync(exchangeRateResponse.Result);
+                var exchangeRateResponse = await _httpContext.CBR.Daily.GetDailyExchangeRateAsync(date);
+
+                if (exchangeRateResponse != null && exchangeRateResponse.Valute != null)
+                {
+                    await _httpContext.ResourceAPI.ImportExchangeRate.ImportAsync(exchangeRateResponse);
+                }
+
+                date = date.AddDays(1);
             }
         }
     }

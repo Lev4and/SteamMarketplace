@@ -2,10 +2,13 @@
 {
     public class CBRHttpContext
     {
+        public DailyHttpClient Daily { get; }
+
         public LatestHttpClient Latest { get; }
 
-        public CBRHttpContext(LatestHttpClient latest)
+        public CBRHttpContext(DailyHttpClient daily, LatestHttpClient latest)
         {
+            Daily = daily;
             Latest = latest;
         }
     }
