@@ -16,3 +16,17 @@ export const getItemByFullName = async (fullName) => {
   }
   return new BaseResponseModel(await responseGet(resourceAPIClient, `/api/items/${fullName}`, config))
 }
+
+export const getExtendedInfo = async (fullName) => {
+  const config = {
+    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+  }
+  return new BaseResponseModel(await responseGet(resourceAPIClient, `/api/items/${fullName}/extendedInfo`, config))
+}
+
+export const getAddedDynamics = async (fullName) => {
+  const config = {
+    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+  }
+  return new BaseResponseModel(await responseGet(resourceAPIClient, `/api/items/${fullName}/addedItemsDynamics`, config))
+}

@@ -33,3 +33,13 @@ export const getPricesDynamicsItem = async (fullName) => {
   }
   return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/sales/pricesDynamics', config))
 }
+
+export const getExposedSalesDynamics = async (fullName) => {
+  const config = {
+    params: {
+      name: fullName,
+    },
+    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+  }
+  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/sales/exposedSalesDynamics', config))
+}
