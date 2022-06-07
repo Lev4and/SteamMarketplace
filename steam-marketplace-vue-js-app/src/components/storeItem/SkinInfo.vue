@@ -29,15 +29,15 @@
                 <a-col :span="24">
                   <a-row :gutter="[0,10]">
                     <a-col :span="24">
-                      <a-slider :value="float" :min="0" :max="1" :step="0.000001" />
+                      <a-slider :value="averageFloat" :min="0" :max="1" :step="0.000001" />
                     </a-col>
                     <a-col :span="24">
                       <a-row type="flex" justify="space-between">
                         <a-col>
-                          <span v-text="'Float'" />
+                          <span v-text="'Средний Float'" />
                         </a-col>
                         <a-col>
-                          <span v-text="floatFormat" />
+                          <span v-text="averageFloatFormat" />
                         </a-col>
                       </a-row>
                     </a-col>
@@ -98,6 +98,36 @@
                         </a-col>
                       </a-row>
                     </a-col>
+                    <a-col v-if="countFormat" :span="24">
+                      <a-row type="flex" justify="space-between">
+                        <a-col>
+                          <span v-text="'Всего в системе'" />
+                        </a-col>
+                        <a-col>
+                          <span v-text="countFormat" />
+                        </a-col>
+                      </a-row>
+                    </a-col>
+                    <a-col v-if="countOwnersFormat" :span="24">
+                      <a-row type="flex" justify="space-between">
+                        <a-col>
+                          <span v-text="'Количество владельцев'" />
+                        </a-col>
+                        <a-col>
+                          <span v-text="countOwnersFormat" />
+                        </a-col>
+                      </a-row>
+                    </a-col>
+                    <a-col v-if="rarityValueFormat" :span="24">
+                      <a-row type="flex" justify="space-between">
+                        <a-col>
+                          <span v-text="'Редкость в %'" />
+                        </a-col>
+                        <a-col>
+                          <span v-text="rarityValueFormat" />
+                        </a-col>
+                      </a-row>
+                    </a-col>
                   </a-row>
                 </a-col>
               </a-row>
@@ -119,13 +149,16 @@
     name: 'SkinInfo',
 
     data: () => ({
-      item: null,
+      extendedItem: null,
     }),
 
     computed: {
       ...mapGetters({
         currentUser: 'auth/currentUser',
       }),
+      item() {
+        return this.extendedItem?.item
+      },
       cultureInfoName() {
         return this.currentUser?.currency?.cultureInfoName || 'us-US'
       },
@@ -135,18 +168,36 @@
       image() {
         return this.item?.image?.steamImg || ''
       },
-      float() {
-        return this.item?.float || 0
+      averageFloat() {
+        return this.extendedItem?.averageFloat || 0
       },
-      floatFormat() {
-        return getNumberFormat(this.float, 6, this.cultureInfoName)
+      averageFloatFormat() {
+        return getNumberFormat(this.averageFloat, 6, this.cultureInfoName)
       },
       addedAt() {
-        return this.item?.addedAt || ''
+        return this.extendedItem?.addedAt || ''
       },
       addedAtFormat() {
         moment.locale(this.cultureInfoName)
         return moment.parseZone(this.addedAt).utc(true).local().format('LLLL')
+      },
+      count() {
+        return this.extendedItem?.count || 0
+      },
+      countFormat() {
+        return getNumberFormat(this.count, 0, this.cultureInfoName)
+      },
+      countOwners() {
+        return this.extendedItem?.countOwners || 0
+      },
+      countOwnersFormat() {
+        return getNumberFormat(this.countOwners, 0, this.cultureInfoName)
+      },
+      rarityValue() {
+        return this.extendedItem?.rarity || 0
+      },
+      rarityValueFormat() {
+        return getNumberFormat(this.rarityValue, 6, this.cultureInfoName) + '%'
       },
       type() {
         return this.item?.type?.csMoneyId || 0
@@ -165,18 +216,18 @@
     watch: {
       fullName: {
         async handler() {
-          await this.loadItem()
+          await this.loadExtendedItem()
         },
         immediate: true,
       },
     },
 
     methods: {
-      async loadItem() {
+      async loadExtendedItem() {
         try {
-          const response = await API.items.getItemByFullName(this.fullName)
+          const response = await API.items.getExtendedInfo(this.fullName)
           if (response.status.isSuccessful()) {
-            this.item = response.result
+            this.extendedItem = response.result
           }
         } catch (exception) {
           this.$error(exception.message, 'Ошибка при загрузке')
