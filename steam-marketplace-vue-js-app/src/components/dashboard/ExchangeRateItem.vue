@@ -22,7 +22,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { last as _last, takeRight as _takeRight } from 'lodash'
+  import { last as _last, reverse as _reverse, take as _take } from 'lodash'
   import { getNumberFormat, getPercentFormat } from '@/services/utils/formatUtils'
 
   export default {
@@ -49,7 +49,7 @@
         return getNumberFormat(this.currentRate, 1, this.cultureInfoName)
       },
       growth() {
-        const rates = _takeRight(this.exchangeRate.rates, 2)
+        const rates = _take(_reverse(this.exchangeRate.rates), 2)
         return rates.length === 2 ? rates[0].rate / rates[1].rate - 1 : 1
       },
       growthFormat() {
