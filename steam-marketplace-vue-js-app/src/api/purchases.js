@@ -1,11 +1,9 @@
-import store from '@/store'
-import { resourceAPIClient } from '@/api/axios'
-import { responsePost } from '@/services/utils/responseUtils'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getMyPurchases = async (filters) => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+export function PurchasesClient() {
+  ResourceAPIClient.apply(this, [{ path: 'purchases' }])
+  this.getMyPurchases = async (filters) => {
+    return new BaseResponseModel(await this.postAuth('myPurchases', filters))
   }
-  return new BaseResponseModel(await responsePost(resourceAPIClient, '/api/purchases/myPurchases', filters, config))
 }
