@@ -1,32 +1,18 @@
-import store from '@/store'
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet, responsePost } from '@/services/utils/responseUtils'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getGroupedItems = async (filters) => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+export function ItemsClient() {
+  ResourceAPIClient.apply(this, [{ path: 'items' }])
+  this.getGroupedItems = async (filters) => {
+    return new BaseResponseModel(await this.postAuth('groupedItems', filters))
   }
-  return new BaseResponseModel(await responsePost(resourceAPIClient, '/api/items/groupedItems', filters, config))
-}
-
-export const getItemByFullName = async (fullName) => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+  this.getItemByFullName = async (fullName) => {
+    return new BaseResponseModel(await this.getAuth(`${fullName}`))
   }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, `/api/items/${fullName}`, config))
-}
-
-export const getExtendedInfo = async (fullName) => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+  this.getExtendedInfo = async (fullName) => {
+    return new BaseResponseModel(await this.getAuth(`${fullName}/extendedInfo`))
   }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, `/api/items/${fullName}/extendedInfo`, config))
-}
-
-export const getAddedDynamics = async (fullName) => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+  this.getAddedDynamics = async (fullName) => {
+    return new BaseResponseModel(await this.getAuth(`${fullName}/addedItemsDynamics`))
   }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, `/api/items/${fullName}/addedItemsDynamics`, config))
 }

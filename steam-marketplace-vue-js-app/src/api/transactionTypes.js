@@ -1,7 +1,9 @@
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet } from '@/services/utils/responseUtils'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getAllTransactionTypes = async () => {
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/transactionTypes/all/'))
+export function TransactionTypesClient() {
+  ResourceAPIClient.apply(this, [{ path: 'transactionTypes' }])
+  this.getAllTransactionTypes = async () => {
+    return new BaseResponseModel(await this.get('all'))
+  }
 }

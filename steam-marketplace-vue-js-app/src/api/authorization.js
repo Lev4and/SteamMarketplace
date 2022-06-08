@@ -1,7 +1,9 @@
-import { authorizationAPIClient } from '@/api/axios'
-import { responsePost } from '@/services/utils/responseUtils'
+import { AuthorizationAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const login = async (login) => {
-  return new BaseResponseModel(await responsePost(authorizationAPIClient, '/api/authorization/login/', login))
+export function AuthorizationClient() {
+  AuthorizationAPIClient.apply(this, [{ path: 'authorization' }])
+  this.login = async (login) => {
+    return new BaseResponseModel(await this.post('login', login))
+  }
 }
