@@ -50,8 +50,11 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Import.Controllers
 
             if (result.Result != Guid.Empty)
             {
-                await _hub.Clients.All.SendAsync("ItemImported", new ImportedItemInfo(DateTime.Now.ToUniversalTime(),
-                    User.Claims.GetValue(ClaimTypes.GivenName), item));
+                var importedItemInfo = new ImportedItemInfo(DateTime.Now.ToUniversalTime(),
+                    User.Claims.GetValue(ClaimTypes.GivenName), item);
+
+                await _hub.Clients.All.SendAsync("Imported", importedItemInfo);
+                await _hub.Clients.Group(item.FullName).SendAsync("ItemImported", importedItemInfo);
             }
 
             return Ok(result);

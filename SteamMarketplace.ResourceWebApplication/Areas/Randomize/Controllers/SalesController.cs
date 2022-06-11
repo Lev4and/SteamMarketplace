@@ -25,9 +25,9 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Randomize.Controllers
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 200)]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
-        public IActionResult ExposeItemsOnSale()
+        public async Task<IActionResult> ExposeItemsOnSale()
         {
-            _saleRandomizer.ExposeItemsOnSale();
+            await _saleRandomizer.ExposeItemsOnSaleAsync();
 
             return Ok(new BaseResponseModel<object?>(null, Statuses.Success));
         }
