@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
@@ -44,12 +45,17 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
         }
 
-        public List<Sale> GetRandomSales(Guid buyerId, int limit)
+        public List<RandomSale> GetRandomSales(Guid buyerId, int limit)
         {
-            var query = $"SELECT TOP(@Limit) Id, SellerId, ItemId, Price, PriceUsd " +
-                    $"FROM Sales " +
-                    $"WHERE Sales.SoldAt IS NULL AND Sales.CancelledAt IS NULL AND Sales.SellerId != @BuyerId " +
-                    $"ORDER BY NEWID()";
+            var query = $"SELECT TOP(@Limit) Sales.Id, Sales.SellerId, Sales.ItemId, Sales.Price, Sales.PriceUsd, " +
+                $"Items.FullName as ItemFullName, ItemImages.SteamImg AS ItemSteamImage, " +
+                $"AspNetUsers.UserName AS SellerName " +
+                $"FROM Sales INNER JOIN " +
+                $"Items ON Items.Id = Sales.ItemId INNER JOIN " +
+                $"ItemImages ON ItemImages.ItemId = Sales.ItemId INNER JOIN " +
+                $"AspNetUsers ON AspNetUsers.Id = Sales.SellerId " +
+                $"WHERE Sales.SoldAt IS NULL AND Sales.CancelledAt IS NULL AND Sales.SellerId != @BuyerId " +
+                $"ORDER BY NEWID()";
 
             var parameters = new List<SqlParameter>()
             {
@@ -57,18 +63,11 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 new SqlParameter() { ParameterName = "@BuyerId", SqlDbType = SqlDbType.UniqueIdentifier, Value = buyerId },
             };
 
-            var result = new List<Sale>();
+            var result = new List<RandomSale>();
 
             foreach (DataRow item in _context.ExecuteQuery(query, parameters).Rows)
             {
-                result.Add(new Sale
-                {
-                    Id = item.Field<Guid>("Id"),
-                    SellerId = item.Field<Guid>("SellerId"),
-                    ItemId = item.Field<Guid>("ItemId"),
-                    Price = item.Field<decimal>("Price"),
-                    PriceUsd = item.Field<decimal>("PriceUsd")
-                });
+                result.Add(item.ToObject<RandomSale>());
             }
 
             return result;

@@ -232,8 +232,11 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapHub<SalesHub>("/store/sales");
+    endpoints.MapHub<UsersHub>("/store/users");
     endpoints.MapHub<OnlineHub>("/store/online");
     endpoints.MapHub<ImportHub>("/store/items/import");
+    endpoints.MapHub<PurchasesHub>("/store/purchases");
     endpoints.MapHub<AutoImportHub>("/store/items/import/auto");
     endpoints.MapControllerRoute(
         name: "default",

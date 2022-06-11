@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using SteamMarketplace.Model.Database;
 using SteamMarketplace.Model.Database.Entities;
+using SteamMarketplace.ResourceWebApplication.Hubs;
 using System.Text;
 
 namespace SteamMarketplace.Services.Randomizers
@@ -9,11 +11,14 @@ namespace SteamMarketplace.Services.Randomizers
     public class UserRandomizer
     {
         private readonly Random _random;
+        private readonly IHubContext<UsersHub> _hub;
         private readonly ILogger<UserRandomizer> _logger;
         private readonly HighPerformanceDataManager _dataManager;
 
-        public UserRandomizer(HighPerformanceDataManager dataManager, ILogger<UserRandomizer> logger)
+        public UserRandomizer(HighPerformanceDataManager dataManager, IHubContext<UsersHub> hub, 
+            ILogger<UserRandomizer> logger)
         {
+            _hub = hub;
             _logger = logger;
             _random = new Random();
             _dataManager = dataManager;
@@ -46,7 +51,7 @@ namespace SteamMarketplace.Services.Randomizers
             return new string(Enumerable.Repeat(chars, 12).Select(s => s[_random.Next(s.Length)]).ToArray());
         }
 
-        public void CreateUser()
+        public async Task CreateUserAsync()
         {
             var userName = GetUserName();
 
@@ -83,6 +88,8 @@ namespace SteamMarketplace.Services.Randomizers
             });
 
             _dataManager.ApplicationUsers.TopUpWalletBalance(user.Id, walletBalance);
+
+            await _hub.Clients.All.SendAsync("UserRegistered", user);
 
             _logger.LogDebug($"The user {user.UserName} has joined to SteamMarketplace");
         }

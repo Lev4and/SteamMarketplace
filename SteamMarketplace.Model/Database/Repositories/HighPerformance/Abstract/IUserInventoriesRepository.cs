@@ -1,4 +1,5 @@
-﻿using SteamMarketplace.Model.Database.Entities;
+﻿using SteamMarketplace.Model.Database.AnonymousTypes;
+using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
 {
@@ -12,7 +13,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
 
         Guid GetUserInventoryId(Guid userId, Guid itemId);
 
-        Dictionary<Guid, decimal> GetRandomItems(Guid userId, int limit);
+        List<RandomUserInventoryItem> GetRandomItems(Guid userId, int limit);
 
         void DeleteItemFromUserInventory(Guid userId, Guid itemId);
     }
