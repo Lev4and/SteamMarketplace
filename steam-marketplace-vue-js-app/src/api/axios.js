@@ -52,9 +52,9 @@ export function DecorationAuthorizationClient(other) {
 }
 
 export function AuthorizationAPIClient(other) {
-  DecorationAxiosClient.apply(this, [{ url: authorizationAPIUrl, path: `/api/${other.path}` }])
+  DecorationAxiosClient.apply(this, [{ url: authorizationAPIUrl, path: `api/${other.path}` }])
 }
 
 export function ResourceAPIClient(other) {
-  DecorationAuthorizationClient.apply(this, [{ url: resourceAPIUrl, path: `/api/${other.path}` }])
+  DecorationAuthorizationClient.apply(this, [{ url: resourceAPIUrl, path: `api/${other.path}` }])
 }

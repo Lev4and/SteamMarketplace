@@ -1,5 +1,9 @@
+import { ResourceAPISignalRClient } from './signalR'
 import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
+
+const path = 'store/sales'
+const methods = ['ItemExposedOnSale', 'CertainItemExposedOnSale', 'SellerExposedOnSale', 'SaleClosed', 'CertainItemSaleClosed']
 
 export function SalesClient() {
   ResourceAPIClient.apply(this, [{ path: 'sales' }])
@@ -20,4 +24,8 @@ export function SalesClient() {
     const params = { name: fullName }
     return new BaseResponseModel(await this.getAuth('exposedSalesDynamics', params))
   }
+}
+
+export function SalesHubClient() {
+  ResourceAPISignalRClient.apply(this, [{ path: path, methods: methods }])
 }

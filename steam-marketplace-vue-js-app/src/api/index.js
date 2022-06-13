@@ -24,16 +24,20 @@ const API = {
   currencies: new currencies.CurrenciesClient(),
   exchangeRates: new exchangeRates.ExchangeRatesClient(),
   imports: new imports.ImportsClient(),
+  importOnline: new imports.ImportHubClient(),
   items: new items.ItemsClient(),
   itemTypes: new itemTypes.ItemTypes(),
   online: new online.OnlineHubClient(),
   purchases: new purchases.PurchasesClient(),
+  purchasesOnline: new purchases.PurchasesHubClient(),
   qualities: new qualities.QualitiesClient(),
   rarities: new rarities.RaritiesClient(),
   sales: new sales.SalesClient(),
+  salesOnline: new sales.SalesHubClient(),
   transactionTypes: new transactionTypes.TransactionTypesClient(),
   userInventories: new userInventories.UserInventoriesClient(),
   users: new users.UsersClient(),
+  usersOnline: new users.UsersHubClient(),
 }
 
 export default API
