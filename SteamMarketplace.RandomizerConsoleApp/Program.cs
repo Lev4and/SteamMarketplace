@@ -10,19 +10,23 @@ var services = new ServiceCollection()
     .AddSingleton<HttpClients.Common.Services.Authorization>()
     .AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>()
     .AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>()
+    .AddSingleton<HttpClients.CBR.DailyHttpClient>()
     .AddSingleton<HttpClients.CBR.LatestHttpClient>()
     .AddSingleton<HttpClients.CBR.CBRHttpContext>()
+    .AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>()
     .AddSingleton<HttpClients.CSMoney.StoreHttpClient>()
     .AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>()
     .AddSingleton<HttpClients.ResourceAPI.CBRExchangeRatesHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.ImportExchangeRateHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>()
-    .AddSingleton<HttpClients.ResourceAPI.SalesHttpClient>()
-    .AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.ItemsHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.PurchasesHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.RandomizePurchasesHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.UserInventoriesHttpClient>()
+    .AddSingleton<HttpClients.ResourceAPI.SalesHttpClient>()
     .AddSingleton<HttpClients.ResourceAPI.ResourceAPIHttpContext>()
     .AddSingleton<HttpClients.HttpContext>();
 
@@ -63,17 +67,17 @@ while (true)
         Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][RANDOMIZER] The item was purchased within ({stopwatch.ElapsedMilliseconds}ms)");
     }
 
-    //if (task >= 9)
-    //{
-    //    stopwatch.Restart();
+    if (task >= 9)
+    {
+        stopwatch.Restart();
 
-    //    await httpContext.ResourceAPI.RandomizeUsers.Create();
+        await httpContext.ResourceAPI.RandomizeUsers.Create();
 
-    //    stopwatch.Stop();
+        stopwatch.Stop();
 
-    //    Console.ForegroundColor = ConsoleColor.Green;
-    //    Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][RANDOMIZER] New user has been created within ({stopwatch.ElapsedMilliseconds}ms)");
-    //}
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}][RANDOMIZER] New user has been created within ({stopwatch.ElapsedMilliseconds}ms)");
+    }
 }
 
 Console.ReadLine();

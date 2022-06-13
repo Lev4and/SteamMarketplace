@@ -1,4 +1,5 @@
-﻿using SteamMarketplace.Model.Database.Entities;
+﻿using SteamMarketplace.Model.Database.AnonymousTypes;
+using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
 {
@@ -10,7 +11,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
 
         Guid GetSaleId(Guid itemId);
 
-        List<Sale> GetRandomSales(Guid buyerId, int limit);
+        List<RandomSale> GetRandomSales(Guid buyerId, int limit);
 
         void CloseSale(Guid saleId);
     }

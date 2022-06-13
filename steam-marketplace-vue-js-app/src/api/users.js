@@ -1,9 +1,17 @@
-import store from '@/store'
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet } from '@/services/utils/responseUtils'
+import { ResourceAPISignalRClient } from './signalR'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getCurrentUser = async () => {
-  const config = { headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` } }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/users/currentUser/', config))
+const path = 'store/users'
+const methods = ['UserRegistered']
+
+export function UsersClient() {
+  ResourceAPIClient.apply(this, [{ path: 'users' }])
+  this.getCurrentUser = async () => {
+    return new BaseResponseModel(await this.getAuth('currentUser'))
+  }
+}
+
+export function UsersHubClient() {
+  ResourceAPISignalRClient.apply(this, [{ path: path, methods: methods }])
 }

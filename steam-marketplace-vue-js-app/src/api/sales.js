@@ -1,45 +1,31 @@
-import store from '@/store'
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet, responsePost } from '@/services/utils/responseUtils'
+import { ResourceAPISignalRClient } from './signalR'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getMySales = async (filters) => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+const path = 'store/sales'
+const methods = ['ItemExposedOnSale', 'CertainItemExposedOnSale', 'SellerExposedOnSale', 'SaleClosed', 'CertainItemSaleClosed']
+
+export function SalesClient() {
+  ResourceAPIClient.apply(this, [{ path: 'sales' }])
+  this.getMySales = async (filters) => {
+    return new BaseResponseModel(await this.postAuth('mySales', filters))
   }
-  return new BaseResponseModel(await responsePost(resourceAPIClient, '/api/sales/mySales', filters, config))
+  this.getCountActiveSales = async () => {
+    return new BaseResponseModel(await this.getAuth('mySales/active/count'))
+  }
+  this.getSalesItem = async (filters) => {
+    return new BaseResponseModel(await this.postAuth('item', filters))
+  }
+  this.getPricesDynamicsItem = async (fullName) => {
+    const params = { name: fullName }
+    return new BaseResponseModel(await this.getAuth('pricesDynamics', params))
+  }
+  this.getExposedSalesDynamics = async (fullName) => {
+    const params = { name: fullName }
+    return new BaseResponseModel(await this.getAuth('exposedSalesDynamics', params))
+  }
 }
 
-export const getCountActiveSales = async () => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
-  }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/sales/mySales/active/count', config))
-}
-
-export const getSalesItem = async (filters) => {
-  const config = {
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
-  }
-  return new BaseResponseModel(await responsePost(resourceAPIClient, '/api/sales/item', filters, config))
-}
-
-export const getPricesDynamicsItem = async (fullName) => {
-  const config = {
-    params: {
-      name: fullName,
-    },
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
-  }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/sales/pricesDynamics', config))
-}
-
-export const getExposedSalesDynamics = async (fullName) => {
-  const config = {
-    params: {
-      name: fullName,
-    },
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
-  }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/sales/exposedSalesDynamics', config))
+export function SalesHubClient() {
+  ResourceAPISignalRClient.apply(this, [{ path: path, methods: methods }])
 }

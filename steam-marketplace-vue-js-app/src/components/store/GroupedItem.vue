@@ -25,7 +25,7 @@
       </a-col>
     </a-row>
     <div class="stack-container">
-      <a-badge :count="item.count" />
+      <a-badge :count="item.count" :overflowCount="10000" />
     </div>
   </div>
 </template>

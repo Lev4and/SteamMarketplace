@@ -45,7 +45,9 @@
             <template slot="title">
               {{ sticker.name }}
             </template>
-            <img :src="sticker.img" class="sticker-image" />
+            <router-link :to="{ name: 'StoreItem', params: { fullName: sticker.name } }">
+              <img :src="sticker.img" class="sticker-image" />
+            </router-link>
           </a-tooltip>
         </div>
       </template>

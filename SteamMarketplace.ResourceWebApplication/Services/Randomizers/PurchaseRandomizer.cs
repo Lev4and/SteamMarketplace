@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using SteamMarketplace.Model.Database;
+using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.Entities;
+using SteamMarketplace.ResourceWebApplication.Hubs;
 using System.Globalization;
 
 namespace SteamMarketplace.Services.Randomizers
@@ -8,24 +11,19 @@ namespace SteamMarketplace.Services.Randomizers
     public class PurchaseRandomizer
     {
         private readonly Random _random;
+        private readonly IHubContext<SalesHub> _salesHub;
         private readonly ILogger<PurchaseRandomizer> _logger;
+        private readonly IHubContext<PurchasesHub> _purchasesHub;
         private readonly HighPerformanceDataManager _dataManager;
 
-        public PurchaseRandomizer(HighPerformanceDataManager dataManager, ILogger<PurchaseRandomizer> logger)
+        public PurchaseRandomizer(HighPerformanceDataManager dataManager, IHubContext<PurchasesHub> purchasesHub,
+            IHubContext<SalesHub> salesHub, ILogger<PurchaseRandomizer> logger)
         {
             _logger = logger;
+            _salesHub = salesHub;
             _random = new Random();
             _dataManager = dataManager;
-        }
-
-        private Guid GetBuyerId()
-        {
-            return _dataManager.ApplicationUsers.GetRandomUserId();
-        }
-
-        private Guid GetCurrencyId(Guid userId)
-        {
-            return _dataManager.ApplicationUsers.GetCurrencyId(userId);
+            _purchasesHub = purchasesHub;
         }
 
         private Guid GetTransactionTypeId(string ruName)
@@ -38,32 +36,37 @@ namespace SteamMarketplace.Services.Randomizers
             return _dataManager.ExchangeRates.GetRateCurrency(currencyId);
         }
 
-        private decimal GetWalletBalance(Guid userId)
+        private ApplicationUser GetBuyer()
         {
-            return _dataManager.ApplicationUsers.GetWalletBalance(userId);
+            return _dataManager.ApplicationUsers.GetRandomUser();
         }
 
-        private List<Sale> GetSales(Guid buyerId)
+        private List<RandomSale> GetSales(Guid buyerId)
         {
             return _dataManager.Sales.GetRandomSales(buyerId, _random.Next(1, 101));
         }
 
-        public void BuyItems()
+        public async Task BuyItemsAsync()
         {
-            var buyerId = GetBuyerId();
-            var currencyId = GetCurrencyId(buyerId);
-            var exchangeRate = GetExchangeRate(currencyId);
+            var buyer = GetBuyer();
+            var exchangeRate = GetExchangeRate(buyer.CurrencyId);
 
-            foreach (var sale in GetSales(buyerId))
+            foreach (var sale in GetSales(buyer.Id))
             {
-                if (GetWalletBalance(buyerId) / exchangeRate >= sale.PriceUsd)
+                if (buyer.WalletBalance / exchangeRate >= sale.PriceUsd)
                 {
                     _dataManager.Sales.CloseSale(sale.Id);
+
+                    await _salesHub.Clients.Group($"{sale.Id}").SendAsync("SaleClosed", sale);
+                    await _salesHub.Clients.Group($"{sale.SellerId}").SendAsync("SaleClosed", sale);
+                    await _salesHub.Clients.Group($"{sale.ItemId}").SendAsync("CertainItemSaleClosed", sale);
+                    await _salesHub.Clients.Group($"{sale.ItemFullName}").SendAsync("CertainItemSaleClosed", sale);
+
                     _dataManager.UserInventories.DeleteItemFromUserInventory(sale.SellerId, sale.ItemId);
 
                     var purchase = new Purchase
                     {
-                        BuyerId = buyerId,
+                        BuyerId = buyer.Id,
                         SaleId = sale.Id,
                         Price = sale.PriceUsd * exchangeRate,
                         PriceUsd = sale.PriceUsd,
@@ -72,10 +75,10 @@ namespace SteamMarketplace.Services.Randomizers
 
                     _dataManager.Purchases.Save(purchase);
 
-                    _dataManager.ApplicationUsers.ReduceWalletBalance(buyerId, sale.PriceUsd * exchangeRate);
+                    _dataManager.ApplicationUsers.ReduceWalletBalance(buyer.Id, sale.PriceUsd * exchangeRate);
                     _dataManager.Transactions.Save(new Transaction
                     {
-                        UserId = buyerId,
+                        UserId = buyer.Id,
                         TypeId = GetTransactionTypeId("Покупка"),
                         PurchaseId = purchase.Id,
                         Value = sale.PriceUsd * exchangeRate,
@@ -94,12 +97,18 @@ namespace SteamMarketplace.Services.Randomizers
 
                     _dataManager.UserInventories.Save(new UserInventory
                     {
-                        UserId = buyerId,
+                        UserId = buyer.Id,
                         ItemId = sale.ItemId,
                         AddedAt = DateTime.UtcNow
                     });
 
-                    _logger.LogInformation($"User {buyerId} has purchased item {sale.ItemId} for {sale.PriceUsd.ToString("C2", new CultureInfo("us-US"))}");
+                    await _purchasesHub.Clients.All.SendAsync("ItemPurchased", new { buyer, sale, purchase });
+
+                    await _purchasesHub.Clients.Group($"{sale.ItemId}").SendAsync("CertainItemPurchased", new { buyer, sale, purchase });
+                    await _purchasesHub.Clients.Group($"{sale.SellerId}").SendAsync("CertainItemPurchased", new { buyer, sale, purchase });
+                    await _purchasesHub.Clients.Group($"{sale.ItemFullName}").SendAsync("CertainItemPurchased", new { buyer, sale, purchase });
+
+                    _logger.LogInformation($"User {buyer} has purchased item {sale.ItemId} for {sale.PriceUsd.ToString("C2", new CultureInfo("us-US"))}");
                 }
             }
         }

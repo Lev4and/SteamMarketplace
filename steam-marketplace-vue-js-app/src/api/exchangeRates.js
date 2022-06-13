@@ -1,7 +1,9 @@
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet } from '@/services/utils/responseUtils'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getExchangeRates = async (currencyId) => {
-  return new BaseResponseModel(await responseGet(resourceAPIClient, `/api/exchangeRates/${currencyId}/`))
+export function ExchangeRatesClient() {
+  ResourceAPIClient.apply(this, [{ path: 'exchangeRates' }])
+  this.getExchangeRates = async (currencyId) => {
+    return new BaseResponseModel(await this.get(`${currencyId}`))
+  }
 }

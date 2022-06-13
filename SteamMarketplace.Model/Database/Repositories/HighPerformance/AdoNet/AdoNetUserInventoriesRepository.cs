@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
+using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.Entities;
+using SteamMarketplace.Model.Database.Extensions;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
 using System.Data;
 
@@ -58,12 +60,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<int>("Count");
         }
 
-        public Dictionary<Guid, decimal> GetRandomItems(Guid userId, int limit)
+        public List<RandomUserInventoryItem> GetRandomItems(Guid userId, int limit)
         {
-            var query = $"SELECT TOP(@Limit) UserInventories.ItemId, (SELECT TOP(1) Sales.PriceUsd " +
-                $"FROM Sales WHERE Sales.ItemId = UserInventories.ItemId AND NOT Sales.SoldAt IS NULL ORDER BY " +
-                $"Sales.SoldAt DESC) AS PriceUsd " +
-                $"FROM UserInventories " +
+            var query = $"SELECT TOP(@Limit) UserInventories.ItemId, Items.FullName as ItemFullName, ItemImages.SteamImg AS ItemSteamImage, " +
+                $"(SELECT TOP(1) Sales.PriceUsd FROM Sales WHERE Sales.ItemId = UserInventories.ItemId AND " +
+                $"NOT Sales.SoldAt IS NULL ORDER BY Sales.SoldAt DESC) AS PriceUsd " +
+                $"FROM UserInventories INNER JOIN " +
+                $"Items ON Items.Id = UserInventories.ItemId INNER JOIN " +
+                $"ItemImages ON ItemImages.ItemId = UserInventories.ItemId " +
                 $"WHERE UserInventories.UserId = @UserId " +
                 $"ORDER BY NEWID()";
 
@@ -73,11 +77,11 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
             };
 
-            var result = new Dictionary<Guid, decimal>();
+            var result = new List<RandomUserInventoryItem>();
 
             foreach (DataRow item in _context.ExecuteQuery(query, parameters).Rows)
             {
-                result.Add(item.Field<Guid>("ItemId"), item.Field<decimal>("PriceUsd"));
+                result.Add(item.ToObject<RandomUserInventoryItem>());
             }
 
             return result;

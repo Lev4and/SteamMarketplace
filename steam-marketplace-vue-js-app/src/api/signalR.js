@@ -5,6 +5,7 @@ import { resourceAPIUrl } from './config'
 export function SignalRClient(domain, path, methods) {
   this.connection = new signalR.HubConnectionBuilder()
     .withUrl(`${domain}/${path}`)
+    .withAutomaticReconnect()
     .build()
   this.isConnected = () => { return this.connection.state === signalR.HubConnectionState.Connected }
   this.isDisconnected = () => { return this.connection.state === signalR.HubConnectionState.Disconnected }
@@ -46,4 +47,8 @@ export function DecorationSignalRClient(other) {
 
 export function ResourceAPISignalRClient(other) {
   DecorationSignalRClient.apply(this, [{ domain: resourceAPIUrl, path: other.path, methods: other.methods}])
+  this.matchUser = async (user) => await this.send('MatchUser', user)
+  this.matchGroup = async (group) => await this.send('MatchGroup', group)
+  this.unmatchGroup = async (group) => await this.send('UnmatchGroup', group)
+  this.sendRequestOnGetOnlineUsers = async () => await this.send('GetUsers', null)
 }

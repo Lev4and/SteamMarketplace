@@ -35,8 +35,10 @@
     watch: {
       currentUser: {
         async handler(newValue) {
-          if (newValue) await this.connect()
-          else await this.disconnect()
+          if (newValue) {
+            await this.connect()
+            await this.matchUser()
+          } else await this.disconnect()
         },
         immediate: true,
       },
@@ -49,6 +51,8 @@
     methods: {
       async connect() {
         await API.online.connect()
+      },
+      async matchUser() {
         await API.online.matchUser(this.currentUser)
       },
       async disconnect() {
