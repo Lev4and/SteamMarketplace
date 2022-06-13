@@ -6,7 +6,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { map as _map, findLast as _findLast } from 'lodash'
+  import { map as _map, find as _find, orderBy as _orderBy } from 'lodash'
   import moment from 'moment'
   import API from '@/api'
   import { getCurrencyFormat } from '@/services/utils/formatUtils'
@@ -110,14 +110,14 @@
         try {
           const response = await API.sales.getPricesDynamicsItem(this.fullName)
           if (response.status.isSuccessful()) {
-            this.pricesDynamics = response.result
+            this.pricesDynamics = _orderBy(response.result, ['date'], ['asc'])
           }
         } catch (exception) {
           this.$error(exception.message, 'Ошибка при загрузке')
         }
       },
       getExchangeRateByDate(date) {
-        return _findLast(this.currentUser?.currency?.rates, (rate) => moment(date).isAfter(rate.dateTime))?.rate || 1
+        return _find(this.currentUser?.currency?.rates, (rate) => moment(date).isAfter(rate.dateTime))?.rate || 1
       },
     },
   }

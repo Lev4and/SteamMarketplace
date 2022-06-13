@@ -6,7 +6,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  import { map as _map } from 'lodash'
+  import { map as _map, orderBy as _orderBy } from 'lodash'
   import moment from 'moment'
   import API from '@/api'
 
@@ -88,7 +88,7 @@
         try {
           const response = await API.items.getAddedDynamics(this.fullName)
           if (response.status.isSuccessful()) {
-            this.addedDynamics = response.result
+            this.addedDynamics = _orderBy(response.result, ['date'], ['asc'])
           }
         } catch (exception) {
           this.$error(exception.message, 'Ошибка при загрузке')

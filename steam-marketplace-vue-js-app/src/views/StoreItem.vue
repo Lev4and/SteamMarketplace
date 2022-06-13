@@ -8,6 +8,14 @@
       <a-col :span="24">
         <a-row :gutter="[0,16]">
           <a-col :span="24">
+            <a-page-header title="Мониторинг">
+              <a-spin slot="subTitle">
+                <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
+              </a-spin>
+            </a-page-header>
+            <skin-monitoring />
+          </a-col>
+          <a-col :span="24">
             <skin-prices-dynamics />
           </a-col>
           <a-col :span="24">
@@ -28,6 +36,7 @@
 
 <script>
   import SkinInfo from '@/components/storeItem/SkinInfo'
+  import SkinMonitoring from '@/components/storeItem/SkinMonitoring'
   import SkinPricesDynamics from '@/components/storeItem/SkinPricesDynamics'
   import SkinSalesItemsContainer from '@/components/storeItem/SkinSalesItemsContainer'
   import SkinExposedSalesDynamics from '@/components/storeItem/SkinExposedSalesDynamics'
@@ -38,6 +47,7 @@
 
     components: {
       SkinInfo,
+      SkinMonitoring,
       SkinPricesDynamics,
       SkinSalesItemsContainer,
       SkinExposedSalesDynamics,

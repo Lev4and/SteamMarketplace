@@ -62,7 +62,7 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public List<RandomUserInventoryItem> GetRandomItems(Guid userId, int limit)
         {
-            var query = $"SELECT TOP(@Limit) UserInventories.ItemId, Items.FullName as ItemFullName, ItemImages.SteamImg AS ItemSteamImage " +
+            var query = $"SELECT TOP(@Limit) UserInventories.ItemId, Items.FullName as ItemFullName, ItemImages.SteamImg AS ItemSteamImage, " +
                 $"(SELECT TOP(1) Sales.PriceUsd FROM Sales WHERE Sales.ItemId = UserInventories.ItemId AND " +
                 $"NOT Sales.SoldAt IS NULL ORDER BY Sales.SoldAt DESC) AS PriceUsd " +
                 $"FROM UserInventories INNER JOIN " +

@@ -102,11 +102,11 @@ namespace SteamMarketplace.Services.Randomizers
                         AddedAt = DateTime.UtcNow
                     });
 
-                    await _purchasesHub.Clients.All.SendAsync("ItemPurchased", buyer, sale, purchase);
+                    await _purchasesHub.Clients.All.SendAsync("ItemPurchased", new { buyer, sale, purchase });
 
-                    await _purchasesHub.Clients.Group($"{sale.ItemId}").SendAsync("CertainItemPurchased", buyer, sale, purchase);
-                    await _purchasesHub.Clients.Group($"{sale.SellerId}").SendAsync("CertainItemPurchased", buyer, sale, purchase);
-                    await _purchasesHub.Clients.Group($"{sale.ItemFullName}").SendAsync("CertainItemPurchased", buyer, sale, purchase);
+                    await _purchasesHub.Clients.Group($"{sale.ItemId}").SendAsync("CertainItemPurchased", new { buyer, sale, purchase });
+                    await _purchasesHub.Clients.Group($"{sale.SellerId}").SendAsync("CertainItemPurchased", new { buyer, sale, purchase });
+                    await _purchasesHub.Clients.Group($"{sale.ItemFullName}").SendAsync("CertainItemPurchased", new { buyer, sale, purchase });
 
                     _logger.LogInformation($"User {buyer} has purchased item {sale.ItemId} for {sale.PriceUsd.ToString("C2", new CultureInfo("us-US"))}");
                 }

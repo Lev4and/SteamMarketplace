@@ -58,7 +58,7 @@
 <script>
   import moment from 'moment'
   import { mapGetters } from 'vuex'
-  import { first as _first, join as _join, filter as _filter } from 'lodash'
+  import { find as _find, join as _join, filter as _filter } from 'lodash'
   import { getNumberFormat, getCurrencyFormat } from '@/services/utils/formatUtils'
 
   export default {
@@ -79,7 +79,7 @@
         return this.currentUser?.currency?.literal || 'USD'
       },
       exchangeRate() {
-        return _first(this.currentUser?.currency?.rates)?.rate || 1
+        return _find(this.currentUser?.currency?.rates, (rate) => moment(rate.dateTime).isBefore(this.sale.exposedAt))?.rate || 1
       },
       cultureInfoName() {
         return this.currentUser?.currency?.cultureInfoName || 'us-US'
