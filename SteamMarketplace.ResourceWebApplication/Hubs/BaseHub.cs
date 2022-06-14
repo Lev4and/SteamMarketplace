@@ -21,7 +21,7 @@ namespace SteamMarketplace.ResourceWebApplication.Hubs
             _logger.LogInformation($"Microsoft.AspNetCore.SignalR {ToString()} New connection {Context.ConnectionId} " +
                 $"Current online {Connections.Count}");
 
-            await Clients.All.SendAsync("OnlineChanged", Connections.Count);
+            await Clients.All.SendAsync("OnlineChanged", Connections.DistinctBy(connection => connection.Value?.Id).Count());
 
             await base.OnConnectedAsync();
         }
@@ -50,7 +50,7 @@ namespace SteamMarketplace.ResourceWebApplication.Hubs
                 $"connection {Context.ConnectionId}. Current online {Connections.Count}");
 
             await Clients.All.SendAsync("UserConnected", user);
-            await Clients.All.SendAsync("OnlineChanged", Connections.Count);
+            await Clients.All.SendAsync("OnlineChanged", Connections.DistinctBy(connection => connection.Value?.Id).Count());
         }
 
         public async Task GetUsers()
@@ -58,7 +58,7 @@ namespace SteamMarketplace.ResourceWebApplication.Hubs
             _logger.LogInformation($"Microsoft.AspNetCore.SignalR {ToString()} The connection {Context.ConnectionId} " +
                 $"requested a list of online users.");
 
-            await Clients.Caller.SendAsync("OnlineUsers", Connections.Values);
+            await Clients.Caller.SendAsync("OnlineUsers", Connections.Values.DistinctBy(user => user.Id));
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -71,7 +71,7 @@ namespace SteamMarketplace.ResourceWebApplication.Hubs
                 $"Current online {Connections.Count} Reason {exception?.Message}");
 
             await Clients.All.SendAsync("UserDisconnected", connection);
-            await Clients.All.SendAsync("OnlineChanged", Connections.Count);
+            await Clients.All.SendAsync("OnlineChanged", Connections.DistinctBy(connection => connection.Value?.Id).Count());
 
             await base.OnDisconnectedAsync(exception);
         }
