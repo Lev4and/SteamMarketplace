@@ -54,6 +54,20 @@
         </a-tooltip>
       </a-col>
     </a-row>
+    <div class="stickers-container">
+      <template v-for="sticker in stickers">
+        <div :key="sticker.id" class="sticker">
+          <a-tooltip>
+            <template slot="title">
+              {{ sticker.nested.fullName }}
+            </template>
+            <router-link :to="{ name: 'StoreItem', params: { fullName: sticker.nested.fullName } }">
+              <img :src="sticker.nested.image.steamImg" class="sticker-image" />
+            </router-link>
+          </a-tooltip>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -113,6 +127,9 @@
       },
       seller() {
         return this.purchase.sale.seller.userName
+      },
+      stickers() {
+        return this.item.itemNesteds || []
       },
     },
   }
@@ -182,5 +199,24 @@
     font-size: 20px;
     text-align: center;
     color: rgb(249, 17, 85);
+  }
+  .stickers-container {
+    top: 10px;
+    bottom: 0;
+    right: 10px;
+    width: 35px;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+  }
+  .stickers-container .sticker {
+    width: 100%;
+    height: 35px;
+    display: flex;
+  }
+  .sticker img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 </style>
