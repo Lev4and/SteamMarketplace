@@ -1,6 +1,7 @@
 ﻿using SteamMarketplace.HttpClients.Common.Extensions;
 using SteamMarketplace.HttpClients.CSMoney.ResponseModels;
 using SteamMarketplace.Model.Common;
+using SteamMarketplace.Model.Marketplace.CSMoney.Types;
 using Services = SteamMarketplace.HttpClients.Common.Services;
 
 namespace SteamMarketplace.HttpClients.ResourceAPI
@@ -13,7 +14,7 @@ namespace SteamMarketplace.HttpClients.ResourceAPI
 
         }
 
-        public async Task<BaseResponseModel<BotInventory>> GetInventoryAsync(int limit, int offset, bool withStack = true)
+        public async Task<PagedResponseModel<Item>> GetInventoryAsync(int limit, int offset, bool withStack = true)
         {
             if (limit <= 0)
             {
@@ -27,7 +28,7 @@ namespace SteamMarketplace.HttpClients.ResourceAPI
 
             await AuthorizeAsync();
 
-            return await GetAsync<BaseResponseModel<BotInventory>>($"{ResourceAPIRoutes.CSMoneyStoreQuery}?limit={limit}" +
+            return await GetAsync<PagedResponseModel<Item>>($"{ResourceAPIRoutes.CSMoneyStoreQuery}?limit={limit}" +
                 $"&offset={offset}&withStack={withStack.ToString().ToLower()}");
         }
     }
