@@ -5,6 +5,7 @@ import * as cSMoney from '@/api/cSMoney'
 import * as currencies from '@/api/currencies'
 import * as exchangeRates from '@/api/exchangeRates'
 import * as imports from '@/api/imports'
+import * as itemNesteds from '@/api/itemNesteds'
 import * as items from '@/api/items'
 import * as itemTypes from '@/api/itemTypes'
 import * as online from '@/api/online'
@@ -25,6 +26,7 @@ const API = {
   exchangeRates: new exchangeRates.ExchangeRatesClient(),
   imports: new imports.ImportsClient(),
   importOnline: new imports.ImportHubClient(),
+  itemNesteds: new itemNesteds.ItemNestedsClient(),
   items: new items.ItemsClient(),
   itemTypes: new itemTypes.ItemTypes(),
   online: new online.OnlineHubClient(),
