@@ -18,7 +18,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         private readonly DefaultDataManager _dataManager;
 
         public CollectionsController(DefaultDataManager dataManager) 
-            : base (dataManager.Collections, dataManager.Collections)
+            : base(dataManager.Collections, dataManager.Collections)
         {
             _dataManager = dataManager;
         }
