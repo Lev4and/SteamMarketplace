@@ -84,6 +84,7 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Include(item => item.Quality)
                 .Include(item => item.Collection)
                 .Include(item => item.Application)
+                .OrderBy(item => item.FullName)
                 .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
                 .Take(filters.Pagination.Limit)
                 .AsNoTracking();
