@@ -60,6 +60,7 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
             }
 
             return _context.Collections
+                .OrderBy(collection => collection.RuName)
                 .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
                 .Take(filters.Pagination.Limit)
                 .AsNoTracking();
