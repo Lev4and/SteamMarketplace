@@ -2,10 +2,8 @@
 
 namespace SteamMarketplace.Model.Database.Entities
 {
-    public class Currency
+    public class Currency : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Literal { get; set; }
 

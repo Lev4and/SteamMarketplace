@@ -1,9 +1,7 @@
 ﻿namespace SteamMarketplace.Model.Database.Entities
 {
-    public class ItemNested
+    public class ItemNested : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public Guid ItemId { get; set; }
 
         public Guid ItemNestedId { get; set; }

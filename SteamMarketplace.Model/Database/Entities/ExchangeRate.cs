@@ -2,10 +2,8 @@
 
 namespace SteamMarketplace.Model.Database.Entities
 {
-    public class ExchangeRate
+    public class ExchangeRate : BaseEntity
     {
-        public Guid Id { get; set; }
-         
         public Guid CurrencyId { get; set; }
 
         [Column(TypeName = "decimal(18,6)")]

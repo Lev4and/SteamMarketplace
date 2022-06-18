@@ -3,8 +3,10 @@ using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
 {
-    public interface ICollectionsRepository : IFilterableRepository<Collection, CollectionsFilters>, ICRUDRepository<Collection>
+    public interface IFilterableRepository<T, F> where T : BaseEntity where F : Filters
     {
-        IQueryable<Collection> GetAllCollections();
+        int GetCount(F filters);
+
+        IQueryable<T> GetAllByFilters(F filters);
     }
 }

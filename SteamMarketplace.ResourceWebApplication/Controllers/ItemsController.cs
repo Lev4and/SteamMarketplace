@@ -28,6 +28,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("searchSuggestions")]
+        [ProducesResponseType(typeof(BaseResponseModel<List<string>>), 200)]
+        [ProducesResponseType(typeof(BaseResponseModel<List<string>>), 400)]
         public async Task<IActionResult> GetSearchSuggestions([FromQuery(Name = "q")] string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
@@ -43,6 +45,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("{fullName}")]
+        [ProducesResponseType(typeof(BaseResponseModel<Item>), 200)]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
         public IActionResult GetItemByFullName([Required][FromRoute(Name = "fullName")] string fullName)
         {
             if (string.IsNullOrEmpty(fullName))
@@ -57,6 +61,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("{fullName}/extendedInfo")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(BaseResponseModel<ExtendedItem>), 200)]
         public IActionResult GetExtendedInfoItemByFullName([Required][FromRoute(Name = "fullName")] string fullName)
         {
             if (string.IsNullOrEmpty(fullName))
@@ -79,6 +85,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("{fullName}/addedItemsDynamics")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(BaseResponseModel<List<AddedItemsDynamic>>), 200)]
         public async Task<IActionResult> GetAddedItemsDynamics([Required][FromRoute(Name = "fullName")] string fullName)
         {
             if (string.IsNullOrEmpty(fullName))
@@ -95,6 +103,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpPost]
         [Route("groupedItems")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(PagedResponseModel<GroupedItem>), 200)]
         public async Task<IActionResult> GetGroupedItems([FromBody] ItemsFilters filters)
         {
             if (filters == null)

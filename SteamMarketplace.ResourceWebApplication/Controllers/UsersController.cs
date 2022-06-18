@@ -25,6 +25,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("currentUser")]
+        [ProducesResponseType(typeof(BaseResponseModel<ApplicationUser>), 200)]
         public IActionResult GetCurrentUser()
         {
             return Ok(new BaseResponseModel<ApplicationUser>(_dataManager.Users.GetUserById(Guid.Parse(User.Claims.GetValue("id"))), Statuses.Success));

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Database;
+using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.ResourceWebApplication.Controllers
@@ -12,20 +13,20 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
     [ApiController]
     [Route("api/collections")]
     [EnableCors("CorsPolicy")]
-    public class CollectionsController : Controller
+    public class CollectionsController : CRUDController<Collection, CollectionsFilters>
     {
-        private readonly ILogger<CollectionsController> _logger;
         private readonly DefaultDataManager _dataManager;
 
-        public CollectionsController(DefaultDataManager dataManager, ILogger<CollectionsController> logger)
+        public CollectionsController(DefaultDataManager dataManager) 
+            : base (dataManager.Collections, dataManager.Collections)
         {
-            _logger = logger;
             _dataManager = dataManager;
         }
 
         [HttpGet]
         [Route("all")]
         [AllowAnonymous]
+        [ProducesResponseType(typeof(BaseResponseModel<List<Collection>>), 200)]
         public async Task<IActionResult> GetAllCollections()
         {
             return Ok(new BaseResponseModel<List<Collection>>(await _dataManager.Collections.GetAllCollections()

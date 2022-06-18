@@ -2,10 +2,8 @@
 
 namespace SteamMarketplace.Model.Database.Entities
 {
-    public class TransactionType
+    public class TransactionType : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 

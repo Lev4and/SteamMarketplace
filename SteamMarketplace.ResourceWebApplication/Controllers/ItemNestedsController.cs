@@ -25,6 +25,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpPost]
         [Route("byItemIds")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(BaseResponseModel<List<ItemNested>>), 200)]
         public async Task<IActionResult> GetItemNesteds([FromBody] List<Guid> itemIds)
         {
             if (itemIds == null)

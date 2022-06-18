@@ -1,9 +1,7 @@
 ﻿namespace SteamMarketplace.Model.Database.Entities
 {
-    public class ItemType
+    public class ItemType : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public int CSMoneyId { get; set; }
 
         public string? Name { get; set; }

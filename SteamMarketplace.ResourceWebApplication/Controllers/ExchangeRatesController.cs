@@ -27,6 +27,7 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("{currencyId}")]
+        [ProducesResponseType(typeof(BaseResponseModel<List<ExchangeRate>>), 200)]
         public async Task<IActionResult> GetExchangeRates([Required][FromRoute(Name = "currencyId")] Guid currencyId)
         {
             return Ok(new BaseResponseModel<List<ExchangeRate>>(await _dataManager.ExchangeRates

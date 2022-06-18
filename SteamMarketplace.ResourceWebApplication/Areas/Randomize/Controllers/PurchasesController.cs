@@ -22,9 +22,7 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Randomize.Controllers
 
         [HttpGet]
         [Route("buyItems")]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 200)]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
         public async Task<IActionResult> BuyItems()
         {
             await _purchaseRandomizer.BuyItemsAsync();

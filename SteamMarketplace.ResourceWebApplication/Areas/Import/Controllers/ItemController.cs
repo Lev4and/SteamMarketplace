@@ -33,7 +33,6 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Import.Controllers
 
         [HttpPost]
         [Route("import")]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<Guid>), 200)]
         [ProducesResponseType(typeof(BaseResponseModel<Guid>), 400)]
         public async Task<IActionResult> Import([FromBody] Item item)
