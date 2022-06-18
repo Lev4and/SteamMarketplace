@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SteamMarketplace.Model.Database.Entities
 {
-    public class Item
+    public class Item : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public Guid ApplicationId { get; set; }
 
         public Guid? CollectionId { get; set; }

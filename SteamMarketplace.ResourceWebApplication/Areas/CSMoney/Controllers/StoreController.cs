@@ -26,6 +26,8 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.CSMoney.Controllers
 
         [HttpGet]
         [Route("inventory")]
+        [ProducesResponseType(typeof(PagedResponseModel<Item>), 200)]
+        [ProducesResponseType(typeof(PagedResponseModel<Item>), 400)]
         public async Task<IActionResult> GetInventory([Required][FromQuery(Name = "limit")] int limit, [Required][FromQuery(Name = "offset")] int offset, [FromQuery(Name = "withStack")] bool withStack = true)
         {
             if (limit <= 0)

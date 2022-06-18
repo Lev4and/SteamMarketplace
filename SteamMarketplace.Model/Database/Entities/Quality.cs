@@ -2,10 +2,8 @@
 
 namespace SteamMarketplace.Model.Database.Entities
 {
-    public class Quality
+    public class Quality : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 

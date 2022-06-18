@@ -26,7 +26,6 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Import.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("import")]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<bool>), 200)]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
         public IActionResult Import([FromBody] DailyExchangeRate dailyExchangeRate)

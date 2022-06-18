@@ -179,6 +179,7 @@ builder.Services.AddSwaggerGen(setup =>
         }
     };
 
+    setup.CustomSchemaIds(type => type.ToString());
     setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
     setup.AddSecurityRequirement(new OpenApiSecurityRequirement
     {

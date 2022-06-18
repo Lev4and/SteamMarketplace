@@ -26,6 +26,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpPost]
         [Route("myPurchases")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(PagedResponseModel<Purchase>), 200)]
         public async Task<IActionResult> GetMyPurchases([FromBody] PurchasesFilters filters)
         {
             if (filters == null)

@@ -24,7 +24,6 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.CBR.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("daily")]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<DailyExchangeRate>), 200)]
         public async Task<IActionResult> GetDaily([Required][FromQuery(Name = "date")] DateTime date)
         {
@@ -35,7 +34,6 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.CBR.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("latest")]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<DailyExchangeRate>), 200)]
         public async Task<IActionResult> GetLatest()
         {

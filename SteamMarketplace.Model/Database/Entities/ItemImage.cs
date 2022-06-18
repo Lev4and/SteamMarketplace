@@ -1,9 +1,7 @@
 ﻿namespace SteamMarketplace.Model.Database.Entities
 {
-    public class ItemImage
+    public class ItemImage : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public Guid ItemId { get; set; }
 
         public string? Image { get; set; }
