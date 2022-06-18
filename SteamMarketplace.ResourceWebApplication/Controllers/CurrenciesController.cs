@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Database;
-using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.ResourceWebApplication.Controllers
@@ -13,13 +12,12 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
     [ApiController]
     [Route("api/currencies")]
     [EnableCors("CorsPolicy")]
-    public class CurrenciesController : CRUDController<Currency, CurrenciesFilters>
+    public class CurrenciesController : Controller
     {
         private readonly ILogger<CurrenciesController> _logger;
         private readonly DefaultDataManager _dataManager;
 
         public CurrenciesController(DefaultDataManager dataManager, ILogger<CurrenciesController> logger)
-            : base(dataManager.Currencies, dataManager.Currencies)
         {
             _logger = logger;
             _dataManager = dataManager;
