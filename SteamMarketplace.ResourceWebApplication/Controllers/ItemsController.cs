@@ -15,12 +15,13 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
     [ApiController]
     [Route("api/items")]
     [EnableCors("CorsPolicy")]
-    public class ItemsController : Controller
+    public class ItemsController : CRUDController<Item, ItemsFilters>
     {
         private readonly ILogger<ItemsController> _logger;
         private readonly DefaultDataManager _dataManager;
 
-        public ItemsController(DefaultDataManager dataManager, ILogger<ItemsController> logger)
+        public ItemsController(DefaultDataManager dataManager, ILogger<ItemsController> logger) 
+            : base(dataManager.Items, dataManager.Items)
         {
             _logger = logger;
             _dataManager = dataManager;

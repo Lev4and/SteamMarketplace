@@ -51,5 +51,12 @@ namespace SteamMarketplace.Model.Database.Entities
         public virtual ICollection<ItemNested> ItemNesteds { get; set; }
 
         public virtual ICollection<UserInventory> UserInventories { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Item;
+
+            return CSMoneyId == other?.CSMoneyId;
+        }
     }
 }
