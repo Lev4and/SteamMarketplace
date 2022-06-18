@@ -4,7 +4,7 @@ using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
 {
-    public interface IItemsRepository
+    public interface IItemsRepository : IFilterableRepository<Item, ItemsFilters>, ICRUDRepository<Item>
     {
         int GetCountItems();
 

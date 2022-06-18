@@ -15,6 +15,43 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
             _context = context;
         }
 
+        public void Add(Item entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            if (entity.Id != default)
+            {
+                throw new ArgumentException(nameof(entity));
+            }
+
+            _context.Entry(entity).State = EntityState.Added;
+            _context.SaveChanges();
+        }
+
+        public bool Contains(Item entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            return _context.Items.FirstOrDefault(item => item.CSMoneyId == entity.CSMoneyId) != null;
+        }
+
+        public void DeleteById(Guid id)
+        {
+            if (id == default)
+            {
+                throw new ArgumentException(nameof(id));
+            }
+
+            _context.Items.Remove(GetById(id));
+            _context.SaveChanges();
+        }
+
         public IQueryable<AddedItemsDynamic> GetAddedItemsDynamics(string fullName)
         {
             if (string.IsNullOrEmpty(fullName))
@@ -33,6 +70,25 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .AsNoTracking();
         }
 
+        public IQueryable<Item> GetAllByFilters(ItemsFilters filters)
+        {
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
+            return _context.Items
+                .Include(item => item.Type)
+                .Include(item => item.Image)
+                .Include(item => item.Rarity)
+                .Include(item => item.Quality)
+                .Include(item => item.Collection)
+                .Include(item => item.Application)
+                .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
+                .Take(filters.Pagination.Limit)
+                .AsNoTracking();
+        }
+
         public float? GetAverageFloatItem(string fullName)
         {
             if (string.IsNullOrEmpty(fullName))
@@ -43,6 +99,34 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
             return _context.Items
                 .Where(item => item.FullName == fullName)
                 .Average(item => item.Float);
+        }
+
+        public Item GetById(Guid id)
+        {
+            if (id == default)
+            {
+                throw new ArgumentException(nameof(id));
+            }
+
+            return _context.Items
+                .Include(item => item.Type)
+                .Include(item => item.Image)
+                .Include(item => item.Rarity)
+                .Include(item => item.Quality)
+                .Include(item => item.Collection)
+                .Include(item => item.Application)
+                .AsNoTracking()
+                .FirstOrDefault(item => item.Id == id);
+        }
+
+        public int GetCount(ItemsFilters filters)
+        {
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
+            return _context.Items.Count();
         }
 
         public int GetCountGroupedItems(ItemsFilters filters)
@@ -171,6 +255,22 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .OrderBy(group => group)
                 .Take(7)
                 .AsNoTracking();
+        }
+
+        public void Update(Item entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            if (entity.Id == default)
+            {
+                throw new ArgumentException(nameof(entity));
+            }
+
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }
