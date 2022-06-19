@@ -13,6 +13,7 @@
     "apexcharts": "^3.35.2",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "js-guid": "^1.0.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",

@@ -1,32 +1,33 @@
 <template>
   <div id="skinsImport">
-    <a-row :gutter="[0,0]">
+    <a-row :gutter="[0,32]">
       <a-col :span="24">
+        <a-page-header title="Прогресс" />
         <a-row :gutter="[8,8]">
-          <a-col :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
+          <a-col :sm="12" :md="8" :lg="6">
             <a-card title="Прошло времени">
               {{ elapsedTime }}
             </a-card>
           </a-col>
-          <a-col :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
+          <a-col :sm="12" :md="8" :lg="6">
             <a-card title="Найдено">
-              {{ items.length }}
+              {{ foundItems }}
             </a-card>
           </a-col>
-          <a-col :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
+          <a-col :sm="12" :md="8" :lg="6">
             <a-card title="Импортировано">
-              {{ importedItems.length }}
-            </a-card>
-          </a-col>
-          <a-col :sm="12" :md="8" :lg="6" :xl="4" :xxl="4">
-            <a-card title="Скорость импорта">
-              0
+              {{ importedItems }}
             </a-card>
           </a-col>
         </a-row>
       </a-col>
       <a-col :span="24">
-
+        <a-page-header title="Мониторинг">
+          <a-spin slot="subTitle">
+            <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
+          </a-spin>
+        </a-page-header>
+        <cS-money-monitoring />
       </a-col>
     </a-row>
   </div>
@@ -35,9 +36,14 @@
 <script>
   import { mapGetters } from 'vuex'
   import moment from 'moment'
+  import CSMoneyMonitoring from '@/components/cSMoney/CSMoneyMonitoring'
 
   export default {
     name: 'SkinsImport',
+
+    components: {
+      CSMoneyMonitoring,
+    },
 
     data: () => ({
       interval: null,
@@ -47,25 +53,36 @@
 
     computed: {
       ...mapGetters({
-        items: 'skins/items',
+        importing: 'skins/importing',
+        foundItems: 'skins/foundItems',
         importedItems: 'skins/importedItems',
       }),
     },
 
-    mounted() {
-      this.interval = setInterval(() => {
-        this.elapsedTime = moment.utc(moment().diff(this.startedAt)).format('HH:mm:ss')
-      }, 1000)
-      this.import()
+    watch: {
+      importing: {
+        async handler(newValue, oldValue) {
+          if (!newValue && !oldValue) await this.startImport()
+          else if (!newValue && oldValue) await this.stopImport()
+        },
+        immediate: true,
+      },
     },
 
-    beforeDestroy() {
-      clearInterval(this.interval)
+    async beforeDestroy() {
+      await this.stopImport()
     },
 
     methods: {
-      async import() {
+      async startImport() {
+        this.interval = setInterval(() => {
+          this.elapsedTime = moment.utc(moment().diff(this.startedAt)).format('HH:mm:ss')
+        }, 1000)
         await this.$store.dispatch('skins/import')
+      },
+      async stopImport() {
+        clearInterval(this.interval)
+        await this.$store.dispatch('skins/cancelImport')
       },
     },
   }
