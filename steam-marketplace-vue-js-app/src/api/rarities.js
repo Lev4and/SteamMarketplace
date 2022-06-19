@@ -1,7 +1,9 @@
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet } from '@/services/utils/responseUtils'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getAllRarities = async () => {
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/rarities/all/'))
+export function RaritiesClient() {
+  ResourceAPIClient.apply(this, [{ path: 'rarities' }])
+  this.getAllRarities = async () => {
+    return new BaseResponseModel(await this.get('all'))
+  }
 }

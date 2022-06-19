@@ -4,7 +4,9 @@ namespace SteamMarketplace.Model.Common
 {
     public static class Statuses
     {
-        public static Status Success => new Status(HttpStatusCode.OK, StatusName.Success, "Успех");
+        public static Status Success => new Status(HttpStatusCode.OK, StatusName.Success, "Успех.");
+
+        public static Status ContainsData => new Status(HttpStatusCode.BadRequest, StatusName.Error, "Запись с такими данными уже существует.");
 
         public static Status NotFound => new Status(HttpStatusCode.NotFound, StatusName.Error, "Запрашиваемый ресурс не был найден.");
 

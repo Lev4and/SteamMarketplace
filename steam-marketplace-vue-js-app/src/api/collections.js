@@ -1,7 +1,9 @@
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet } from '@/services/utils/responseUtils'
-import { BaseResponseModel } from '@/services/utils/modelsUtils'
+import { ResourceAPIClient } from "@/api/axios"
+import { BaseResponseModel } from "@/services/utils/modelsUtils"
 
-export const getAllCollections = async () => {
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/collections/all/'))
+export function CollectionsClient() {
+  ResourceAPIClient.apply(this, [{ path: 'collections' }])
+  this.getAllCollections = async () => {
+    return new BaseResponseModel(await this.get('all'))
+  }
 }

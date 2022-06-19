@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SteamMarketplace.Model.Database.Entities
 {
-    public class Item
+    public class Item : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public Guid ApplicationId { get; set; }
 
         public Guid? CollectionId { get; set; }
@@ -53,5 +51,12 @@ namespace SteamMarketplace.Model.Database.Entities
         public virtual ICollection<ItemNested> ItemNesteds { get; set; }
 
         public virtual ICollection<UserInventory> UserInventories { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Item;
+
+            return CSMoneyId == other?.CSMoneyId;
+        }
     }
 }

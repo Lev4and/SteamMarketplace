@@ -20,6 +20,7 @@
 </template>
 
 <script>
+  import { map as _map, groupBy as _groupBy, forEach as _forEach, find as _find, set as _set } from 'lodash'
   import API from '@/api'
   import itemsContainer from '@/services/mixins/itemsContainer'
   import Pagination from '@/components/common/Pagination'
@@ -39,6 +40,15 @@
       LayoutContentSpinner,
     },
 
+    watch: {
+      items: {
+        async handler() {
+          await this.loadItemNesteds()
+        },
+        immediate: true,
+      },
+    },
+
     methods: {
       async getItems() {
         const filters = {
@@ -49,6 +59,18 @@
           },
         }
         return await API.purchases.getMyPurchases(filters)
+      },
+      async loadItemNesteds() {
+        const itemIds = _map(this.items, (item) => item.sale.itemId)
+        const response = await API.itemNesteds.getItemNesteds(itemIds)
+        if (response.status.isSuccessful()) {
+          const itemNesteds = response.result
+          const groupedItemNesteds = _groupBy(itemNesteds, 'itemId')
+          _forEach(groupedItemNesteds, (groupItemNesteds, key) => {
+            const item = _find(this.items, (item) => item.sale.itemId === key)
+            _set(item, 'sale.item.itemNesteds', groupItemNesteds)
+          })
+        }
       },
     },
   }

@@ -26,6 +26,8 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpPost]
         [Route("inventory")]
+        [ProducesResponseType(typeof(BaseResponseModel<List<UserInventory>>), 200)]
+        [ProducesResponseType(typeof(BaseResponseModel<List<UserInventory>>), 400)]
         public async Task<IActionResult> GetInventory([FromBody] UserInventoriesFilters filters)
         {
             if (filters == null)

@@ -7,6 +7,7 @@ using SteamMarketplace.Model.Database;
 using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace SteamMarketplace.ResourceWebApplication.Controllers
 {
@@ -14,12 +15,13 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
     [ApiController]
     [Route("api/items")]
     [EnableCors("CorsPolicy")]
-    public class ItemsController : Controller
+    public class ItemsController : CRUDController<Item, ItemsFilters>
     {
         private readonly ILogger<ItemsController> _logger;
         private readonly DefaultDataManager _dataManager;
 
-        public ItemsController(DefaultDataManager dataManager, ILogger<ItemsController> logger)
+        public ItemsController(DefaultDataManager dataManager, ILogger<ItemsController> logger) 
+            : base(dataManager.Items, dataManager.Items)
         {
             _logger = logger;
             _dataManager = dataManager;
@@ -27,10 +29,14 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
 
         [HttpGet]
         [Route("searchSuggestions")]
+        [ProducesResponseType(typeof(BaseResponseModel<List<string>>), 200)]
+        [ProducesResponseType(typeof(BaseResponseModel<List<string>>), 400)]
         public async Task<IActionResult> GetSearchSuggestions([FromQuery(Name = "q")] string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
             {
+                _logger.LogWarning($"Validation failed. Invalid filters param.");
+
                 return BadRequest(new BaseResponseModel<List<string>>(new List<string>(), Statuses.InvalidData));
             }
 
@@ -38,8 +44,68 @@ namespace SteamMarketplace.ResourceWebApplication.Controllers
                 .ToListAsync(), Statuses.Success));
         }
 
+        [HttpGet]
+        [Route("{fullName}")]
+        [ProducesResponseType(typeof(BaseResponseModel<Item>), 200)]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        public IActionResult GetItemByFullName([Required][FromRoute(Name = "fullName")] string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                _logger.LogWarning($"Validation failed. Invalid filters param.");
+
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            return Ok(new BaseResponseModel<Item>(_dataManager.Items.GetItemByFullName(fullName), Statuses.Success));
+        }
+
+        [HttpGet]
+        [Route("{fullName}/extendedInfo")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(BaseResponseModel<ExtendedItem>), 200)]
+        public IActionResult GetExtendedInfoItemByFullName([Required][FromRoute(Name = "fullName")] string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                _logger.LogWarning($"Validation failed. Invalid filters param.");
+
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            return Ok(new BaseResponseModel<ExtendedItem>(new ExtendedItem()
+            {
+                Count = _dataManager.Items.GetCountItems(fullName),
+                CountOwners = _dataManager.Items.GetCountOwnersItems(fullName),
+                Rarity = _dataManager.Items.GetRarityItem(fullName),
+                AverageFloat = _dataManager.Items.GetAverageFloatItem(fullName),
+                AddedAt = _dataManager.Items.GetMinAddedAtItem(fullName),
+                Item = _dataManager.Items.GetItemByFullName(fullName)
+            }, Statuses.Success));
+        }
+
+        [HttpGet]
+        [Route("{fullName}/addedItemsDynamics")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(BaseResponseModel<List<AddedItemsDynamic>>), 200)]
+        public async Task<IActionResult> GetAddedItemsDynamics([Required][FromRoute(Name = "fullName")] string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                _logger.LogWarning($"Validation failed. Invalid filters param.");
+
+                return BadRequest(new BaseResponseModel<object?>(null, Statuses.InvalidData));
+            }
+
+            var result = await _dataManager.Items.GetAddedItemsDynamics(fullName).ToListAsync();
+
+            return Ok(new BaseResponseModel<List<AddedItemsDynamic>>(result, Statuses.Success));
+        }
+
         [HttpPost]
         [Route("groupedItems")]
+        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
+        [ProducesResponseType(typeof(PagedResponseModel<GroupedItem>), 200)]
         public async Task<IActionResult> GetGroupedItems([FromBody] ItemsFilters filters)
         {
             if (filters == null)

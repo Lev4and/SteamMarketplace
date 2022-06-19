@@ -2,10 +2,8 @@
 
 namespace SteamMarketplace.Model.Database.Entities
 {
-    public class Currency
+    public class Currency : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Literal { get; set; }
 
@@ -15,5 +13,12 @@ namespace SteamMarketplace.Model.Database.Entities
         public virtual ICollection<ExchangeRate> Rates { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Currency;
+
+            return Literal == other?.Literal && CultureInfoName == other?.CultureInfoName;
+        }
     }
 }

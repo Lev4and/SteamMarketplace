@@ -16,6 +16,8 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract
 
         decimal GetWalletBalance(Guid userId);
 
+        ApplicationUser GetRandomUser();
+
         void TopUpWalletBalance(Guid userId, decimal value);
 
         void ReduceWalletBalance(Guid userId, decimal value);

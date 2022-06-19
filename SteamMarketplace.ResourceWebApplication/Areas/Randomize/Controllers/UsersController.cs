@@ -23,12 +23,10 @@ namespace SteamMarketplace.ResourceWebApplication.Areas.Randomize.Controllers
 
         [HttpGet]
         [Route("create")]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 401)]
         [ProducesResponseType(typeof(BaseResponseModel<object?>), 200)]
-        [ProducesResponseType(typeof(BaseResponseModel<object?>), 400)]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            _userRandomizer.CreateUser();
+            await _userRandomizer.CreateUserAsync();
 
             return Ok(new BaseResponseModel<object?>(null, Statuses.Success));
         }

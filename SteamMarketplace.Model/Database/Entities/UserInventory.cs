@@ -1,9 +1,7 @@
 ﻿namespace SteamMarketplace.Model.Database.Entities
 {
-    public class UserInventory
+    public class UserInventory : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public Guid UserId { get; set; }
 
         public Guid ItemId { get; set; }

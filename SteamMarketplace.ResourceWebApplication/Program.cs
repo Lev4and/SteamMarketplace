@@ -25,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<HttpClients.Common.Services.Authorization>();
 builder.Services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
 builder.Services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>();
+builder.Services.AddSingleton<HttpClients.CBR.DailyHttpClient>();
 builder.Services.AddSingleton<HttpClients.CBR.LatestHttpClient>();
 builder.Services.AddSingleton<HttpClients.CBR.CBRHttpContext>();
 builder.Services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();
@@ -70,6 +71,7 @@ builder.Services.AddTransient<HighPerformanceDataManager>();
 builder.Services.AddTransient<ObjectRelationalAbstract.ICollectionsRepository, ObjectRelational.EFCollectionsRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.ICurrenciesRepository, ObjectRelational.EFCurrenciesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IExchangeRatesRepository, ObjectRelational.EFExchangeRatesRepository>();
+builder.Services.AddTransient<ObjectRelationalAbstract.IItemNestedsRepository, ObjectRelational.EFItemNestedsRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IItemsRepository, ObjectRelational.EFItemsRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IItemTypesRepository, ObjectRelational.EFItemTypesRepository>();
 builder.Services.AddTransient<ObjectRelationalAbstract.IPurchasesRepository, ObjectRelational.EFPurchasesRepository>();
@@ -177,6 +179,7 @@ builder.Services.AddSwaggerGen(setup =>
         }
     };
 
+    setup.CustomSchemaIds(type => type.ToString());
     setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
     setup.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -231,8 +234,11 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapHub<SalesHub>("/store/sales");
+    endpoints.MapHub<UsersHub>("/store/users");
     endpoints.MapHub<OnlineHub>("/store/online");
     endpoints.MapHub<ImportHub>("/store/items/import");
+    endpoints.MapHub<PurchasesHub>("/store/purchases");
     endpoints.MapHub<AutoImportHub>("/store/items/import/auto");
     endpoints.MapControllerRoute(
         name: "default",

@@ -1,39 +1,15 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.SignalR;
-
-namespace SteamMarketplace.ResourceWebApplication.Hubs
+﻿namespace SteamMarketplace.ResourceWebApplication.Hubs
 {
-    public class OnlineHub : Hub
+    public class OnlineHub : BaseHub
     {
-        private readonly ILogger<OnlineHub> _logger;
-
-        static HashSet<string> Connections = new HashSet<string>();
-
-        public OnlineHub(ILogger<OnlineHub> logger)
+        public OnlineHub(ILogger<OnlineHub> logger) : base(logger)
         {
-            _logger = logger;
+
         }
 
-        public override async Task OnConnectedAsync()
+        public override string ToString()
         {
-            Connections.Add(Context.ConnectionId);
-
-            _logger.LogInformation($"Microsoft.AspNetCore.SignalR OnlineHub New connection {Context.ConnectionId} " +
-                $"Current online {Connections.Count}");
-
-            await Clients.All.SendAsync("UserConnected", Connections.Count);
-            await base.OnConnectedAsync();
-        }
-
-        public override async Task OnDisconnectedAsync(Exception exception)
-        {
-            Connections.Remove(Context.ConnectionId);
-
-            _logger.LogInformation($"Microsoft.AspNetCore.SignalR OnlineHub Lose connection {Context.ConnectionId} " +
-                $"Current online {Connections.Count} Reason {exception?.Message}");
-
-            await Clients.All.SendAsync("UserDisconnected", Connections.Count);
-            await base.OnDisconnectedAsync(exception);
+            return "OnlineHub";
         }
     }
 }

@@ -12,8 +12,23 @@
         </router-link>
       </a-menu-item>
       <a-menu-item v-if="isAuthorized && isAdministrator" key="dashboard">
-        <a-icon type="dashboard" /> 
-        <span v-text="'Приборная панель'" />
+        <router-link :to="{ name: 'Dashboard' }">
+          <a-icon type="dashboard" /> 
+          <span v-text="'Приборная панель'" />
+        </router-link>
+      </a-menu-item>
+      <a-menu-item v-if="isAuthorized" key="online">
+        <router-link :to="{ name: 'Online' }">
+          <a-row type="flex" align="middle" justify="space-between">
+            <a-col>
+              <a-icon type="global" /> 
+              <span v-text="'Онлайн'" />
+            </a-col>
+            <a-col>
+              <a-badge :count="countOnlineUsers" :showZero="true" :overflowCount="1000" />
+            </a-col>
+          </a-row>
+        </router-link>
       </a-menu-item>
       <a-sub-menu v-if="isAuthorized && isAdministrator" key="database">
         <span slot="title"><a-icon type="database" /> База данных</span>
@@ -60,7 +75,14 @@
         </a-menu-item>
         <a-menu-item key="mysales">
           <router-link :to="{ name: 'MySales' }">
-            <span v-text="'Мои продажи'" />
+            <a-row type="flex" align="middle" justify="space-between">
+              <a-col>
+                <span v-text="'Мои продажи'" />
+              </a-col>
+              <a-col>
+                <a-badge :count="countActiveSales" :showZero="true" :overflowCount="50" />
+              </a-col>
+          </a-row>
           </router-link>
         </a-menu-item>
       </a-sub-menu>
@@ -76,9 +98,15 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import API from '@/api'
 
   export default {
     name: 'LayoutSider',
+
+    data: () => ({
+      countOnlineUsers: 0,
+      countActiveSales: 0,
+    }),
 
     computed: {
       ...mapGetters({
@@ -93,10 +121,40 @@
       },
     },
 
+    watch: {
+      isAuthorized: {
+        async handler(newValue) {
+          if (newValue) await this.loadCountActiveSales()
+        },
+        immediate: true,
+      },
+    },
+
+    mounted() {
+      document.addEventListener('onlinechanged', this.onOnlineChanged)
+    },
+
+    beforeDestroy() {
+      document.removeEventListener('onlinechanged', this.onOnlineChanged)
+    },
+
     methods: {
       async logout() {
         await this.$store.dispatch('auth/logout')
         this.$router.push({ name: 'Login' })
+      },
+      onOnlineChanged(event) {
+        this.countOnlineUsers = event?.detail?.data?.() || 0
+      },
+      async loadCountActiveSales() {
+        try {
+          const response = await API.sales.getCountActiveSales()
+          if (response.status.isSuccessful()) {
+            this.countActiveSales = response.result || 0
+          }
+        } catch (exception) {
+          this.$error(exception.message, 'Ошибка при загрузке активных продаж')
+        }
       },
     },
   }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.AuxiliaryTypes;
+using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract;
 
 namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFramework
@@ -12,6 +13,121 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
         public EFItemsRepository(SteamMarketplaceDbContext context)
         {
             _context = context;
+        }
+
+        public void Add(Item entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            if (entity.Id != default)
+            {
+                throw new ArgumentException(nameof(entity));
+            }
+
+            _context.Entry(entity).State = EntityState.Added;
+            _context.SaveChanges();
+        }
+
+        public bool Contains(Item entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            return _context.Items.FirstOrDefault(item => item.CSMoneyId == entity.CSMoneyId) != null;
+        }
+
+        public void DeleteById(Guid id)
+        {
+            if (id == default)
+            {
+                throw new ArgumentException(nameof(id));
+            }
+
+            _context.Items.Remove(GetById(id));
+            _context.SaveChanges();
+        }
+
+        public IQueryable<AddedItemsDynamic> GetAddedItemsDynamics(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .GroupBy(item => new { item.AddedAt.Year, item.AddedAt.Month, item.AddedAt.Day, item.AddedAt.Hour })
+                .Select(group => new AddedItemsDynamic
+                {
+                    Date = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
+                    CountAdded = group.Count(),
+                })
+                .AsNoTracking();
+        }
+
+        public IQueryable<Item> GetAllByFilters(ItemsFilters filters)
+        {
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
+            return _context.Items
+                .Include(item => item.Type)
+                .Include(item => item.Image)
+                .Include(item => item.Rarity)
+                .Include(item => item.Quality)
+                .Include(item => item.Collection)
+                .Include(item => item.Application)
+                .OrderBy(item => item.FullName)
+                .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
+                .Take(filters.Pagination.Limit)
+                .AsNoTracking();
+        }
+
+        public float? GetAverageFloatItem(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .Average(item => item.Float);
+        }
+
+        public Item GetById(Guid id)
+        {
+            if (id == default)
+            {
+                throw new ArgumentException(nameof(id));
+            }
+
+            return _context.Items
+                .Include(item => item.Type)
+                .Include(item => item.Image)
+                .Include(item => item.Rarity)
+                .Include(item => item.Quality)
+                .Include(item => item.Collection)
+                .Include(item => item.Application)
+                .AsNoTracking()
+                .FirstOrDefault(item => item.Id == id);
+        }
+
+        public int GetCount(ItemsFilters filters)
+        {
+            if (filters == null)
+            {
+                throw new ArgumentNullException(nameof(filters));
+            }
+
+            return _context.Items.Count();
         }
 
         public int GetCountGroupedItems(ItemsFilters filters)
@@ -29,21 +145,43 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Count();
         }
 
+        public int GetCountItems()
+        {
+            return _context.Items.Count();
+        }
+
+        public int GetCountItems(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .Count();
+        }
+
+        public int GetCountOwnersItems(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.UserInventories
+                .Include(userInventory => userInventory.Item)
+                .Where(userInventory => userInventory.Item.FullName == fullName)
+                .GroupBy(userInventory => userInventory.UserId)
+                .Count();
+        }
+
         public IQueryable<GroupedItem> GetGroupedItems(ItemsFilters filters)
         {
             if (filters == null)
             {
                 throw new ArgumentNullException("filters", "The filters must not be empty.");
             }
-
-            var exchangeRate = _context.ExchangeRates
-                .Include(exchangeRate => exchangeRate.Currency)
-                .Where(exchangeRate => exchangeRate.CurrencyId == filters.CurrencyId)
-                .OrderByDescending(exchangeRate => exchangeRate.DateTime)
-                .First();
-
-            var cultureInfoName = exchangeRate?.Currency?.CultureInfoName ?? "us-US";
-            var rate = exchangeRate?.Rate ?? 1;
 
             return _context.Sales
                 .Include(sale => sale.Item)
@@ -54,16 +192,54 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .Select(group => new GroupedItem
                 {
                     Count = group.Count(),
-                    MinPrice = group.Min(sale => sale.PriceUsd) * rate,
                     MinPriceUsd = group.Min(sale => sale.PriceUsd),
                     FullName = group.Key.FullName,
                     SteamImg = group.First().Item.Image.SteamImg,
-                    CultureInfoName = cultureInfoName
                 })
                 .OrderByDescending(group => group.Count)
                 .Skip((filters.Pagination.Page - 1) * filters.Pagination.Limit)
                 .Take(filters.Pagination.Limit)
                 .AsNoTracking();
+        }
+
+        public Item GetItemByFullName(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Include(item => item.Type)
+                .Include(item => item.Image)
+                .Include(item => item.Rarity)
+                .Include(item => item.Quality)
+                .Include(item => item.Collection)
+                .Include(item => item.Application)
+                .OrderBy(item => item.AddedAt)
+                .FirstOrDefault(item => item.FullName == fullName);
+        }
+
+        public DateTime GetMinAddedAtItem(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return _context.Items
+                .Where(item => item.FullName == fullName)
+                .Min(item => item.AddedAt);
+        }
+
+        public double GetRarityItem(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                throw new ArgumentNullException(nameof(fullName));
+            }
+
+            return (double)GetCountItems(fullName) / (double)GetCountItems();
         }
 
         public IQueryable<string> GetSearchSuggestions(string searchString)
@@ -80,6 +256,22 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.EntityFr
                 .OrderBy(group => group)
                 .Take(7)
                 .AsNoTracking();
+        }
+
+        public void Update(Item entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            if (entity.Id == default)
+            {
+                throw new ArgumentException(nameof(entity));
+            }
+
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }

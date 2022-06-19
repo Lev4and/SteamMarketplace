@@ -9,6 +9,7 @@ namespace SteamMarketplace.HttpClients.Tests
             services.AddSingleton<HttpClients.Common.Services.Authorization>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
             services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationAPIHttpContext>();
+            services.AddSingleton<HttpClients.CBR.DailyHttpClient>();
             services.AddSingleton<HttpClients.CBR.LatestHttpClient>();
             services.AddSingleton<HttpClients.CBR.CBRHttpContext>();
             services.AddSingleton<HttpClients.CSMoney.CSMoneyHttpContext>();
@@ -18,6 +19,8 @@ namespace SteamMarketplace.HttpClients.Tests
             services.AddSingleton<HttpClients.ResourceAPI.CSMoneyStoreHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ImportExchangeRateHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.ImportItemHttpClient>();
+            services.AddSingleton<HttpClients.ResourceAPI.ItemsHttpClient>();
+            services.AddSingleton<HttpClients.ResourceAPI.PurchasesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.RandomizePurchasesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeSalesHttpClient>();
             services.AddSingleton<HttpClients.ResourceAPI.RandomizeUsersHttpClient>();

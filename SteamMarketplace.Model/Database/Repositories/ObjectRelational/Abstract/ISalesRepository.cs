@@ -1,4 +1,5 @@
-﻿using SteamMarketplace.Model.Database.AuxiliaryTypes;
+﻿using SteamMarketplace.Model.Database.AnonymousTypes;
+using SteamMarketplace.Model.Database.AuxiliaryTypes;
 using SteamMarketplace.Model.Database.Entities;
 
 namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
@@ -7,6 +8,8 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
     {
         int GetCountSales(Guid userId);
 
+        int GetCountActiveSales(Guid userId);
+
         int GetCountSalesItem(string fullName);
 
         IQueryable<Sale> GetSales(SalesFilters filters);
@@ -14,5 +17,7 @@ namespace SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract
         IQueryable<Sale> GetSalesItem(SalesItemFilters filters);
 
         IQueryable<PricesDynamic> GetPricesDynamicsItem(string fullName);
+
+        IQueryable<ExposedSalesDynamic> GetExposedSalesDynamicsItem(string fullName);
     }
 }

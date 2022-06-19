@@ -52,6 +52,22 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("CurrencyId");
         }
 
+        public ApplicationUser GetRandomUser()
+        {
+            var query = $"SELECT TOP(1) * " +
+                $"FROM AspNetUsers " +
+                $"ORDER BY NEWID()";
+
+            var result = (_context.ExecuteQuery(query)).Rows;
+
+            if (result.Count == 1)
+            {
+                return result[0].ToObject<ApplicationUser>();
+            }
+
+            return new ApplicationUser();
+        }
+
         public Guid GetRandomUserId()
         {
             var query = $"SELECT TOP(1) Id " +

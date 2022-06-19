@@ -9,10 +9,14 @@ import Login from '@/views/Login'
 import Skins from '@/views/Skins'
 import Logout from '@/views/Logout'
 import Import from '@/views/Import'
+import Online from '@/views/Online'
 import CSMoney from '@/views/CSMoney'
 import Account from '@/views/Account'
 import Purchases from '@/views/Purchases'
+import StoreItem from '@/views/StoreItem'
+import Dashboard from '@/views/Dashboard'
 import MyInventory from '@/views/MyInventory'
+import CurrencyExchangeRate from '@/views/CurrencyExchangeRate'
 
 Vue.use(VueRouter)
 
@@ -44,6 +48,33 @@ const routes = [
     },
   },
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      title: 'Приборная панель',
+      authRequired: true,
+    },
+  },
+  {
+    path: '/currency/:literal/exchangeRate',
+    name: 'CurrencyExchangeRate',
+    component: CurrencyExchangeRate,
+    meta: {
+      authRequired: true,
+      title: 'Курс валюты',
+    },
+  },
+  {
+    path: '/online',
+    name: 'Online',
+    component: Online,
+    meta: {
+      title: 'Онлайн',
+      authRequired: true,
+    },
+  },
+  {
     path: '/cSMoney',
     name: 'CSMoney',
     component: CSMoney,
@@ -59,6 +90,15 @@ const routes = [
     meta: {
       authRequired: true,
       title: 'Магазин',
+    },
+  },
+  {
+    path: '/store/:fullName',
+    name: 'StoreItem',
+    component: StoreItem,
+    meta: {
+      authRequired: true,
+      title: 'Скин',
     },
   },
   {

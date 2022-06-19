@@ -12,16 +12,16 @@ namespace SteamMarketplace.HttpClients.ResourceAPI
 
         }
 
-        public async Task<BaseResponseModel<bool?>> ImportAsync(LatestExchangeRate latestExchangeRate)
+        public async Task<BaseResponseModel<bool?>> ImportAsync(DailyExchangeRate dailyExchangeRate)
         {
-            if (latestExchangeRate == null)
+            if (dailyExchangeRate == null)
             {
-                throw new ArgumentNullException(nameof(latestExchangeRate));
+                throw new ArgumentNullException(nameof(dailyExchangeRate));
             }
 
             await AuthorizeAsync();
 
-            return await PostAsync<BaseResponseModel<bool?>>(ResourceAPIRoutes.ImportExchangeRateQuery, latestExchangeRate);
+            return await PostAsync<BaseResponseModel<bool?>>(ResourceAPIRoutes.ImportExchangeRateQuery, dailyExchangeRate);
         }
     }
 }

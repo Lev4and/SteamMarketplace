@@ -9,7 +9,9 @@
           <template slot="title">
             {{ item.fullName }}
           </template>
-          <span class="title">{{ item.fullName }}</span>
+          <router-link :to="{ name: 'StoreItem', params: { fullName: item.fullName } }">
+            <span class="title">{{ item.fullName }}</span>
+          </router-link>
         </a-tooltip>
       </a-col>
       <a-col :span="24">
@@ -43,7 +45,9 @@
             <template slot="title">
               {{ sticker.name }}
             </template>
-            <img :src="sticker.img" class="sticker-image" />
+            <router-link :to="{ name: 'StoreItem', params: { fullName: sticker.name } }">
+              <img :src="sticker.img" class="sticker-image" />
+            </router-link>
           </a-tooltip>
         </div>
       </template>

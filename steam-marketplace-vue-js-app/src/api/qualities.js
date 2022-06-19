@@ -1,7 +1,9 @@
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet } from '@/services/utils/responseUtils'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getAllQualities = async () => {
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/qualities/all/'))
+export function QualitiesClient() {
+  ResourceAPIClient.apply(this, [{ path: 'qualities' }])
+  this.getAllQualities = async () => {
+    return new BaseResponseModel(await this.get('all'))
+  }
 }

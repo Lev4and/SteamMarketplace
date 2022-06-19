@@ -10,7 +10,7 @@
             v-model="page"
             class="pagination"
             :page-size="limit"
-            :total-items="150000"
+            :total-items="totalItems"
             @limit-changed="onLimitChanged"
           />
         </template>

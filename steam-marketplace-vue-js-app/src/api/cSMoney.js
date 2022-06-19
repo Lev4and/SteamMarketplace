@@ -1,15 +1,10 @@
-import store from '@/store'
-import { resourceAPIClient } from '@/api/axios'
-import { responseGet } from '@/services/utils/responseUtils'
+import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export const getInventory = async (limit, offset) => {
-  const config = {
-    params: {
-      limit: limit,
-      offset: offset,
-    },
-    headers: { 'Authorization': `Bearer ${await store.dispatch('auth/tryGetAccessToken')}` },
+export function CSMoneyClient() {
+  ResourceAPIClient.apply(this, [{ path: 'csMoney' }])
+  this.getInventory = async (limit, offset) => {
+    const params = { limit: limit, offset: offset }
+    return new BaseResponseModel(await this.getAuth('store/inventory', params))
   }
-  return new BaseResponseModel(await responseGet(resourceAPIClient, '/api/csMoney/store/inventory', config))
 }
