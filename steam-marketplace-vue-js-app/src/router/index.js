@@ -6,7 +6,9 @@ import Home from '@/views/Home'
 import Sales from '@/views/Sales'
 import Store from '@/views/Store'
 import Login from '@/views/Login'
+import Skins from '@/views/Skins'
 import Logout from '@/views/Logout'
+import Import from '@/views/Import'
 import Online from '@/views/Online'
 import CSMoney from '@/views/CSMoney'
 import Account from '@/views/Account'
@@ -133,6 +135,26 @@ const routes = [
         meta: {
           authRequired: true,
           title: 'Мои продажи',
+        },
+      },
+    ],
+  },
+  {
+    path: '/import',
+    name: 'Import',
+    component: Import,
+    meta: {
+      authRequired: true,
+      title: 'Импорт',
+    },
+    children: [
+      {
+        path: 'skins/',
+        name: 'Skins',
+        component: Skins,
+        meta: {
+          authRequired: true,
+          title: 'Скины из CS.Money',
         },
       },
     ],

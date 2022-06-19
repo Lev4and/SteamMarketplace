@@ -10,6 +10,9 @@ export function ImportsClient() {
   this.importLatestExchangeRate = async (latestExchangeRate) => {
     return new BaseResponseModel(await this.post('exchangeRate/import', latestExchangeRate))
   }
+  this.importItem = async (item) => {
+    return new BaseResponseModel(await this.postAuth('item/import', item))
+  }
 }
 
 export function ImportHubClient() {
