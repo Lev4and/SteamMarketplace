@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SteamMarketplace.Model.Common;
 using System.Net;
 
@@ -21,7 +22,11 @@ namespace SteamMarketplace.ResourceWebApplication.Services
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new BaseResponseModel<object?>(null,
-                new Status(HttpStatusCode.InternalServerError, StatusName.Error, "Внутренняя ошибка сервера"))));
+                new Status(HttpStatusCode.InternalServerError, StatusName.Error, "Внутренняя ошибка сервера")), 
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                }));
         }
 
         public async Task InvokeAsync(HttpContext httpContext)

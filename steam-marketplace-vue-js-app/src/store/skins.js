@@ -29,13 +29,20 @@ const actions = {
     state.foundItems = 0
     state.importing = true
     state.importedItems = 0
-    for(let i = 0; i < 150000; i += 50) {
-      if (state.importing) {
-        const response = await API.cSMoney.getInventory(50, i)
-        if (response?.status?.isSuccessful()) {
-          await Promise.all(_map(response.result.items, (item) => {
-            dispatch('saveItem', item)
-          }))
+    for (let i = 0; i < 30000; i += 1) {
+      for (let j = 0; j < 5000; j += 50) {
+        if (state.importing) {
+          try {
+            const response = await API.cSMoney.getInventory(50, j, i, i + 1)
+            if (response?.status?.isSuccessful()) {
+              if (response.result.items.length === 0) break
+              await Promise.all(_map(response.result.items, (item) => {
+                dispatch('saveItem', item)
+              }))
+            } else break
+          } catch (exception) {
+            console.warn(exception.message)
+          }
         }
       }
     }
