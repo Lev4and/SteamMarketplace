@@ -9,6 +9,8 @@ import 'ant-design-vue/dist/antd.css'
 import VueApexCharts from 'vue-apexcharts'
 import AntNotify from '@/services/plugins/notify'
 
+import './assets/css/styles.scss'
+
 Vue.config.productionTip = false
 Vue.use(Antd)
 Vue.use(VueApexCharts)

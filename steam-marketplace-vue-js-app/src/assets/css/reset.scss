@@ -1,0 +1,22 @@
+img {
+  display: inline;
+  vertical-align: middle;
+  max-width: unset;
+}
+svg {
+  vertical-align: unset;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+h2 {
+  font-size: 1.5em;
+}
+button.ant-btn-primary:not([disabled]) {
+  background-color: #1890ff;
+}
+button.ant-btn-primary:hover, .ant-btn-primary:focus {
+  color: #fff;
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
