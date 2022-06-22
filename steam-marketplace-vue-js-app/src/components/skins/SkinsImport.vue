@@ -47,8 +47,8 @@
 
     data: () => ({
       interval: null,
-      elapsedTime: '',
       startedAt: moment(),
+      elapsedTime: '00:00:00',
     }),
 
     computed: {

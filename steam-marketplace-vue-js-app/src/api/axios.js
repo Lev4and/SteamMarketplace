@@ -16,13 +16,15 @@ export function AxiosClient(domain, path) {
       params: params,
       headers: headers,
     }
-    return (await this.client.get(url, config).catch((error) => { return error.response.data })).data
+    return await this.client.get(url, config).then((response) => { return response.data })
+      .catch((error) => { return error.response.data })
   }
   this.post = async (url, body, headers = {}) => {
     const config = {
       headers: headers,
     }
-    return (await this.client.post(url, body, config).catch((error) => { return error.response.data })).data
+    return await this.client.post(url, body, config).then((response) => { return response.data })
+      .catch((error) => { return error.response.data })
   }
 }
 
