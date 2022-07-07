@@ -5,11 +5,11 @@ import store from './store'
 
 
 import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
 import VueApexCharts from 'vue-apexcharts'
 import AntNotify from '@/services/plugins/notify'
 
 import './assets/css/styles.scss'
+import 'ant-design-vue/dist/antd.css'
 
 Vue.config.productionTip = false
 Vue.use(Antd)

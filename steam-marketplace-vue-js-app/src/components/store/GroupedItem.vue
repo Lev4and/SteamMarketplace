@@ -1,11 +1,11 @@
 <template>
-  <div class="grouped-item">
+  <div class="grouped-item skin-item">
     <a-row :gutter="[0,12]">
       <a-col :span="24" class="image-container">
         <img :src="item.steamImg" />
       </a-col>
       <a-col :span="24">
-        <a-tooltip>
+        <a-tooltip placement="topLeft">
           <template slot="title">
             {{ item.fullName }}
           </template>
@@ -20,7 +20,7 @@
             <span style="font-size: 20px;" v-text="priceFormat">
             </span>
           </template>
-          <strong class="actual-price" v-text="priceFormat" />
+          <strong class="actual-price !text-center" v-text="priceFormat" />
         </a-tooltip>
       </a-col>
     </a-row>
@@ -67,48 +67,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .grouped-item {
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid black;
-  }
-  .image-container {
-    width: 100%;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    vertical-align: middle;
-  }
-  .image-container img {
-    margin: auto;
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-  }
-  .title {
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .actual-price {
-    display: block;
-    font-size: 20px;
-    text-align: center;
-    color: rgb(249, 17, 85);
-  }
-  .stack-container {
-    top: 15px;
-    bottom: 0;
-    left: 10px;
-    width: 35px;
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-  }
-</style>

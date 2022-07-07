@@ -1,5 +1,5 @@
 <template>
-  <div class="inventory-item">
+  <div class="inventory-item skin-item">
     <a-row :gutter="[0,12]">
       <a-col :span="24" class="image-container">
         <img :src="item.image.steamImg" />
@@ -80,62 +80,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .inventory-item {
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid black;
-  }
-  .image-container {
-    width: 100%;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    vertical-align: middle;
-  }
-  .image-container img {
-    margin: auto;
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-  }
-  .title {
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .info {
-    font-size: 12px;
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .stickers-container {
-    top: 10px;
-    bottom: 0;
-    right: 10px;
-    width: 35px;
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-  }
-  .stickers-container .sticker {
-    width: 100%;
-    height: 35px;
-    display: flex;
-  }
-  .sticker img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-</style>

@@ -1,11 +1,11 @@
 <template>
-  <div class="my-purchase">
+  <div class="my-purchase skin-item">
     <a-row :gutter="[0,12]">
       <a-col :span="24" class="image-container">
         <img :src="item.image.steamImg" />
       </a-col>
       <a-col :span="24">
-        <a-tooltip>
+        <a-tooltip placement="topLeft">
           <template slot="title">
             {{ item.fullName }}
           </template>
@@ -15,7 +15,7 @@
         </a-tooltip>
       </a-col>
       <a-col :span="24">
-        <a-tooltip>
+        <a-tooltip placement="topLeft">
           <template slot="title">
             {{ info }}
           </template>
@@ -25,7 +25,7 @@
       <a-col :span="24">
         <div class="purchase-info">
           <div class="seller">
-            <a-tooltip>
+            <a-tooltip placement="topLeft">
               <template slot="title">
                 <span>Продавец: {{ seller }}</span>
               </template>
@@ -34,7 +34,7 @@
             </a-tooltip>
           </div>
           <div class="purchase-at">
-            <a-tooltip>
+            <a-tooltip placement="topLeft">
               <template slot="title">
                 <span>Куплено в: {{ purchaseAtFormat }}</span>
               </template>
@@ -50,7 +50,7 @@
             <span style="font-size: 20px;" v-text="priceFormat">
             </span>
           </template>
-          <strong class="actual-price" v-text="priceFormat" />
+          <strong class="actual-price !text-center" v-text="priceFormat" />
         </a-tooltip>
       </a-col>
     </a-row>
