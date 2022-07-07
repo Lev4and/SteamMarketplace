@@ -1,0 +1,53 @@
+.skin-item {
+  .image-container {
+    img {
+      @apply m-auto max-w-[90%] max-h-[90%] object-contain
+    }
+    @apply w-full h-[130px] flex items-center align-middle
+  }
+  .title {
+    @apply web-kit-text
+  }
+  .info {
+    @apply web-kit-text text-[12px]
+  }
+  .sale-info, .purchase-info {
+    .seller, .buyer {
+      .seller-title, .buyer-title {
+        @apply ml-[5px]
+      }
+      @apply web-kit-text w-[45%] text-[12px]
+    }
+    .exposed-at, .purchase-at, .sold-at {
+      .exposed-at-time, .purchase-at-time, .sold-at-time {
+        @apply ml-[5px]
+      }
+      @apply web-kit-text w-[45%] text-[12px]
+    }
+    @apply flex flex-row justify-between
+  }
+  .actual-price {
+    @apply block text-[20px] text-left text-[#f91155]
+  }
+  .stack-container {
+    @apply top-[15px] bottom-0 left-[10px] w-[35px] flex absolute flex-col
+  }
+  .stickers-container {
+    .sticker {
+      img {
+        @apply w-full h-full object-contain
+      }
+      @apply w-full h-[35px] flex
+    }
+    @apply top-[15px] bottom-0 right-[10px] w-[35px] flex absolute flex-col
+  }
+  @apply p-[10px] rounded-[10px] border-solid border-[black] border-[1px]
+}
+
+.original-price {
+  &::after {
+    content: "";
+    top: calc(50% - 1px);
+    @apply h-[3px] block left-0 absolute rotate-[-2deg] bg-[red] w-full
+  }
+}
