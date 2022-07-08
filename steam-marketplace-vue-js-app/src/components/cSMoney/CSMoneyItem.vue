@@ -25,7 +25,7 @@
       <a-col :span="24">
         <a-tooltip>
           <template slot="title">
-            <span style="font-size: 20px;">{{ currentPrice }}
+            <span class="text-[20px]">{{ currentPrice }}
               <sup v-if="overprice !== 1" class="original-price">
                 <small v-text="originalPrice" />
               </sup>

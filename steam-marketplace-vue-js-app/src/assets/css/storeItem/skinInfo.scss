@@ -1,0 +1,11 @@
+#skinInfo {
+  .image-container {
+    img {
+      @apply w-full h-full object-contain
+    }
+    @apply h-[350px] flex items-center
+  }
+  .additional-info {
+    @apply w-full p-[20px] border-[1px] border-[black] rounded-[5px]
+  }
+}

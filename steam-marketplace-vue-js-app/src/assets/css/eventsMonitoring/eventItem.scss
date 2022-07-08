@@ -1,0 +1,9 @@
+.event-item {
+  .image {
+    @apply w-[30px] h-[30px] object-contain border-[1px] border-[black]
+  }
+  .actual-price {
+    @apply text-[#f91155]
+  }
+  @apply gap-[12px] h-[50px] flex py-[6px] px-[8px] rounded-[5px] flex-row items-center border-[1px] border-[black]
+}

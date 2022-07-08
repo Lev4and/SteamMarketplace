@@ -9,7 +9,3 @@
     name: 'Import',
   }
 </script>
-
-<style scoped>
-
-</style>

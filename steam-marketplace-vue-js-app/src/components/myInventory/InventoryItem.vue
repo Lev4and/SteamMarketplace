@@ -5,7 +5,7 @@
         <img :src="item.image.steamImg" />
       </a-col>
       <a-col :span="24">
-        <a-tooltip>
+        <a-tooltip placement="topLeft">
           <template slot="title">
             {{ item.fullName }}
           </template>
@@ -15,7 +15,7 @@
         </a-tooltip>
       </a-col>
       <a-col :span="24">
-        <a-tooltip>
+        <a-tooltip placement="topLeft">
           <template slot="title">
             {{ info }}
           </template>

@@ -1,0 +1,18 @@
+.header {
+  .logo {
+    @apply flex items-center float-left
+  }
+  .row {
+    @apply w-full
+  }
+  .dropdown-header {
+    .user-avatar {
+      @apply float-left
+    }
+    .user-name {
+      @apply text-[white] my-0 mx-auto text-[18px]
+    }
+    @apply flex items-center
+  }
+  @apply flex py-0 px-[24px] items-center
+}

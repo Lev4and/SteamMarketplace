@@ -34,24 +34,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .header {
-    display: flex;
-    padding: 0 24px;
-    align-items: center;
-  }
-  .header .logo {
-    display: flex;
-    align-items: center;
-    float: left;
-  }
-  .header .title {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-  }
-  .header .row {
-    width: 100%;
-  }
-</style>

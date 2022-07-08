@@ -47,7 +47,7 @@
       <a-col :span="24">
         <a-tooltip>
           <template slot="title">
-            <span style="font-size: 20px;" v-text="priceFormat">
+            <span class="text-[20px]" v-text="priceFormat">
             </span>
           </template>
           <strong class="actual-price !text-center" v-text="priceFormat" />
@@ -131,89 +131,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .my-sale {
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid black;
-  }
-  .image-container {
-    width: 100%;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    vertical-align: middle;
-  }
-  .image-container img {
-    margin: auto;
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-  }
-  .title {
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .info {
-    font-size: 12px;
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .sale-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .sale-info .buyer,
-  .sale-info .sold-at {
-    width: 45%;
-    font-size: 12px;
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .buyer .buyer-title,
-  .sold-at .sold-at-time {
-    margin-left: 5px;
-  }
-  .actual-price {
-    display: block;
-    font-size: 20px;
-    text-align: center;
-    color: rgb(249, 17, 85);
-  }
-  .stickers-container {
-    top: 10px;
-    bottom: 0;
-    right: 10px;
-    width: 35px;
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-  }
-  .stickers-container .sticker {
-    width: 100%;
-    height: 35px;
-    display: flex;
-  }
-  .sticker img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-</style>

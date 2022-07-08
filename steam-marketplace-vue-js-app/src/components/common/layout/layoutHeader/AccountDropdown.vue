@@ -12,7 +12,7 @@
         </a-menu-item>
         <a-menu-item>
           <router-link :to="{ name: 'Logout' }">
-            <a-icon type="close-circle" style="margin-right: 8px;" /> 
+            <a-icon type="close-circle" class="mr-[8px]" /> 
             <span v-text="'Выход'" />
           </router-link>
         </a-menu-item>
@@ -50,18 +50,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .dropdown-header {
-    display: flex;
-    align-items: center;
-  }
-  .dropdown-header .user-avatar {
-    float: left;
-  }
-  .dropdown-header .user-name {
-    color: white;
-    margin: 0 auto;
-    font-size: 18px;
-  }
-</style>

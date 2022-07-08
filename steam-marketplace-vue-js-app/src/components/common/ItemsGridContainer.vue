@@ -27,17 +27,3 @@
     },
   }
 </script>
-
-<style>
-  .items-grid-container ul.pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-</style>
-
-<style scoped>
-  .items-container {
-    padding-right: 10px;
-  }
-</style>

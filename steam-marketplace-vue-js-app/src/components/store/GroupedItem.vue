@@ -17,7 +17,7 @@
       <a-col :span="24">
         <a-tooltip>
           <template slot="title">
-            <span style="font-size: 20px;" v-text="priceFormat">
+            <span class="text-[20px]" v-text="priceFormat">
             </span>
           </template>
           <strong class="actual-price !text-center" v-text="priceFormat" />

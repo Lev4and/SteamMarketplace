@@ -10,7 +10,7 @@
           <a-col :span="24">
             <a-page-header title="Мониторинг">
               <a-spin slot="subTitle">
-                <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
+                <a-icon slot="indicator" class="!text-[24px]" type="loading" spin />
               </a-spin>
             </a-page-header>
             <skin-monitoring />
@@ -55,7 +55,3 @@
     },
   }
 </script>
-
-<style scoped>
-
-</style>

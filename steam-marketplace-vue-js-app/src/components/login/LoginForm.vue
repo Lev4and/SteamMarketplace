@@ -37,7 +37,7 @@
             </a-col>
             <a-col :span="24">
               <a-form-item>
-                <a-button type="primary" html-type="submit" class="login-form-button">
+                <a-button type="primary" html-type="submit" class="login-form-button !w-full">
                   Войти
                 </a-button>
                 или
@@ -93,12 +93,3 @@
     },
   }
 </script>
-
-<style>
-  #loginForm #components-form-demo-normal-login .login-form {
-    max-width: 300px;
-  }
-  #loginForm #components-form-demo-normal-login .login-form-button {
-    width: 100%;
-  }
-</style>

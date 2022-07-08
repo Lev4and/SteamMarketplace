@@ -14,11 +14,11 @@
                 <span v-text="rarity" />
               </a-col>
               <a-col :span="24">
-                <a-tooltip>
+                <a-tooltip placement="topLeft">
                   <template slot="title">
                     {{ fullName }}
                   </template>
-                  <strong class="full-name" v-text="fullName" />
+                  <strong class="web-kit-text text-[22px]" v-text="fullName" />
                 </a-tooltip>
               </a-col>
             </a-row>
@@ -236,32 +236,3 @@
     },
   }
 </script>
-
-<style scoped>
-  #skinInfo .image-container {
-    height: 350px;
-    display: flex;
-    align-items: center;
-  }
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  #skinInfo .additional-info {
-    width: 100%;
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 5px;
-  }
-  .full-name {
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    font-size: 22px;
-  }
-</style>
