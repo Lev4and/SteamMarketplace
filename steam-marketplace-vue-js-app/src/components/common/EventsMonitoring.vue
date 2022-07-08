@@ -68,26 +68,3 @@
     },
   }
 </script>
-
-<style>
-  .list-events-item {
-    transition: all 1s;
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .list-events-enter, .list-events-leave-to {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  .list-events-leave-active {
-    position: absolute;
-  }
-</style>
-
-<style scoped>
-  .container {
-    overflow: auto;
-    max-height: 400px;
-    padding-right: 12px;
-  }
-</style>

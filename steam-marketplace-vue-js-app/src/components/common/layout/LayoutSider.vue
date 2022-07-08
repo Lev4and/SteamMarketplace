@@ -3,7 +3,7 @@
     <a-menu
       mode="inline"
       :selectedKeys="selectedMenuItems"
-      :style="{ height: '100%', borderRight: 0 }"
+      class="h-full border-r-[0px]"
     >
       <a-menu-item v-if="isAuthorized" key="home">
         <router-link :to="{ name: 'Home' }">
@@ -159,10 +159,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .sider {
-    width: 200px;
-    background: #fff;
-  }
-</style>

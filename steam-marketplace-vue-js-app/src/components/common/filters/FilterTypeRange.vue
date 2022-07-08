@@ -15,7 +15,7 @@
           :min="range.min"
           :max="range.max"
           :step="0.1"
-          style="width: 100%"
+          class="w-full"
           @change="onChangeRangeFrom"
         />
       </a-col>
@@ -26,7 +26,7 @@
           :min="range.min"
           :max="range.max"
           :step="0.1"
-          style="width: 100%"
+          class="w-full"
           @change="onChangeRangeTo"
         />
       </a-col>
@@ -102,7 +102,3 @@
     },
   }
 </script>
-
-<style scoped>
-
-</style>

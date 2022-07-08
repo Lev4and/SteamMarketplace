@@ -24,7 +24,7 @@
       <a-col :span="24">
         <a-page-header title="Мониторинг">
           <a-spin slot="subTitle">
-            <a-icon slot="indicator" type="loading" style="font-size: 24px" spin />
+            <a-icon slot="indicator" type="loading" class="!text-[24px]" spin />
           </a-spin>
         </a-page-header>
         <cS-money-monitoring />
@@ -87,7 +87,3 @@
     },
   }
 </script>
-
-<style scoped>
-
-</style>

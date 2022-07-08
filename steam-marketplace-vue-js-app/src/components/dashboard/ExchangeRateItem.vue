@@ -6,12 +6,12 @@
       </router-link>
       <a-row type="flex" align="middle" justify="space-between">
         <a-col :span="12">
-          <strong class="webkit-text" v-text="currentRateFormat" />
+          <strong class="web-kit-text" v-text="currentRateFormat" />
         </a-col>
         <a-col :span="12">
           <a-row type="flex" align="middle" justify="end">
             <a-col>
-              <strong class="webkit-text" :class="{ 'text-color-red': growth < 0, 'text-color-green': growth >= 0 }" v-text="growthFormat" />
+              <strong class="web-kit-text" :class="{ 'text-[red]': growth < 0, 'text-[green]': growth >= 0 }" v-text="growthFormat" />
             </a-col>
           </a-row>
         </a-col>
@@ -58,21 +58,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .webkit-text {
-    word-break: break-all;
-    flex-grow: 0;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .text-color-red {
-    color: red;
-  }
-  .text-color-green {
-    color: green;
-  }
-</style>

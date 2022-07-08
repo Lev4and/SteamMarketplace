@@ -1,0 +1,8 @@
+.items-grid-container {
+  .items-container {
+    @apply pr-[10px]
+  }
+  ul.pagination {
+    @apply flex flex-row justify-center
+  }
+}

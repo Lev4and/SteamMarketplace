@@ -1,0 +1,7 @@
+#events-monitoring {
+  .container {
+    @apply overflow-auto max-h-[400px] pr-[12px]
+  }
+}
+
+@import './eventsMonitoring/eventItem.scss';

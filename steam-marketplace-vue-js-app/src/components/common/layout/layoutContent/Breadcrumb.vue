@@ -1,6 +1,6 @@
 <template>
   <div id="breadcrumb">
-    <a-breadcrumb style="margin: 16px 0;">
+    <a-breadcrumb class="!my-[16px] !mx-0">
       <template v-for="(item, i) in items">
         <a-breadcrumb-item :key="i">
           <router-link :to="{ name: item.name }">

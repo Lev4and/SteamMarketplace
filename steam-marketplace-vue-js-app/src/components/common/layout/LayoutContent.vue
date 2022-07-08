@@ -21,16 +21,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .layout-content {
-    padding: 0 24px;
-  }
-  .layout-content .content {
-    margin: 0;
-    padding: 24px;
-    overflow: auto;
-    min-height: 280px;
-    background: #fff;
-  }
-</style>
