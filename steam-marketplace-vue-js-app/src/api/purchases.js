@@ -5,13 +5,18 @@ import { BaseResponseModel } from '@/services/utils/modelsUtils'
 const path = 'store/purchases'
 const methods = ['ItemPurchased', 'CertainItemPurchased']
 
-export function PurchasesClient() {
-  ResourceAPIClient.apply(this, [{ path: 'purchases' }])
-  this.getMyPurchases = async (filters) => {
-    return new BaseResponseModel(await this.postAuth('myPurchases', filters))
+export class PurchasesClient extends ResourceAPIClient {
+  constructor() {
+    super('purchases')
+  }
+
+  async getMyPurchases(filters) {
+    return new BaseResponseModel(await this.post('myPurchases', filters))
   }
 }
 
-export function PurchasesHubClient() {
-  ResourceAPISignalRClient.apply(this, [{ path: path, methods: methods }])
+export class PurchasesHubClient extends ResourceAPISignalRClient {
+  constructor() {
+    super(path, methods)
+  }
 }

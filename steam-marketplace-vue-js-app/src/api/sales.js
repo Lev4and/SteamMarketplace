@@ -5,27 +5,36 @@ import { BaseResponseModel } from '@/services/utils/modelsUtils'
 const path = 'store/sales'
 const methods = ['ItemExposedOnSale', 'CertainItemExposedOnSale', 'SellerExposedOnSale', 'SaleClosed', 'CertainItemSaleClosed']
 
-export function SalesClient() {
-  ResourceAPIClient.apply(this, [{ path: 'sales' }])
-  this.getMySales = async (filters) => {
-    return new BaseResponseModel(await this.postAuth('mySales', filters))
+export class SalesClient extends ResourceAPIClient {
+  constructor() {
+    super('sales')
   }
-  this.getCountActiveSales = async () => {
-    return new BaseResponseModel(await this.getAuth('mySales/active/count'))
+
+  async getMySales(filters) {
+    return new BaseResponseModel(await this.post('mySales', filters))
   }
-  this.getSalesItem = async (filters) => {
-    return new BaseResponseModel(await this.postAuth('item', filters))
+
+  async getCountActiveSales() {
+    return new BaseResponseModel(await this.get('mySales/active/count'))
   }
-  this.getPricesDynamicsItem = async (fullName) => {
+  
+  async getSalesItem(filters) {
+    return new BaseResponseModel(await this.post('item', filters))
+  }
+
+  async getPricesDynamicsItem(fullName) {
     const params = { name: fullName }
-    return new BaseResponseModel(await this.getAuth('pricesDynamics', params))
+    return new BaseResponseModel(await this.get('pricesDynamics', params))
   }
-  this.getExposedSalesDynamics = async (fullName) => {
+
+  async getExposedSalesDynamics(fullName) {
     const params = { name: fullName }
-    return new BaseResponseModel(await this.getAuth('exposedSalesDynamics', params))
+    return new BaseResponseModel(await this.get('exposedSalesDynamics', params))
   }
 }
 
-export function SalesHubClient() {
-  ResourceAPISignalRClient.apply(this, [{ path: path, methods: methods }])
+export class SalesHubClient extends ResourceAPISignalRClient {
+  constructor() {
+    super(path, methods)
+  }
 }

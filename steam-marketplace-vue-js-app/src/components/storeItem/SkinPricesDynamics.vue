@@ -109,7 +109,7 @@
       async loadPricesDynamics() {
         try {
           const response = await API.sales.getPricesDynamicsItem(this.fullName)
-          if (response.status.isSuccessful()) {
+          if (response.status.isSuccessful) {
             this.pricesDynamics = _orderBy(response.result, ['date'], ['asc'])
           }
         } catch (exception) {

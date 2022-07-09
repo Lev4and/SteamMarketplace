@@ -5,16 +5,22 @@ import { BaseResponseModel } from '@/services/utils/modelsUtils'
 const path = 'store/items/import'
 const methods = ['Imported', 'ItemImported']
 
-export function ImportsClient() {
-  ResourceAPIClient.apply(this, [{ path: 'import' }])
-  this.importLatestExchangeRate = async (latestExchangeRate) => {
+export class ImportsClient extends ResourceAPIClient {
+  constructor() {
+    super('import')
+  }
+
+  async importLatestExchangeRate(latestExchangeRate) {
     return new BaseResponseModel(await this.post('exchangeRate/import', latestExchangeRate))
   }
-  this.importItem = async (item) => {
-    return new BaseResponseModel(await this.postAuth('item/import', item))
+
+  async importItem(item) {
+    return new BaseResponseModel(await this.post('item/import', item))
   }
 }
 
-export function ImportHubClient() {
-  ResourceAPISignalRClient.apply(this, [{ path: path, methods: methods }])
+export class ImportHubClient extends ResourceAPISignalRClient {
+  constructor() {
+    super(path, methods)
+  }
 }

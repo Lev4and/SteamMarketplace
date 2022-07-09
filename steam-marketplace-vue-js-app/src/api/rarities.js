@@ -1,9 +1,12 @@
 import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export function RaritiesClient() {
-  ResourceAPIClient.apply(this, [{ path: 'rarities' }])
-  this.getAllRarities = async () => {
+export class RaritiesClient extends ResourceAPIClient {
+  constructor() {
+    super('rarities')
+  }
+
+  async getAllRarities() {
     return new BaseResponseModel(await this.get('all'))
   }
 }

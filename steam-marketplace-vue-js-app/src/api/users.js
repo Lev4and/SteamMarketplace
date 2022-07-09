@@ -5,13 +5,18 @@ import { BaseResponseModel } from '@/services/utils/modelsUtils'
 const path = 'store/users'
 const methods = ['UserRegistered']
 
-export function UsersClient() {
-  ResourceAPIClient.apply(this, [{ path: 'users' }])
-  this.getCurrentUser = async () => {
-    return new BaseResponseModel(await this.getAuth('currentUser'))
+export class UsersClient extends ResourceAPIClient {
+  constructor() {
+    super('users')
+  }
+
+  async getCurrentUser() {
+    return new BaseResponseModel(await this.get('currentUser'))
   }
 }
 
-export function UsersHubClient() {
-  ResourceAPISignalRClient.apply(this, [{ path: path, methods: methods }])
+export class UsersHubClient extends ResourceAPISignalRClient {
+  constructor() {
+    super(path, methods)
+  }
 }

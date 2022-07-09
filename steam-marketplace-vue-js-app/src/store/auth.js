@@ -51,7 +51,7 @@ const actions = {
   async login({ commit, dispatch }, login) {
     try {
       const response = await API.authorization.login(login)
-      if (response.status.isSuccessful()) {
+      if (response.status.isSuccessful) {
         commit('setAccessToken', response.result.accessToken)
         commit('setAccessTokenPayload', await dispatch('decodeAccessToken'))
         commit('setLogin', login)
@@ -95,7 +95,7 @@ const actions = {
     try {
       if (state.isAuthorized) {
         const response = await API.users.getCurrentUser()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           return response.result
         } else Vue.error('Ошибка при получении данных о пользователе', 'Ошибка')
       }

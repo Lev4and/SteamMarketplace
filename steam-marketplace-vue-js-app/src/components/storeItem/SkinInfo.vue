@@ -226,7 +226,7 @@
       async loadExtendedItem() {
         try {
           const response = await API.items.getExtendedInfo(this.fullName)
-          if (response.status.isSuccessful()) {
+          if (response.status.isSuccessful) {
             this.extendedItem = response.result
           }
         } catch (exception) {
