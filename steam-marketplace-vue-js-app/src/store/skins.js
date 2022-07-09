@@ -34,7 +34,7 @@ const actions = {
         if (state.importing) {
           try {
             const response = await API.cSMoney.getInventory(50, j, i, i + 1)
-            if (response?.status?.isSuccessful()) {
+            if (response?.status?.isSuccessful) {
               if (response.result.items.length === 0) break
               await Promise.all(_map(response.result.items, (item) => {
                 dispatch('saveItem', item)
@@ -54,7 +54,7 @@ const actions = {
   async saveItem({ state }, item) {
     state.foundItems += 1
     const response = await API.imports.importItem(item)
-    if (response.status.isSuccessful()) {
+    if (response.status.isSuccessful) {
       if (Guid.EMPTY !== response.result) {
         state.importedItems += item.stackSize || 1 
       }

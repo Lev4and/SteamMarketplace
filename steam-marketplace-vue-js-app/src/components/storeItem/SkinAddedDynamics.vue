@@ -87,7 +87,7 @@
       async loadAddedDynamics() {
         try {
           const response = await API.items.getAddedDynamics(this.fullName)
-          if (response.status.isSuccessful()) {
+          if (response.status.isSuccessful) {
             this.addedDynamics = _orderBy(response.result, ['date'], ['asc'])
           }
         } catch (exception) {

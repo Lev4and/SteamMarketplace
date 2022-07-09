@@ -1,9 +1,12 @@
 import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export function CurrenciesClient() {
-  ResourceAPIClient.apply(this, [{ path: 'currencies' }])
-  this.getAllCurrencies = async () => {
+export class CurrenciesClient extends ResourceAPIClient {
+  constructor() {
+    super('currencies')
+  }
+  
+  async getAllCurrencies() {
     return new BaseResponseModel(await this.get('all'))
   }
 }

@@ -51,7 +51,7 @@
           return API.exchangeRates.getExchangeRates(currency.id)
         })).then((responses) => {
           _forEach(responses, (response, index) => {
-            if (response.status.isSuccessful()) {
+            if (response.status.isSuccessful) {
               this.exchangeRates.push({
                 currency: this.currencies[index].literal,
                 rates: response.result || [],

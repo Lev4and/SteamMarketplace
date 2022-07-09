@@ -149,7 +149,7 @@
       async loadCountActiveSales() {
         try {
           const response = await API.sales.getCountActiveSales()
-          if (response.status.isSuccessful()) {
+          if (response.status.isSuccessful) {
             this.countActiveSales = response.result || 0
           }
         } catch (exception) {

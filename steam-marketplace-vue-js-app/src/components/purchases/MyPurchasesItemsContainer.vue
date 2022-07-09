@@ -63,7 +63,7 @@
       async loadItemNesteds() {
         const itemIds = _map(this.items, (item) => item.sale.itemId)
         const response = await API.itemNesteds.getItemNesteds(itemIds)
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           const itemNesteds = response.result
           const groupedItemNesteds = _groupBy(itemNesteds, 'itemId')
           _forEach(groupedItemNesteds, (groupItemNesteds, key) => {

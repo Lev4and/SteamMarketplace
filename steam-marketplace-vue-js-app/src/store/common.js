@@ -65,7 +65,7 @@ const actions = {
     try {
       if (state.collections && state.collections.length === 0) {
         const response = await API.collections.getAllCollections()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           commit('setCollections', response.result)
         } else Vue.error(response.status.message, 'Ошибка')
       }
@@ -77,7 +77,7 @@ const actions = {
     try {
       if (state.currencies && state.currencies.length === 0) {
         const response = await API.currencies.getAllCurrencies()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           commit('setCurrencies', response.result)
         } else Vue.error(response.status.message, 'Ошибка')
       }
@@ -89,7 +89,7 @@ const actions = {
     try {
       if (state.itemTypes && state.itemTypes.length === 0) {
         const response = await API.itemTypes.getAllItemTypes()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           commit('setItemTypes', response.result)
         } else Vue.error(response.status.message, 'Ошибка')
       }
@@ -101,7 +101,7 @@ const actions = {
     try {
       if (state.qualities && state.qualities.length === 0) {
         const response = await API.qualities.getAllQualities()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           commit('setQualities', response.result)
         } else Vue.error(response.status.message, 'Ошибка')
       }
@@ -113,7 +113,7 @@ const actions = {
     try {
       if (state.rarities && state.rarities.length === 0) {
         const response = await API.rarities.getAllRarities()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           commit('setRarities', response.result)
         } else Vue.error(response.status.message, 'Ошибка')
       }
@@ -125,7 +125,7 @@ const actions = {
     try {
       if (state.transactionTypes && state.transactionTypes.length === 0) {
         const response = await API.transactionTypes.getAllTransactionTypes()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           commit('setTransactionTypes', response.result)
         } else Vue.error(response.status.message, 'Ошибка')
       }

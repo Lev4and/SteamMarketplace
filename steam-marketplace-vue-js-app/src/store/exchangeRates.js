@@ -29,7 +29,7 @@ const actions = {
     if (!state.latestExchangeRate) {
       try {
         const response = await API.cbr.getLatestExchangeRates()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           commit('setLatestExchangeRate', response.result)
           await dispatch('import')
         } else Vue.error(response.status.message, 'Ошибка')
@@ -41,7 +41,7 @@ const actions = {
   async loadExchangeRates({ commit }, currencyId) {
     try {
       const response = await API.exchangeRates.getExchangeRates(currencyId)
-      if (response.status.isSuccessful()) commit('setLatestExchangeRate', response.result) 
+      if (response.status.isSuccessful) commit('setLatestExchangeRate', response.result) 
       else Vue.error(response.status.message, 'Ошибка')
     } catch (exception) {
       Vue.error('Возникла ошибка при получении обменных курсов', 'Ошибка')

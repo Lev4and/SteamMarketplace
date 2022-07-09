@@ -1,18 +1,24 @@
 import { ResourceAPIClient } from '@/api/axios'
 import { BaseResponseModel } from '@/services/utils/modelsUtils'
 
-export function ItemsClient() {
-  ResourceAPIClient.apply(this, [{ path: 'items' }])
-  this.getGroupedItems = async (filters) => {
-    return new BaseResponseModel(await this.postAuth('groupedItems', filters))
+export class ItemsClient extends ResourceAPIClient {
+  constructor() {
+    super('items')
   }
-  this.getItemByFullName = async (fullName) => {
-    return new BaseResponseModel(await this.getAuth(`${fullName}`))
+
+  async getGroupedItems(filters) {
+    return new BaseResponseModel(await this.post('groupedItems', filters))
   }
-  this.getExtendedInfo = async (fullName) => {
-    return new BaseResponseModel(await this.getAuth(`${fullName}/extendedInfo`))
+
+  async getItemByFullName(fullName) {
+    return new BaseResponseModel(await this.get(`${fullName}`))
   }
-  this.getAddedDynamics = async (fullName) => {
-    return new BaseResponseModel(await this.getAuth(`${fullName}/addedItemsDynamics`))
+
+  async getExtendedInfo(fullName) {
+    return new BaseResponseModel(await this.get(`${fullName}/extendedInfo`))
+  }
+
+  async getAddedDynamics(fullName) {
+    return new BaseResponseModel(await this.get(`${fullName}/addedItemsDynamics`))
   }
 }

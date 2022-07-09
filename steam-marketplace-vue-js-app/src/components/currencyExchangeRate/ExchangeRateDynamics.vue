@@ -89,7 +89,7 @@
       async loadExchangeRate() {
         try {
           const response = await API.exchangeRates.getExchangeRates(this.currency.id)
-          if (response.status.isSuccessful()) {
+          if (response.status.isSuccessful) {
             this.exchangeRate = response.result
           }
         } catch (exception) {

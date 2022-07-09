@@ -109,7 +109,7 @@
       async loadExposedSalesDynamics() {
         try {
           const response = await API.sales.getExposedSalesDynamics(this.fullName)
-          if (response.status.isSuccessful()) {
+          if (response.status.isSuccessful) {
             this.exposedSalesDynamics = _orderBy(response.result, ['date'], ['asc'])
           }
         } catch (exception) {

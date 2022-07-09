@@ -1,41 +1,52 @@
-import { cloneDeep as _cloneDeep } from 'lodash'
+export class BaseResponseModel {
+  #result
+  #status
+  constructor(response) {
+    this.#result = response?.result
+    this.#status = new Status(response?.status)
+  }
 
-export function Status(status) {
-  this.code = status.code
-  this.name = status.name
-  this.message = status.message
-  this.isSuccessful = () => this.code === 200
+  get result() {
+    return this.#result
+  }
+
+  get status() {
+    return this.#status
+  }
 }
 
-export function Pagination(pageInfo) {
-  this.page = pageInfo.page
-  this.pages = pageInfo.items
-  this.limit = pageInfo.limit
-  this.pagesCount = pageInfo.pagesCount
-  this.totalItems = pageInfo.totalItems
+export class Status {
+  #code
+  #name
+  #message
+  constructor(status) {
+    this.#code = status.code
+    this.#name = status.name
+    this.#message = status.message
+  }
+
+  get code() {
+    return this.#code
+  }
+
+  get name() {
+    return this.#name
+  }
+
+  get message() {
+    return this.#message
+  }
+
+  get isSuccessful() {
+    return this.#code === 200
+  }
 }
 
-export function Paged(result) {
-  this.items = result.items
-  this.pageInfo = new Pagination(this.pageInfo)
-}
-
-export function BaseResponseModel(response) {
-  this.result = response?.result
-  this.status = new Status(response.status)
-}
-
-export function DecorationBaseResponseModel(primary) {
-  this.primary = _cloneDeep(primary)
-  BaseResponseModel.apply(this, [primary])
-}
-
-export function PagedResponseModel(response) {
-  this.result = new Paged(response?.result)
-  DecorationBaseResponseModel.apply(this, response)
-}
-
-export function Login(login, password) {
-  this.password = password
-  this.emailOrLogin = login
+export class Login {
+  password
+  emailOrLogin
+  constructor(login, password) {
+    this.password = password
+    this.emailOrLogin = login
+  }
 }

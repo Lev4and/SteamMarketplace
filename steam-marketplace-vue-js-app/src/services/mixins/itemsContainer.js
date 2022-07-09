@@ -65,7 +65,7 @@ export default {
       try {
         this.loading = true
         const response = await getItemsFunc()
-        if (response.status.isSuccessful()) {
+        if (response.status.isSuccessful) {
           this.result = response.result
         }
       } catch (exception) {
