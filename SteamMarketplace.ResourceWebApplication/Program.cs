@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SteamMarketplace.Authorization.Common;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Database;
@@ -21,6 +22,10 @@ using ObjectRelational = SteamMarketplace.Model.Database.Repositories.ObjectRela
 using ObjectRelationalAbstract = SteamMarketplace.Model.Database.Repositories.ObjectRelational.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
+    .WriteTo.Console()
+    .ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddSingleton<HttpClients.Common.Services.Authorization>();
 builder.Services.AddSingleton<HttpClients.AuthorizationAPI.AuthorizationHttpClient>();
@@ -225,10 +230,10 @@ app.UseStatusCodePages(context =>
     return Task.CompletedTask;
 });
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("CorsPolicy");
-
 app.UseAuthentication();
 app.UseAuthorization();
 

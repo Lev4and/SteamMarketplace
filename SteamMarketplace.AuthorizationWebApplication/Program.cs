@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using SteamMarketplace.AuthorizationWebApplication.Extensions;
 using SteamMarketplace.Model.Common;
 using SteamMarketplace.Model.Database;
@@ -10,6 +11,10 @@ using EntityFrameworkAbstract = SteamMarketplace.Model.Database.Repositories.Obj
 using Services = SteamMarketplace.AuthorizationWebApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
+    .WriteTo.Console()
+    .ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddTransient<RoleManager<ApplicatonRole>>();
 builder.Services.AddTransient<UserManager<ApplicationUser>>();
@@ -86,6 +91,7 @@ app.UseStatusCodePages(context =>
     return Task.CompletedTask;
 });
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseRouting();
