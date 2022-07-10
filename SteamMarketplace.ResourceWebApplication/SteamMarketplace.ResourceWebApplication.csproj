@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+	<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+	<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+	<PackageReference Include="Serilog.Enrichers.AspNetCore" Version="1.0.0" />
+	<PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />
+	<PackageReference Include="Serilog.Enrichers.ClientInfo" Version="1.1.4" />
+	<PackageReference Include="Serilog.Enrichers.Context" Version="4.2.0" />
+	<PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+	<PackageReference Include="Serilog.Enrichers.Memory" Version="1.0.4" />
+	<PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+	<PackageReference Include="Serilog.Enrichers.Span" Version="2.3.0" />
+	<PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+	<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+	<PackageReference Include="Serilog.Sinks.Seq" Version="5.1.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
   </ItemGroup>
 
