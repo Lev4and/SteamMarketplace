@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
 using System.Data;
 
@@ -16,14 +18,15 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(Guid userId, Guid roleId)
         {
-            var query = $"SELECT TOP(1) UserId, RoleId " +
-                $"FROM AspNetUserRoles " +
-                $"WHERE AspNetUserRoles.UserId = @UserId AND AspNetUserRoles.RoleId = @RoleId";
+            var query = $"SELECT \"UserId\", \"RoleId\" " +
+                $"FROM \"AspNetUserRoles\" " +
+                $"WHERE \"AspNetUserRoles\".\"UserId\" = @UserId AND \"AspNetUserRoles\".\"RoleId\" = @RoleId " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId },
-                new SqlParameter() { ParameterName = "@RoleId", SqlDbType = SqlDbType.UniqueIdentifier, Value = roleId }
+                new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = userId },
+                new NpgsqlParameter() { ParameterName = "@RoleId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = roleId }
             };
 
             var result = _context.ExecuteQuery(query, parameters).Rows;
@@ -40,12 +43,12 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
             if (!Contains(entity.UserId, entity.RoleId))
             {
-                var query = $"INSERT INTO [AspNetUserRoles] (UserId, RoleId) VALUES (@UserId, @RoleId)";
+                var query = $"INSERT INTO \"AspNetUserRoles\" (\"UserId\", \"RoleId\") VALUES (@UserId, @RoleId)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.UserId },
-                    new SqlParameter() { ParameterName = "@RoleId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.RoleId }
+                    new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.UserId },
+                    new NpgsqlParameter() { ParameterName = "@RoleId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.RoleId }
                 };
 
                 _context.ExecuteQuery(query, parameters);

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
 using System.Data;
 
@@ -20,13 +22,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 throw new ArgumentNullException("ruName", "The ruName must not be empty.");
             }
 
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM TransactionTypes " +
-                $"WHERE TransactionTypes.RuName = @RuName";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"TransactionTypes\" " +
+                $"WHERE \"TransactionTypes\".\"RuName\" = @RuName " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@RuName", SqlDbType = SqlDbType.NVarChar, Value = ruName }
+                new NpgsqlParameter() { ParameterName = "@RuName", NpgsqlDbType = NpgsqlDbType.Text, Value = ruName }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
@@ -17,13 +19,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(int cSMoneyId, out Guid id)
         {
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM ItemTypes " +
-                $"WHERE ItemTypes.CSMoneyId = @CSMoneyId";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"ItemTypes\" " +
+                $"WHERE \"ItemTypes\".\"CSMoneyId\" = @CSMoneyId " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.Int, Value = cSMoneyId }
+                new NpgsqlParameter() { ParameterName = "@CSMoneyId", NpgsqlDbType = NpgsqlDbType.Integer, Value = cSMoneyId }
             };
 
             var result = _context.ExecuteQuery(query, parameters).Rows;
@@ -35,13 +38,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetItemTypeId(int cSMoneyId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM ItemTypes " +
-                $"WHERE ItemTypes.CSMoneyId = @CSMoneyId";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"ItemTypes\" " +
+                $"WHERE \"ItemTypes\".\"CSMoneyId\" = @CSMoneyId " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.Int, Value = cSMoneyId }
+                new NpgsqlParameter() { ParameterName = "@CSMoneyId", NpgsqlDbType = NpgsqlDbType.Integer, Value = cSMoneyId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -60,13 +64,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [ItemTypes] (Id, CSMoneyId, Name) VALUES (@Id, @CSMoneyId, @Name)";
+                var query = $"INSERT INTO \"ItemTypes\" (\"Id\", \"CSMoneyId\", \"Name\") VALUES (@Id, @CSMoneyId, @Name)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.Int, Value = entity.CSMoneyId },
-                    new SqlParameter() { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Value = entity.Name.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@CSMoneyId", NpgsqlDbType = NpgsqlDbType.Integer, Value = entity.CSMoneyId },
+                    new NpgsqlParameter() { ParameterName = "@Name", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.Name.GetDbValue() },
                 };
 
                 _context.ExecuteQuery(query, parameters);

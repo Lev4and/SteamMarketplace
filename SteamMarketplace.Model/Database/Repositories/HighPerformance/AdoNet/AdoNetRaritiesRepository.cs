@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
@@ -22,13 +24,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 throw new ArgumentNullException("name", "The name must not be empty.");
             }
 
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Rarities " +
-                $"WHERE Rarities.Name = @Name";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Rarities\" " +
+                $"WHERE \"Rarities\".\"Name\" = @Name " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Value = name }
+                new NpgsqlParameter() { ParameterName = "@Name", NpgsqlDbType = NpgsqlDbType.Text, Value = name }
             };
 
             var result = _context.ExecuteQuery(query, parameters).Rows;
@@ -45,13 +48,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 throw new ArgumentNullException("name", "The name must not be empty.");
             }
 
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Rarities " +
-                $"WHERE Rarities.Name = @Name";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Rarities\" " +
+                $"WHERE \"Rarities\".\"Name\" = @Name " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Value = name }
+                new NpgsqlParameter() { ParameterName = "@Name", NpgsqlDbType = NpgsqlDbType.Text, Value = name }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -70,13 +74,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [Rarities] (Id, Name, RuName) VALUES (@Id, @Name, @RuName)";
+                var query = $"INSERT INTO \"Rarities\" (\"Id\", \"Name\", \"RuName\") VALUES (@Id, @Name, @RuName)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Value = entity.Name },
-                    new SqlParameter() { ParameterName = "@RuName", SqlDbType = SqlDbType.NVarChar, Value = entity.RuName.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@Name", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.Name },
+                    new NpgsqlParameter() { ParameterName = "@RuName", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.RuName.GetDbValue() },
                 };
 
                 _context.ExecuteQuery(query, parameters);

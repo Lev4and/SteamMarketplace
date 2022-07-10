@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
 using System.Data;
@@ -16,14 +18,15 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(Guid itemId, Guid itemNestedId)
         {
-            var query = $"SELECT TOP(1) * " +
-                    $"FROM ItemNesteds " +
-                    $"WHERE ItemNesteds.ItemId = @ItemId AND ItemNesteds.ItemNestedId = @ItemNestedId";
+            var query = $"SELECT * " +
+                    $"FROM \"ItemNesteds\" " +
+                    $"WHERE \"ItemNesteds\".\"ItemId\" = @ItemId AND \"ItemNesteds\".\"ItemNestedId\" = @ItemNestedId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId },
-                new SqlParameter() { ParameterName = "@ItemNestedId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemNestedId }
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId },
+                new NpgsqlParameter() { ParameterName = "@ItemNestedId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemNestedId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
@@ -31,14 +34,15 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetItemNestedId(Guid itemId, Guid itemNestedId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                    $"FROM ItemNesteds " +
-                    $"WHERE ItemNesteds.ItemId = @ItemId AND ItemNesteds.ItemNestedId = @ItemNestedId";
+            var query = $"SELECT \"Id\" " +
+                    $"FROM \"ItemNesteds\" " +
+                    $"WHERE \"ItemNesteds\".\"ItemId\" = @ItemId AND \"ItemNesteds\".\"ItemNestedId\" = @ItemNestedId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId },
-                new SqlParameter() { ParameterName = "@ItemNestedId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemNestedId }
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId },
+                new NpgsqlParameter() { ParameterName = "@ItemNestedId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemNestedId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -55,13 +59,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [ItemNesteds] (Id, ItemId, ItemNestedId) VALUES (@Id, @ItemId, @ItemNestedId)";
+                var query = $"INSERT INTO \"ItemNesteds\" (\"Id\", \"ItemId\", \"ItemNestedId\") VALUES (@Id, @ItemId, @ItemNestedId)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ItemId },
-                    new SqlParameter() { ParameterName = "@ItemNestedId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ItemNestedId }
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.ItemId },
+                    new NpgsqlParameter() { ParameterName = "@ItemNestedId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.ItemNestedId }
                 };
 
                 _context.ExecuteQuery(query, parameters);

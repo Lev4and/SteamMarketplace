@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using SteamMarketplace.Model.Database.Entities;
 using System.Data;
 using System.Diagnostics;
@@ -14,7 +15,7 @@ namespace SteamMarketplace.Model.Database
         private readonly ILogger _logger;
 
         private readonly Stopwatch _watch;
-        private readonly SqlConnection _connection;
+        private readonly NpgsqlConnection _connection;
 
         public DbSet<Application> Applications { get; set; }
 
@@ -52,16 +53,20 @@ namespace SteamMarketplace.Model.Database
             _logger = logger;
 
             _watch = new Stopwatch();
-            _connection = new SqlConnection(Database.GetConnectionString());
+            _connection = new NpgsqlConnection(Database.GetConnectionString());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+                //optionsBuilder
+                //    .UseSqlServer("Server=DESKTOP-9CDGA5B;Database=SteamMarketplace;User ID=sa;Password=sa;" +
+                //        "Trusted_Connection=True;", b => b.MigrationsAssembly("SteamMarketplace.ResourceWebApplication"));
+
                 optionsBuilder
-                    .UseSqlServer("Server=DESKTOP-9CDGA5B;Database=SteamMarketplace;User ID=sa;Password=sa;" +
-                        "Trusted_Connection=True;", b => b.MigrationsAssembly("SteamMarketplace.ResourceWebApplication"));
+                    .UseNpgsql("Server=localhost;Database=SteamMarketplace;User Id=postgres;Password=sa;" +
+                        "Integrated Security=true;Pooling=true;", b => b.MigrationsAssembly("SteamMarketplace.ResourceWebApplication"));
             }
         }
 
@@ -364,7 +369,7 @@ namespace SteamMarketplace.Model.Database
                 NormalizedUserName = "ADMIN",
                 Email = "andrey.levchenko.2001@gmail.com",
                 NormalizedEmail = "ANDREY.LEVCHENKO.2001@GMAIL.COM",
-                RegisteredAt = new DateTime(2022, 5, 1, 0, 0, 0),
+                RegisteredAt = new DateTime(2022, 5, 1, 0, 0, 0).ToUniversalTime(),
                 WalletBalance = 1000000,
                 EmailConfirmed = true,
                 PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(null, "Admin"),
@@ -384,7 +389,7 @@ namespace SteamMarketplace.Model.Database
                 TypeId = Guid.Parse("0FDD5521-90FE-4709-9CCE-D4A7D4FFB2E1"),
                 PurchaseId = null,
                 Value = 1000000,
-                HappenedAt = new DateTime(2022, 5, 1, 0, 5, 0)
+                HappenedAt = new DateTime(2022, 5, 1, 0, 5, 0).ToUniversalTime()
             });
 
             builder.Entity<Application>()
@@ -497,7 +502,7 @@ namespace SteamMarketplace.Model.Database
                 throw new ArgumentNullException("query", "The query must not be empty.");
             }
 
-            var sqlCommand = new SqlCommand(query, _connection);
+            var sqlCommand = new NpgsqlCommand(query, _connection);
 
             _connection.Open();
 
@@ -519,7 +524,7 @@ namespace SteamMarketplace.Model.Database
 
             _connection.Open();
 
-            var dataAdapter = new SqlDataAdapter(query, _connection);
+            var dataAdapter = new NpgsqlDataAdapter(query, _connection);
             dataAdapter.Fill(result);
 
             _connection.Close();
@@ -527,7 +532,7 @@ namespace SteamMarketplace.Model.Database
             return result;
         }
 
-        public DataTable ExecuteQuery(string query, List<SqlParameter> sqlParameters)
+        public DataTable ExecuteQuery(string query, List<NpgsqlParameter> sqlParameters)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -540,7 +545,7 @@ namespace SteamMarketplace.Model.Database
             }
 
             var dataTable = new DataTable();
-            var sqlCommand = new SqlCommand(query, _connection);
+            var sqlCommand = new NpgsqlCommand(query, _connection);
 
             _watch.Restart();
             _connection.Open();

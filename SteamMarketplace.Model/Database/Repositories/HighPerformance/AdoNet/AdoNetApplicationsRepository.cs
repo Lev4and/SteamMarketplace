@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
@@ -17,13 +19,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(int steamId, out Guid id)
         {
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Applications " +
-                $"WHERE Applications.SteamId = @SteamId";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Applications\" " +
+                $"WHERE \"Applications\".\"SteamId\" = @SteamId";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@SteamId", SqlDbType = SqlDbType.Int, Value = steamId }
+                new NpgsqlParameter() { ParameterName = "@SteamId", NpgsqlDbType = NpgsqlDbType.Integer, Value = steamId }
             };
 
             var result = _context.ExecuteQuery(query, parameters).Rows;
@@ -35,13 +37,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetApplicationId(int steamId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Applications " +
-                $"WHERE Applications.SteamId = @SteamId";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Applications\" " +
+                $"WHERE \"Applications\".\"SteamId\" = @SteamId " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@SteamId", SqlDbType = SqlDbType.Int, Value = steamId }
+                new NpgsqlParameter() { ParameterName = "@SteamId", NpgsqlDbType = NpgsqlDbType.Integer, Value = steamId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -60,13 +63,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [Applications] (Id, SteamId, Name) VALUES (@Id, @SteamId, @Name)";
+                var query = $"INSERT INTO \"Applications\" (\"Id\", \"SteamId\", \"Name\") VALUES (@Id, @SteamId, @Name)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@SteamId", SqlDbType = SqlDbType.Int, Value = entity.SteamId },
-                    new SqlParameter() { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Value = entity.Name.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@SteamId", NpgsqlDbType = NpgsqlDbType.Integer, Value = entity.SteamId },
+                    new NpgsqlParameter() { ParameterName = "@Name", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.Name.GetDbValue() },
                 };
 
                 _context.ExecuteQuery(query, parameters);

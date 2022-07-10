@@ -90,8 +90,10 @@ builder.Services.AddTransient<DefaultDataManager>();
 
 builder.Services.AddDbContext<SteamMarketplaceDbContext>((options) =>
 {
-    options.UseSqlServer(DbConfig.ConnectionString);
+    options.UseNpgsql(DbConfig.ConnectionString);
 });
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddTransient<ApplicationImporter>();
 builder.Services.AddTransient<CollectionImporter>();

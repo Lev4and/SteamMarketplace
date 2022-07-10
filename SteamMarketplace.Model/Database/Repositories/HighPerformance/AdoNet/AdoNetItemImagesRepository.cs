@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
@@ -17,13 +19,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(Guid itemId)
         {
-            var query = $"SELECT TOP(1) * " +
-                    $"FROM ItemImages " +
-                    $"WHERE ItemImages.ItemId = @ItemId";
+            var query = $"SELECT * " +
+                    $"FROM \"ItemImages\" " +
+                    $"WHERE \"ItemImages\".\"ItemId\" = @ItemId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
@@ -31,13 +34,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetItemImageId(Guid itemId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                    $"FROM ItemImages " +
-                    $"WHERE ItemImages.ItemId = @ItemId";
+            var query = $"SELECT \"Id\" " +
+                    $"FROM \"ItemImages\" " +
+                    $"WHERE \"ItemImages\".\"ItemId\" = @ItemId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -54,17 +58,17 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [ItemImages] (Id, ItemId, Image, Image3d, SteamImg, Screenshot) VALUES " +
+                var query = $"INSERT INTO \"ItemImages\" (\"Id\", \"ItemId\", \"Image\", \"Image3d\", \"SteamImg\", \"Screenshot\") VALUES " +
                     $"(@Id, @ItemId, @Image, @Image3d, @SteamImg, @Screenshot)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ItemId },
-                    new SqlParameter() { ParameterName = "@Image", SqlDbType = SqlDbType.NVarChar, Value = entity.Image.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@Image3d", SqlDbType = SqlDbType.NVarChar, Value = entity.Image3d.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@SteamImg", SqlDbType = SqlDbType.NVarChar, Value = entity.SteamImg.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@Screenshot", SqlDbType = SqlDbType.NVarChar, Value = entity.Screenshot.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.ItemId },
+                    new NpgsqlParameter() { ParameterName = "@Image", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.Image.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Image3d", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.Image3d.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@SteamImg", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.SteamImg.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Screenshot", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.Screenshot.GetDbValue() },
                 };
 
                 _context.ExecuteQuery(query, parameters);

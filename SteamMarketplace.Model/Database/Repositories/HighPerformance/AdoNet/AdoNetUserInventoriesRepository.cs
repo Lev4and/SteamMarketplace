@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
@@ -18,14 +20,15 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(Guid userId, Guid itemId)
         {
-            var query = $"SELECT TOP(1) * " +
-                    $"FROM UserInventories " +
-                    $"WHERE UserInventories.UserId = @UserId AND UserInventories.ItemId = @ItemId";
+            var query = $"SELECT * " +
+                    $"FROM \"UserInventories\" " +
+                    $"WHERE \"UserInventories\".\"UserId\" = @UserId AND \"UserInventories\".\"ItemId\" = @ItemId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId },
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+                new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = userId },
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
@@ -34,13 +37,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
         public void DeleteItemFromUserInventory(Guid userId, Guid itemId)
         {
             var query = $"DELETE " +
-                $"FROM UserInventories " +
-                $"WHERE UserInventories.UserId = @UserId AND UserInventories.ItemId = @ItemId";
+                $"FROM \"UserInventories\" " +
+                $"WHERE \"UserInventories\".\"UserId\" = @UserId AND \"UserInventories\".\"ItemId\" = @ItemId";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId },
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+                new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = userId },
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId }
             };
 
             _context.ExecuteQuery(query, parameters);
@@ -48,13 +51,13 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public int GetCountItems(Guid userId)
         {
-            var query = $"SELECT COUNT(*) AS [Count] " +
-                $"FROM UserInventories " +
-                $"WHERE UserInventories.UserId = @UserId";
+            var query = $"SELECT COUNT(*) AS \"Count\" " +
+                $"FROM \"UserInventories\" " +
+                $"WHERE \"UserInventories\".\"UserId\" = @UserId";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
+                new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = userId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<int>("Count");
@@ -62,19 +65,20 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public List<RandomUserInventoryItem> GetRandomItems(Guid userId, int limit)
         {
-            var query = $"SELECT TOP(@Limit) UserInventories.ItemId, Items.FullName as ItemFullName, ItemImages.SteamImg AS ItemSteamImage, " +
-                $"(SELECT TOP(1) Sales.PriceUsd FROM Sales WHERE Sales.ItemId = UserInventories.ItemId AND " +
-                $"NOT Sales.SoldAt IS NULL ORDER BY Sales.SoldAt DESC) AS PriceUsd " +
-                $"FROM UserInventories INNER JOIN " +
-                $"Items ON Items.Id = UserInventories.ItemId INNER JOIN " +
-                $"ItemImages ON ItemImages.ItemId = UserInventories.ItemId " +
-                $"WHERE UserInventories.UserId = @UserId " +
-                $"ORDER BY NEWID()";
+            var query = $"SELECT \"UserInventories\".\"ItemId\", \"Items\".\"FullName\" as \"ItemFullName\", \"ItemImages\".\"SteamImg\" AS \"ItemSteamImage\", " +
+                $"(SELECT \"Sales\".\"PriceUsd\" FROM \"Sales\" WHERE \"Sales\".\"ItemId\" = \"UserInventories\".\"ItemId\" AND " +
+                $"NOT \"Sales\".\"SoldAt\" IS NULL ORDER BY \"Sales\".\"SoldAt\" DESC LIMIT 1) AS PriceUsd " +
+                $"FROM \"UserInventories\" INNER JOIN " +
+                $"\"Items\" ON \"Items\".\"Id\" = \"UserInventories\".\"ItemId\" INNER JOIN " +
+                $"\"ItemImages\" ON \"ItemImages\".\"ItemId\" = \"UserInventories\".\"ItemId\" " +
+                $"WHERE \"UserInventories\".\"UserId\" = @UserId " +
+                $"ORDER BY random() " +
+                $"LIMIT @Limit";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@Limit", SqlDbType = SqlDbType.Int, Value = limit },
-                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId }
+                new NpgsqlParameter() { ParameterName = "@Limit", NpgsqlDbType = NpgsqlDbType.Integer, Value = limit },
+                new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = userId }
             };
 
             var result = new List<RandomUserInventoryItem>();
@@ -89,14 +93,15 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetUserInventoryId(Guid userId, Guid itemId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                    $"FROM UserInventories " +
-                    $"WHERE UserInventories.UserId = @UserId AND UserInventories.ItemId = @ItemId";
+            var query = $"SELECT \"Id\" " +
+                    $"FROM \"UserInventories\" " +
+                    $"WHERE \"UserInventories\".\"UserId\" = @UserId AND \"UserInventories\".\"ItemId\" = @ItemId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = userId },
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+                new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = userId },
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -113,15 +118,15 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [UserInventories] (Id, UserId, ItemId, AddedAt) VALUES (@Id, @UserId, @ItemId, " +
+                var query = $"INSERT INTO \"UserInventories\" (\"Id\", \"UserId\", \"ItemId\", \"AddedAt\") VALUES (@Id, @UserId, @ItemId, " +
                     $"@AddedAt)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@UserId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.UserId },
-                    new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ItemId },
-                    new SqlParameter() { ParameterName = "@AddedAt", SqlDbType = SqlDbType.DateTime2, Value = entity.AddedAt }
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@UserId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.UserId },
+                    new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.ItemId },
+                    new NpgsqlParameter() { ParameterName = "@AddedAt", NpgsqlDbType = NpgsqlDbType.TimestampTz, Value = entity.AddedAt }
                 };
 
                 _context.ExecuteQuery(query, parameters);
