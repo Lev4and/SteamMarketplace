@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
 using System.Data;
@@ -16,13 +18,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(Guid saleId)
         {
-            var query = $"SELECT TOP(1) * " +
-                    $"FROM Purchases " +
-                    $"WHERE Purchases.SaleId = @SaleId";
+            var query = $"SELECT * " +
+                    $"FROM \"Purchases\" " +
+                    $"WHERE \"Purchases\".\"SaleId\" = @SaleId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@SaleId", SqlDbType = SqlDbType.UniqueIdentifier, Value = saleId }
+                new NpgsqlParameter() { ParameterName = "@SaleId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = saleId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
@@ -30,13 +33,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetPurchaseId(Guid saleId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                    $"FROM Purchases " +
-                    $"WHERE Purchases.SaleId = @SaleId";
+            var query = $"SELECT \"Id\" " +
+                    $"FROM \"Purchases\" " +
+                    $"WHERE \"Purchases\".\"SaleId\" = @SaleId " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@SaleId", SqlDbType = SqlDbType.UniqueIdentifier, Value = saleId }
+                new NpgsqlParameter() { ParameterName = "@SaleId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = saleId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -53,17 +57,17 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [Purchases] (Id, BuyerId, SaleId, Price, PriceUsd, PurchaseAt) VALUES " +
+                var query = $"INSERT INTO \"Purchases\" (\"Id\", \"BuyerId\", \"SaleId\", \"Price\", \"PriceUsd\", \"PurchaseAt\") VALUES " +
                     $"(@Id, @BuyerId, @SaleId, @Price, @PriceUsd, @PurchaseAt)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@BuyerId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.BuyerId },
-                    new SqlParameter() { ParameterName = "@SaleId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.SaleId },
-                    new SqlParameter() { ParameterName = "@Price", SqlDbType = SqlDbType.Decimal, Value = entity.Price },
-                    new SqlParameter() { ParameterName = "@PriceUsd", SqlDbType = SqlDbType.Decimal, Value = entity.PriceUsd },
-                    new SqlParameter() { ParameterName = "@PurchaseAt", SqlDbType = SqlDbType.DateTime2, Value = entity.PurchaseAt }
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@BuyerId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.BuyerId },
+                    new NpgsqlParameter() { ParameterName = "@SaleId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.SaleId },
+                    new NpgsqlParameter() { ParameterName = "@Price", NpgsqlDbType = NpgsqlDbType.Numeric, Value = entity.Price },
+                    new NpgsqlParameter() { ParameterName = "@PriceUsd", NpgsqlDbType = NpgsqlDbType.Numeric, Value = entity.PriceUsd },
+                    new NpgsqlParameter() { ParameterName = "@PurchaseAt", NpgsqlDbType = NpgsqlDbType.TimestampTz, Value = entity.PurchaseAt }
                 };
 
                 _context.ExecuteQuery(query, parameters);

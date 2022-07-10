@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.AnonymousTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
@@ -18,14 +20,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public void CloseSale(Guid saleId)
         {
-            var query = $"UPDATE [Sales] " +
-                    $"SET SoldAt = @SoldAt " +
-                    $"WHERE Sales.Id = @Id";
+            var query = $"UPDATE \"Sales\" " +
+                    $"SET \"SoldAt\" = @SoldAt " +
+                    $"WHERE \"Sales\".\"Id\" = @Id";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@SoldAt", SqlDbType = SqlDbType.DateTime2, Value = DateTime.UtcNow },
-                new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = saleId },
+                new NpgsqlParameter() { ParameterName = "@SoldAt", NpgsqlDbType = NpgsqlDbType.TimestampTz, Value = DateTime.UtcNow },
+                new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = saleId },
             };
 
             _context.ExecuteQuery(query, parameters);
@@ -33,13 +35,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(Guid itemId)
         {
-            var query = $"SELECT TOP(1) * " +
-                    $"FROM Sales " +
-                    $"WHERE Sales.ItemId = @ItemId AND Sales.SoldAt IS NULL";
+            var query = $"SELECT * " +
+                    $"FROM \"Sales\" " +
+                    $"WHERE \"Sales\".\"ItemId\" = @ItemId AND \"Sales\".\"SoldAt\" IS NULL " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
@@ -47,20 +50,21 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public List<RandomSale> GetRandomSales(Guid buyerId, int limit)
         {
-            var query = $"SELECT TOP(@Limit) Sales.Id, Sales.SellerId, Sales.ItemId, Sales.Price, Sales.PriceUsd, " +
-                $"Items.FullName as ItemFullName, ItemImages.SteamImg AS ItemSteamImage, " +
-                $"AspNetUsers.UserName AS SellerName " +
-                $"FROM Sales INNER JOIN " +
-                $"Items ON Items.Id = Sales.ItemId INNER JOIN " +
-                $"ItemImages ON ItemImages.ItemId = Sales.ItemId INNER JOIN " +
-                $"AspNetUsers ON AspNetUsers.Id = Sales.SellerId " +
-                $"WHERE Sales.SoldAt IS NULL AND Sales.CancelledAt IS NULL AND Sales.SellerId != @BuyerId " +
-                $"ORDER BY NEWID()";
+            var query = $"SELECT \"Sales\".\"Id\", \"Sales\".\"SellerId\", \"Sales\".\"ItemId\", \"Sales\".\"Price\", \"Sales\".\"PriceUsd\", " +
+                $"\"Items\".\"FullName\" as \"ItemFullName\", \"ItemImages\".\"SteamImg\" AS \"ItemSteamImage\", " +
+                $"\"AspNetUsers\".\"UserName\" AS \"SellerName\" " +
+                $"FROM \"Sales\" INNER JOIN " +
+                $"\"Items\" ON \"Items\".\"Id\" = \"Sales\".\"ItemId\" INNER JOIN " +
+                $"\"ItemImages\" ON \"ItemImages\".\"ItemId\" = \"Sales\".\"ItemId\" INNER JOIN " +
+                $"\"AspNetUsers\" ON \"AspNetUsers\".\"Id\" = \"Sales\".\"SellerId\" " +
+                $"WHERE \"Sales\".\"SoldAt\" IS NULL AND \"Sales\".\"CancelledAt\" IS NULL AND \"Sales\".\"SellerId\" != @BuyerId " +
+                $"ORDER BY random() " +
+                $"LIMIT @Limit";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@Limit", SqlDbType = SqlDbType.Int, Value = limit },
-                new SqlParameter() { ParameterName = "@BuyerId", SqlDbType = SqlDbType.UniqueIdentifier, Value = buyerId },
+                new NpgsqlParameter() { ParameterName = "@Limit", NpgsqlDbType = NpgsqlDbType.Integer, Value = limit },
+                new NpgsqlParameter() { ParameterName = "@BuyerId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = buyerId },
             };
 
             var result = new List<RandomSale>();
@@ -75,13 +79,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetSaleId(Guid itemId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                    $"FROM Sales " +
-                    $"WHERE Sales.ItemId = @ItemId AND Sales.SoldAt IS NULL";
+            var query = $"SELECT \"Id\" " +
+                    $"FROM \"Sales\" " +
+                    $"WHERE \"Sales\".\"ItemId\" = @ItemId AND \"Sales\".\"SoldAt\" IS NULL " +
+                    $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = itemId }
+                new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = itemId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -98,19 +103,19 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [Sales] (Id, SellerId, ItemId, Price, PriceUsd, ExposedAt, SoldAt) VALUES " +
+                var query = $"INSERT INTO \"Sales\" (\"Id\", \"SellerId\", \"ItemId\", \"Price\", \"PriceUsd\", \"ExposedAt\", \"SoldAt\") VALUES " +
                     $"(@Id, @SellerId, @ItemId, @Price, @PriceUsd, @ExposedAt, @SoldAt)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@SellerId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.SellerId },
-                    new SqlParameter() { ParameterName = "@ItemId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ItemId },
-                    new SqlParameter() { ParameterName = "@Price", SqlDbType = SqlDbType.Decimal, Value = entity.Price },
-                    new SqlParameter() { ParameterName = "@PriceUsd", SqlDbType = SqlDbType.Decimal, Value = entity.PriceUsd },
-                    new SqlParameter() { ParameterName = "@ExposedAt", SqlDbType = SqlDbType.DateTime2, Value = entity.ExposedAt },
-                    new SqlParameter() { ParameterName = "@SoldAt", SqlDbType = SqlDbType.DateTime2, Value = entity.SoldAt.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@CancelledAt", SqlDbType = SqlDbType.DateTime2, Value = entity.CancelledAt.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@SellerId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.SellerId },
+                    new NpgsqlParameter() { ParameterName = "@ItemId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.ItemId },
+                    new NpgsqlParameter() { ParameterName = "@Price", NpgsqlDbType = NpgsqlDbType.Numeric, Value = entity.Price },
+                    new NpgsqlParameter() { ParameterName = "@PriceUsd", NpgsqlDbType = NpgsqlDbType.Numeric, Value = entity.PriceUsd },
+                    new NpgsqlParameter() { ParameterName = "@ExposedAt", NpgsqlDbType = NpgsqlDbType.TimestampTz, Value = entity.ExposedAt },
+                    new NpgsqlParameter() { ParameterName = "@SoldAt", NpgsqlDbType = NpgsqlDbType.TimestampTz, Value = entity.SoldAt.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@CancelledAt", NpgsqlDbType = NpgsqlDbType.TimestampTz, Value = entity.CancelledAt.GetDbValue() },
                 };
 
                 _context.ExecuteQuery(query, parameters);

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Extensions;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
@@ -17,13 +19,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public bool Contains(long cSMoneyId)
         {
-            var query = $"SELECT TOP(1) * " +
-                $"FROM Items " +
-                $"WHERE Items.CSMoneyId = @CSMoneyId";
+            var query = $"SELECT * " +
+                $"FROM \"Items\" " +
+                $"WHERE \"Items\".\"CSMoneyId\" = @CSMoneyId " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.BigInt, Value = cSMoneyId }
+                new NpgsqlParameter() { ParameterName = "@CSMoneyId", NpgsqlDbType = NpgsqlDbType.Bigint, Value = cSMoneyId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows.Count > 0;
@@ -31,13 +34,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetItemId(long cSMoneyId)
         {
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Items " +
-                $"WHERE Items.CSMoneyId = @CSMoneyId";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Items\" " +
+                $"WHERE \"Items\".\"CSMoneyId\" = @CSMoneyId " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.BigInt, Value = cSMoneyId }
+                new NpgsqlParameter() { ParameterName = "@CSMoneyId", NpgsqlDbType = NpgsqlDbType.Bigint, Value = cSMoneyId }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -50,13 +54,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 throw new ArgumentNullException("fullName", "The full name must not be empty.");
             }
 
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Items " +
-                $"WHERE Items.FullName = @FullName";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Items\" " +
+                $"WHERE \"Items\".\"FullName\" = @FullName " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@FullName", SqlDbType = SqlDbType.NVarChar, Value = fullName }
+                new NpgsqlParameter() { ParameterName = "@FullName", NpgsqlDbType = NpgsqlDbType.Text, Value = fullName }
             };
 
             var result = _context.ExecuteQuery(query, parameters).Rows;
@@ -75,25 +80,25 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [Items] (Id, ApplicationId, CollectionId, QualityId, RarityId, " +
-                    $"TypeId, AssetId, CSMoneyId, Float, Name, SteamId, FullName, AddedAt) VALUES (@Id, @ApplicationId, " +
+                var query = $"INSERT INTO \"Items\" (\"Id\", \"ApplicationId\", \"CollectionId\", \"QualityId\", \"RarityId\", " +
+                    $"\"TypeId\", \"AssetId\", \"CSMoneyId\", \"Float\", \"Name\", \"SteamId\", \"FullName\", \"AddedAt\") VALUES (@Id, @ApplicationId, " +
                     $"@CollectionId, @QualityId, @RarityId, @TypeId, @AssetId, @CSMoneyId, @Float, @Name, @SteamId, @FullName, @AddedAt)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@ApplicationId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.ApplicationId },
-                    new SqlParameter() { ParameterName = "@CollectionId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.CollectionId.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@QualityId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.QualityId.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@RarityId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.RarityId.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@TypeId", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.TypeId },
-                    new SqlParameter() { ParameterName = "@AssetId", SqlDbType = SqlDbType.BigInt, Value = entity.AssetId },
-                    new SqlParameter() { ParameterName = "@CSMoneyId", SqlDbType = SqlDbType.BigInt, Value = entity.CSMoneyId },
-                    new SqlParameter() { ParameterName = "@Float", SqlDbType = SqlDbType.Float, Value = entity.Float.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@Name", SqlDbType = SqlDbType.NVarChar, Value = entity.Name.GetDbValue() },
-                    new SqlParameter() { ParameterName = "@SteamId", SqlDbType = SqlDbType.NVarChar, Value = entity.SteamId },
-                    new SqlParameter() { ParameterName = "@FullName", SqlDbType = SqlDbType.NVarChar, Value = entity.FullName },
-                    new SqlParameter() { ParameterName = "@AddedAt", SqlDbType = SqlDbType.DateTime2, Value = entity.AddedAt },
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@ApplicationId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.ApplicationId },
+                    new NpgsqlParameter() { ParameterName = "@CollectionId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.CollectionId.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@QualityId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.QualityId.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@RarityId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.RarityId.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@TypeId", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.TypeId },
+                    new NpgsqlParameter() { ParameterName = "@AssetId", NpgsqlDbType = NpgsqlDbType.Bigint, Value = entity.AssetId },
+                    new NpgsqlParameter() { ParameterName = "@CSMoneyId", NpgsqlDbType = NpgsqlDbType.Bigint, Value = entity.CSMoneyId },
+                    new NpgsqlParameter() { ParameterName = "@Float", NpgsqlDbType = NpgsqlDbType.Real, Value = entity.Float.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@Name", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.Name.GetDbValue() },
+                    new NpgsqlParameter() { ParameterName = "@SteamId", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.SteamId },
+                    new NpgsqlParameter() { ParameterName = "@FullName", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.FullName },
+                    new NpgsqlParameter() { ParameterName = "@AddedAt", NpgsqlDbType = NpgsqlDbType.TimestampTz, Value = entity.AddedAt },
                 };
 
                 _context.ExecuteQuery(query, parameters);

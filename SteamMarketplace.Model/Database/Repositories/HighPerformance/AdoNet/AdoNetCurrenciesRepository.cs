@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using Npgsql;
+using NpgsqlTypes;
 using SteamMarketplace.Model.Database.Entities;
 using SteamMarketplace.Model.Database.Repositories.HighPerformance.Abstract;
 using System.Data;
@@ -21,13 +23,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 throw new ArgumentNullException("cultureInfoName", "The culture info name must not be empty.");
             }
 
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Currencies " +
-                $"WHERE Currencies.CultureInfoName = @CultureInfoName";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Currencies\" " +
+                $"WHERE \"Currencies\".\"CultureInfoName\" = @CultureInfoName " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@CultureInfoName", SqlDbType = SqlDbType.NVarChar, Value = cultureInfoName }
+                new NpgsqlParameter() { ParameterName = "@CultureInfoName", NpgsqlDbType = NpgsqlDbType.Text, Value = cultureInfoName }
             };
 
             var result = _context.ExecuteQuery(query, parameters).Rows;
@@ -44,13 +47,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 throw new ArgumentNullException("cultureInfoName", "The culture info name must not be empty.");
             }
 
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Currencies " +
-                $"WHERE Currencies.CultureInfoName = @CultureInfoName";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Currencies\" " +
+                $"WHERE \"Currencies\".\"CultureInfoName\" = @CultureInfoName " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@CultureInfoName", SqlDbType = SqlDbType.NVarChar, Value = cultureInfoName }
+                new NpgsqlParameter() { ParameterName = "@CultureInfoName", NpgsqlDbType = NpgsqlDbType.Text, Value = cultureInfoName }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -63,13 +67,14 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
                 throw new ArgumentNullException("literal", "The literal must not be empty.");
             }
 
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Currencies " +
-                $"WHERE Currencies.Literal = @Literal";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Currencies\" " +
+                $"WHERE \"Currencies\".\"Literal\" = @Literal " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>()
+            var parameters = new List<NpgsqlParameter>()
             {
-                new SqlParameter() { ParameterName = "@Literal", SqlDbType = SqlDbType.NVarChar, Value = literal }
+                new NpgsqlParameter() { ParameterName = "@Literal", NpgsqlDbType = NpgsqlDbType.Text, Value = literal }
             };
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
@@ -77,11 +82,12 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
 
         public Guid GetRandomCurrencyId()
         {
-            var query = $"SELECT TOP(1) Id " +
-                $"FROM Currencies " +
-                $"ORDER BY NEWID()";
+            var query = $"SELECT \"Id\" " +
+                $"FROM \"Currencies\" " +
+                $"ORDER BY random() " +
+                $"LIMIT 1";
 
-            var parameters = new List<SqlParameter>();
+            var parameters = new List<NpgsqlParameter>();
 
             return _context.ExecuteQuery(query, parameters).Rows[0].Field<Guid>("Id");
         }
@@ -99,12 +105,12 @@ namespace SteamMarketplace.Model.Database.Repositories.HighPerformance.AdoNet
             {
                 entity.Id = Guid.NewGuid();
 
-                var query = $"INSERT INTO [Currencies] (Id, CultureInfoName) VALUES (@Id, @CultureInfoName)";
+                var query = $"INSERT INTO \"Currencies\" (\"Id\", \"CultureInfoName\") VALUES (@Id, @CultureInfoName)";
 
-                var parameters = new List<SqlParameter>()
+                var parameters = new List<NpgsqlParameter>()
                 {
-                    new SqlParameter() { ParameterName = "@Id", SqlDbType = SqlDbType.UniqueIdentifier, Value = entity.Id },
-                    new SqlParameter() { ParameterName = "@CultureInfoName", SqlDbType = SqlDbType.NVarChar, Value = entity.CultureInfoName }
+                    new NpgsqlParameter() { ParameterName = "@Id", NpgsqlDbType = NpgsqlDbType.Uuid, Value = entity.Id },
+                    new NpgsqlParameter() { ParameterName = "@CultureInfoName", NpgsqlDbType = NpgsqlDbType.Text, Value = entity.CultureInfoName }
                 };
 
                 _context.ExecuteQuery(query, parameters);
