@@ -6,9 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
 	<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	<UserSecretsId>e139f6c2-fefa-4b33-b891-d20ed4647799</UserSecretsId>
+	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
 	<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
 	<PackageReference Include="Serilog.Enrichers.AspNetCore" Version="1.0.0" />
 	<PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />

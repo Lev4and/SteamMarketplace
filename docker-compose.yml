@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  steammarketplace.authorizationwebapplication:
+    image: ${DOCKER_REGISTRY-}steammarketplaceauthorizationwebapplication
+    build:
+      context: .
+      dockerfile: SteamMarketplace.AuthorizationWebApplication/Dockerfile
+
+  steammarketplace.resourcewebapplication:
+    image: ${DOCKER_REGISTRY-}steammarketplaceresourcewebapplication
+    build:
+      context: .
+      dockerfile: SteamMarketplace.ResourceWebApplication/Dockerfile
+
