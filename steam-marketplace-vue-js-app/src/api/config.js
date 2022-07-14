@@ -1,2 +1,2 @@
-export const resourceAPIUrl = 'http://steam.marketplace.resource.api.u1321851.plsk.regruhosting.ru'
-export const authorizationAPIUrl = 'http://steam.marketplace.authorization.api.u1321851.plsk.regruhosting.ru'
+export const resourceAPIUrl = 'http://194-67-67-175.cloudvps.regruhosting.ru:5001'
+export const authorizationAPIUrl = 'http://194-67-67-175.cloudvps.regruhosting.ru:5000'
