@@ -10,6 +10,9 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  steammarketplace.authorizationwebapplication.seq:
+    ports:
+      - "5341:80"
   steammarketplace.resourcewebapplication:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -19,3 +22,20 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     ports:
       - "5001:80"
+  steammarketplace.resourcewebapplication.seq:
+    ports:
+      - "5342:80"
+  steammarketplace.vuejsapp:
+    ports:
+      - "5002:8080"
+  steammarketplace.postgres:
+    ports:
+      - "5432:5432"
+  steammarketplace.postgres.pgadmin:
+    ports:
+      - "5050:5050"
+  proxy:
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
