@@ -1,2 +1,2 @@
-export const resourceAPIUrl = 'http://lev4and.ru/resource'
-export const authorizationAPIUrl = 'http://lev4and.ru/authorization'
+export const resourceAPIUrl = 'http://194-67-67-175.cloudvps.regruhosting.ru/resource'
+export const authorizationAPIUrl = 'http://194-67-67-175.cloudvps.regruhosting.ru/authorization'
