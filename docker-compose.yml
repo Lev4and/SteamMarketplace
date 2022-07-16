@@ -31,6 +31,10 @@ services:
       - ./steammarketplace.postgres:/var/lib/postgresql/data
   steammarketplace.postgres.pgadmin:
     image: dpage/pgadmin4:5.7
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "andrey.levchenko.2001@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "sa"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
       - ./steammarketplace.postgres.pgadmin:/var/lib/pgadmin
     restart: unless-stopped
