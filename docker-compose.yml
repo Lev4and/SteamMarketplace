@@ -47,6 +47,13 @@ services:
     restart: always
     security_opt:
       - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/traefik.yml:/traefik.yml:ro
+      - ./data/acme.json:/acme.json
+      # Add folder with dynamic configuration yml
+      - ./data/configurations:/configurations
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"

@@ -44,8 +44,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 		deployDockerCompose.sh = deployDockerCompose.sh
 		destroyDockerCompose.sh = destroyDockerCompose.sh
 		disableDockerCompose.sh = disableDockerCompose.sh
+		dynamic.yml = dynamic.yml
 		fetchGitBranch.sh = fetchGitBranch.sh
 		nginx.conf = nginx.conf
+		traefik.yml = traefik.yml
+		traefikInit.sh = traefikInit.sh
 	EndProjectSection
 EndProject
 Global
