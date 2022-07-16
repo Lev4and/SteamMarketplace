@@ -8,6 +8,8 @@ services:
       dockerfile: 'SteamMarketplace.AuthorizationWebApplication/Dockerfile'
   steammarketplace.authorizationwebapplication.seq:
     image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
   steammarketplace.resourcewebapplication:
     image: ${DOCKER_REGISTRY-}steammarketplaceresourcewebapplication
     build:
@@ -15,6 +17,8 @@ services:
       dockerfile: 'SteamMarketplace.ResourceWebApplication/Dockerfile'
   steammarketplace.resourcewebapplication.seq:
     image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
   steammarketplace.vuejsapp:
     image: steammarketplacevuejsapp
     build:
