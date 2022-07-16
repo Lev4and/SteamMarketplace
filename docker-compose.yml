@@ -4,36 +4,35 @@ services:
   steammarketplace.authorizationwebapplication:
     image: ${DOCKER_REGISTRY-}steammarketplaceauthorizationwebapplication
     build:
-      context: '/var/projects/SteamMarketplace/docker-compose/'
-      dockerfile: SteamMarketplace.AuthorizationWebApplication/Dockerfile
+      context: '.'
+      dockerfile: 'SteamMarketplace.AuthorizationWebApplication/Dockerfile'
+  steammarketplace.authorizationwebapplication.seq:
+    image: datalust/seq:latest
   steammarketplace.resourcewebapplication:
     image: ${DOCKER_REGISTRY-}steammarketplaceresourcewebapplication
     build:
-      context: '/var/projects/SteamMarketplace/docker-compose/'
-      dockerfile: SteamMarketplace.ResourceWebApplication/Dockerfile
+      context: '.'
+      dockerfile: 'SteamMarketplace.ResourceWebApplication/Dockerfile'
+  steammarketplace.resourcewebapplication.seq:
+    image: datalust/seq:latest
   steammarketplace.vuejsapp:
     image: steammarketplacevuejsapp
     build:
-        context: '/var/projects/SteamMarketplace/docker-compose/'
-        dockerfile: Dockerfile
+        context: 'steam-marketplace-vue-js-app/'
+        dockerfile: 'Dockerfile'
   steammarketplace.postgres:
     image: postgres:14
-    networks:
-      - back
     restart: always
-    expose:
-      - 5432
     environment:
       POSTGRES_DB: SteamMarketplace
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: sa
     volumes:
-      - postgres:/var/lib/postgresql/data
-      - ./docker/initpg.sh:/docker-entrypoint-initdb.d/initpg.sh
+      - ./steammarketplace.postgres:/var/lib/postgresql/data
   steammarketplace.postgres.pgadmin:
     image: dpage/pgadmin4:5.7
     volumes:
-      - ./pgadmin:/var/lib/pgadmin
-    ports:
-      - 5050
+      - ./steammarketplace.postgres.pgadmin:/var/lib/pgadmin
     restart: unless-stopped
+  proxy:
+    image: nginx:mainline
