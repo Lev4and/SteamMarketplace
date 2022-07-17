@@ -22,7 +22,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: admin@localhost
+      email: admin@194-67-67-175.cloudvps.regruhosting.ru
       storage: acme.json
       keyType: EC384
       httpChallenge:
@@ -30,7 +30,7 @@ certificatesResolvers:
 
   buypass:
     acme:
-      email: admin@localhost
+      email: admin@194-67-67-175.cloudvps.regruhosting.ru
       storage: acme.json
       caServer: https://api.buypass.com/acme/directory
       keyType: EC256
