@@ -56,9 +56,9 @@ services:
       - ./data/configurations:/configurations
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
+      #- "traefik.docker.network=proxy"
       - "traefik.http.routers.traefik-secure.entrypoints=websecure"
-      - "traefik.http.routers.traefik-secure.rule=Host(`194-67-67-175.cloudvps.regruhosting.ru`)"
+      - "traefik.http.routers.traefik-secure.rule=Host(`localhost`)"
       - "traefik.http.routers.traefik-secure.middlewares=user-auth@file"
       - "traefik.http.routers.traefik-secure.service=api@internal"
   steammarketplace.proxy:

@@ -9,15 +9,6 @@ entryPoints:
         entryPoint:
           to: websecure
 
-  websecure:
-    address: :443
-    http:
-      middlewares:
-        - secureHeaders@file
-        - nofloc@file
-      tls:
-        certResolver: letsencrypt
-
 pilot:
   dashboard: false
 
@@ -31,7 +22,7 @@ providers:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: admin@194-67-67-175.cloudvps.regruhosting.ru
+      email: admin@localhost
       storage: acme.json
       keyType: EC384
       httpChallenge:
@@ -39,7 +30,7 @@ certificatesResolvers:
 
   buypass:
     acme:
-      email: admin@194-67-67-175.cloudvps.regruhosting.ru
+      email: admin@localhost
       storage: acme.json
       caServer: https://api.buypass.com/acme/directory
       keyType: EC256
