@@ -39,7 +39,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: "andrey.levchenko.2001@gmail.com"
       PGADMIN_DEFAULT_PASSWORD: "sa"
       PGADMIN_CONFIG_SERVER_MODE: "False"
-      PGADMIN_LISTEN_PORT: 80
+      PGADMIN_LISTEN_PORT: 5050
     volumes:
       - ./steammarketplace.postgres.pgadmin:/var/lib/pgadmin
     links:
