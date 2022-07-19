@@ -196,7 +196,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("RegisteredAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -229,14 +229,14 @@ namespace SteamMarketplace.Model.Database.Migrations
                         {
                             Id = new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6a3cd1a1-35bc-4a8a-b264-2c8515deb22d",
+                            ConcurrencyStamp = "ae7a2137-2348-4981-9b0f-0ff9adee5153",
                             CurrencyId = new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"),
                             Email = "andrey.levchenko.2001@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ANDREY.LEVCHENKO.2001@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN6twfBdn77O7bBeVNdQit8RSgpyKCWhMuHwOzsjOURovljjEV5eUD/lbLsBnThMXQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENwBXvESXldNIMVqEkBji9Y4ISnVLVSpoPxGV/OwgyE7slo3gPYDxls0FnU3xWvHPg==",
                             PhoneNumberConfirmed = false,
                             RegisteredAt = new DateTime(2022, 4, 30, 19, 0, 0, 0, DateTimeKind.Utc),
                             SecurityStamp = "",
@@ -276,14 +276,14 @@ namespace SteamMarketplace.Model.Database.Migrations
                         new
                         {
                             Id = new Guid("b867520a-92db-4658-be39-84da53a601c0"),
-                            ConcurrencyStamp = "c18c743d-6cda-4936-bef9-150444e44c6d",
+                            ConcurrencyStamp = "873f0e02-1fc7-4682-9cbd-439041b118d3",
                             Name = "Администратор",
                             NormalizedName = "АДМИНИСТРАТОР"
                         },
                         new
                         {
                             Id = new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"),
-                            ConcurrencyStamp = "a8c000d2-b512-4769-bcb4-4bd327e03caf",
+                            ConcurrencyStamp = "ea2feba0-77b3-4ef6-b49c-b1b1c02e36a1",
                             Name = "Игрок",
                             NormalizedName = "Игрок"
                         });
@@ -548,7 +548,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("Rate")
                         .HasColumnType("numeric(18,6)");
@@ -567,7 +567,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("AddedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("ApplicationId")
                         .HasColumnType("uuid");
@@ -702,7 +702,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("numeric(18,6)");
 
                     b.Property<DateTime>("PurchaseAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("SaleId")
                         .HasColumnType("uuid");
@@ -760,10 +760,10 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("CancelledAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("ExposedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uuid");
@@ -778,7 +778,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("SoldAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -796,7 +796,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("HappenedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("PurchaseId")
                         .HasColumnType("uuid");
@@ -883,7 +883,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("AddedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uuid");

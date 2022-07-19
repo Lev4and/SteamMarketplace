@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SteamMarketplace.Model.Database.Migrations
 {
-    public partial class InitDatabasePostgreSQL : Migration
+    public partial class InitDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -143,7 +143,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CurrencyId = table.Column<Guid>(type: "uuid", nullable: false),
                     WalletBalance = table.Column<decimal>(type: "numeric(18,6)", nullable: false),
-                    RegisteredAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RegisteredAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -177,7 +177,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CurrencyId = table.Column<Guid>(type: "uuid", nullable: false),
                     Rate = table.Column<decimal>(type: "numeric(18,6)", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    DateTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -206,7 +206,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                     Name = table.Column<string>(type: "text", nullable: true),
                     SteamId = table.Column<string>(type: "text", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
-                    AddedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    AddedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -379,9 +379,9 @@ namespace SteamMarketplace.Model.Database.Migrations
                     ItemId = table.Column<Guid>(type: "uuid", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(18,6)", nullable: false),
                     PriceUsd = table.Column<decimal>(type: "numeric(18,6)", nullable: false),
-                    ExposedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    SoldAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CancelledAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    ExposedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    SoldAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CancelledAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -407,7 +407,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AddedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    AddedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -435,7 +435,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                     SaleId = table.Column<Guid>(type: "uuid", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(18,6)", nullable: false),
                     PriceUsd = table.Column<decimal>(type: "numeric(18,6)", nullable: false),
-                    PurchaseAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    PurchaseAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -462,7 +462,7 @@ namespace SteamMarketplace.Model.Database.Migrations
                     TypeId = table.Column<Guid>(type: "uuid", nullable: false),
                     PurchaseId = table.Column<Guid>(type: "uuid", nullable: true),
                     Value = table.Column<decimal>(type: "numeric(18,6)", nullable: false),
-                    HappenedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    HappenedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -491,8 +491,8 @@ namespace SteamMarketplace.Model.Database.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"), "a8c000d2-b512-4769-bcb4-4bd327e03caf", "Игрок", "Игрок" },
-                    { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "c18c743d-6cda-4936-bef9-150444e44c6d", "Администратор", "АДМИНИСТРАТОР" }
+                    { new Guid("21e8cc7e-8df5-4113-b9f9-20498b651581"), "ea2feba0-77b3-4ef6-b49c-b1b1c02e36a1", "Игрок", "Игрок" },
+                    { new Guid("b867520a-92db-4658-be39-84da53a601c0"), "873f0e02-1fc7-4682-9cbd-439041b118d3", "Администратор", "АДМИНИСТРАТОР" }
                 });
 
             migrationBuilder.InsertData(
@@ -551,7 +551,7 @@ namespace SteamMarketplace.Model.Database.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CurrencyId", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RegisteredAt", "SecurityStamp", "TwoFactorEnabled", "UserName", "WalletBalance" },
-                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "6a3cd1a1-35bc-4a8a-b264-2c8515deb22d", new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEN6twfBdn77O7bBeVNdQit8RSgpyKCWhMuHwOzsjOURovljjEV5eUD/lbLsBnThMXQ==", null, false, new DateTime(2022, 4, 30, 19, 0, 0, 0, DateTimeKind.Utc), "", false, "Admin", 1000000m });
+                values: new object[] { new Guid("21f7b496-c675-4e8a-a34c-fc5ec0762fdb"), 0, "ae7a2137-2348-4981-9b0f-0ff9adee5153", new Guid("cf7b0c49-42a1-483d-97f8-b88711f8546c"), "andrey.levchenko.2001@gmail.com", true, false, null, "ANDREY.LEVCHENKO.2001@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAENwBXvESXldNIMVqEkBji9Y4ISnVLVSpoPxGV/OwgyE7slo3gPYDxls0FnU3xWvHPg==", null, false, new DateTime(2022, 4, 30, 19, 0, 0, 0, DateTimeKind.Utc), "", false, "Admin", 1000000m });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
