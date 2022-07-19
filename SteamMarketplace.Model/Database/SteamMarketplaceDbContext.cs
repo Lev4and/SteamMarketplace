@@ -60,10 +60,6 @@ namespace SteamMarketplace.Model.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder
-                //    .UseSqlServer("Server=DESKTOP-9CDGA5B;Database=SteamMarketplace;User ID=sa;Password=sa;" +
-                //        "Trusted_Connection=True;", b => b.MigrationsAssembly("SteamMarketplace.ResourceWebApplication"));
-
                 optionsBuilder
                     .UseNpgsql("Server=localhost;Database=SteamMarketplace;User Id=postgres;Password=sa;" +
                         "Integrated Security=true;Pooling=true;", b => b.MigrationsAssembly("SteamMarketplace.ResourceWebApplication"));
