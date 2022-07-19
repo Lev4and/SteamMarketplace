@@ -2,9 +2,7 @@
 {
     public class ResourceAPIRoutes
     {
-        public const string Domain = "steam.marketplace.resource.api.u1321851.plsk.regruhosting.ru";
-
-        //public const string Domain = "localhost:5001";
+        public const string Domain = "194-67-67-175.cloudvps.regruhosting.ru/resource/api";
 
         public const string OnlinePath = "store/online";
 
