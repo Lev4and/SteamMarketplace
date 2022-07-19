@@ -61,7 +61,7 @@ namespace SteamMarketplace.Model.Database
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseNpgsql("Server=localhost;Database=SteamMarketplace;User Id=postgres;Password=sa;" +
+                    .UseNpgsql("Server=194-67-67-175.cloudvps.regruhosting.ru;Database=SteamMarketplace;User Id=postgres;Password=sa;" +
                         "Integrated Security=true;Pooling=true;", b => b.MigrationsAssembly("SteamMarketplace.ResourceWebApplication"));
             }
         }
