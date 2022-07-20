@@ -49,7 +49,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
-        builder.WithOrigins("http://localhost:8080").AllowAnyMethod()
+        builder.WithOrigins("http://localhost", "http://localhost:8080", "http://194-67-67-175.cloudvps.regruhosting.ru").AllowAnyMethod()
             .AllowAnyHeader().AllowCredentials());
 });
 
