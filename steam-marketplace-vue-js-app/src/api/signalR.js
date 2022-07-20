@@ -64,7 +64,7 @@ export class SignalRClient {
 
 export class ResourceAPISignalRClient extends SignalRClient {
   constructor(path, methods) {
-    super(resourceAPIUrl + '/api', path, methods)
+    super(resourceAPIUrl, path, methods)
   }
 
   async matchUser(user) {
