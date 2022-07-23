@@ -31,6 +31,9 @@ services:
   steammarketplace.postgres:
     ports:
       - "5432:5432"
+  steammarketplace.portainer:
+    ports:
+      - "9000:9000"
   #steammarketplace.postgres.pgadmin:
   #  ports:
   #    - "5050:5050"

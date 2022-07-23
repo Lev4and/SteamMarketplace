@@ -39,6 +39,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamMarketplace.Randomizer
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2E76D17C-7D06-40C4-860C-09B02EF265C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{B446A4F8-EE39-442B-BD93-A7F378454A08}"
+	ProjectSection(SolutionItems) = preProject
+		createPortainerData.sh = createPortainerData.sh
+		deployDockerCompose.sh = deployDockerCompose.sh
+		destroyDockerCompose.sh = destroyDockerCompose.sh
+		disableDockerCompose.sh = disableDockerCompose.sh
+		fetchGitBranch.sh = fetchGitBranch.sh
+		nginx.conf = nginx.conf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

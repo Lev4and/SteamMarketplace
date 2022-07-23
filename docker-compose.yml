@@ -33,6 +33,12 @@ services:
       POSTGRES_PASSWORD: sa
     volumes:
       - ./steammarketplace.postgres:/var/lib/postgresql/data
+  steammarketplace.portainer:
+    image: portainer/portainer
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_data:/data
   #steammarketplace.postgres.pgadmin:
   #  image: dpage/pgadmin4:6.11
   #  environment:
