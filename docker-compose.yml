@@ -64,5 +64,8 @@ services:
     #  - '--web.enable-lifecycle'
   steammarketplace.grafana:
     image: grafana/grafana
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
   proxy:
     image: nginx:mainline
