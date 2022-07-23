@@ -1,2 +1,5 @@
-﻿cd $PROJECT_SRC_DIR
+﻿which sh
+#!/bin/sh
+#!/usr/bin/env bash
+cd $PROJECT_SRC_DIR
 git reset --hard origin/$PROJECT_BRANCH
