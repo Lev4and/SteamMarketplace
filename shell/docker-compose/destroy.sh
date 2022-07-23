@@ -1,5 +1,4 @@
-﻿cd ..
-export .env.dist
+﻿export $(egrep -v '^#' .env | xargs -0)
 cd $PROJECT_SRC_DIR
 docker rm -vf $(docker ps -aq)
 docker rmi -f $(docker images -aq)
