@@ -11,3 +11,6 @@ bash createData.sh
 cd ..
 cd docker-compose
 bash build.sh
+cd ..
+cd postgres
+bash init.sh
