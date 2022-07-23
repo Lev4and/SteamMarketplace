@@ -1,7 +1,9 @@
-﻿which sh
-#!/bin/sh
+﻿#!/bin/sh
 #!/usr/bin/env bash
-cd /var/projects/${PROJECT_NAME}/shell/git
+which sh
+cd ..
+cd git
 bash sync.sh
-cd /var/projects/${PROJECT_NAME}/shell/docker-compose
+cd ..
+cd docker-compose
 bash build.sh
