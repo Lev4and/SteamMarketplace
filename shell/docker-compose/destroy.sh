@@ -1,4 +1,5 @@
-﻿export ~/.env.dist
+﻿cd ..
+export .env.dist
 cd $PROJECT_SRC_DIR
 docker rm -vf $(docker ps -aq)
 docker rmi -f $(docker images -aq)
