@@ -1,4 +1,3 @@
-﻿cd ..
-cd $PROJECT_SRC_DIR
+﻿cd $PROJECT_SRC_DIR
 docker-compose stop
 docker stop
