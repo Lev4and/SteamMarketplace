@@ -42,7 +42,7 @@ services:
       - "9090:9090"
   steammarketplace.grafana:
     ports:
-      - "3000:3000"
+      - "3456:3000"
   proxy:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
