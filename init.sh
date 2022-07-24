@@ -1,7 +1,7 @@
 #!/bin/sh
 #!/usr/bin/env bash
 which sh
-cd var
+cd /var
 mkdir projects
 cd projects
 git clone https://github.com/Lev4and/SteamMarketplace.git
