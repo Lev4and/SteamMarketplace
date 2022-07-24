@@ -28,9 +28,9 @@ services:
     image: postgres:14.4-alpine
     restart: always
     environment:
-      POSTGRES_DB: SteamMarketplace
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: sa
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./steammarketplace.postgres:/var/lib/postgresql/data
   steammarketplace.portainer:
@@ -39,17 +39,36 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer_data:/data
-  #steammarketplace.postgres.pgadmin:
-  #  image: dpage/pgadmin4:6.11
-  #  environment:
-  #    PGADMIN_DEFAULT_EMAIL: "andrey.levchenko.2001@gmail.com"
-  #    PGADMIN_DEFAULT_PASSWORD: "sa"
-  #    PGADMIN_CONFIG_SERVER_MODE: "False"
-  #    PGADMIN_LISTEN_PORT: 5050
-  #  volumes:
-  #    - ./steammarketplace.postgres.pgadmin:/var/lib/pgadmin
-  #  links:
-  #     - "steammarketplace.postgres:pgsql-server"
-  #  restart: unless-stopped
+  steammarketplace.node.exporter:
+    image: prom/node-exporter:latest
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  steammarketplace.prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  steammarketplace.grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - GF_SERVER_ROOT_URL=http://localhost/grafana/
+      - GF_USERS_ALLOW_SIGN_UP=false
   proxy:
     image: nginx:mainline
+
+volumes:
+  grafana_data:
+    external: true
