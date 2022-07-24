@@ -1,0 +1,1 @@
+docker volume create grafana_data

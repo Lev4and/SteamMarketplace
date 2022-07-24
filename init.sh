@@ -9,6 +9,9 @@ cd SteamMarketplace
 cd /shell/portainer
 bash createData.sh
 cd ..
+cd grafana
+bash createData.sh
+cd ..
 cd docker-compose
 bash build.sh
 cd ..
