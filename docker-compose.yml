@@ -57,7 +57,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
   steammarketplace.grafana:
-    image: grafana/grafana:5.2.2
+    image: grafana/grafana
     volumes:
       - ./grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
