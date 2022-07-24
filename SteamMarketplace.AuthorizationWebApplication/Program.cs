@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using SteamMarketplace.AuthorizationWebApplication.Extensions;
 using SteamMarketplace.Model.Common;
@@ -49,8 +50,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
-        builder.WithOrigins("http://localhost", "http://localhost:8080", "http://194-67-67-175.cloudvps.regruhosting.ru").AllowAnyMethod()
-            .AllowAnyHeader().AllowCredentials());
+        builder.WithOrigins("http://localhost", "http://localhost:8080",
+            "https://localhost:44345", "http://194-67-67-175.cloudvps.regruhosting.ru").AllowAnyMethod()
+                .AllowAnyHeader().AllowCredentials());
 });
 
 builder.Services.AddControllers();
@@ -59,6 +61,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.ToString());
+    options.AddServer(new OpenApiServer()
+    {
+        Url = "https://localhost:44345"
+    });
+    options.AddServer(new OpenApiServer()
+    {
+        Url = "http://194-67-67-175.cloudvps.regruhosting.ru/authorization"
+    });
 });
 
 var app = builder.Build();

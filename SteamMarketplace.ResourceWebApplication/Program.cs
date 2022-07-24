@@ -159,8 +159,9 @@ builder.Services.AddSignalR(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
-        builder.WithOrigins("http://localhost", "http://localhost:8080", "http://194-67-67-175.cloudvps.regruhosting.ru").AllowAnyMethod()
-            .AllowAnyHeader().AllowCredentials());
+        builder.WithOrigins("http://localhost", "http://localhost:8080",
+            "https://localhost:44317", "http://194-67-67-175.cloudvps.regruhosting.ru").AllowAnyMethod()
+                .AllowAnyHeader().AllowCredentials());
 });
 
 builder.Services.AddControllersWithViews()
@@ -192,7 +193,14 @@ builder.Services.AddSwaggerGen(setup =>
     {
         { jwtSecurityScheme, Array.Empty<string>() }
     });
-
+    setup.AddServer(new OpenApiServer()
+    {
+        Url = "https://localhost:44317"
+    });
+    setup.AddServer(new OpenApiServer()
+    {
+        Url = "http://194-67-67-175.cloudvps.regruhosting.ru/resource"
+    });
 });
 
 var app = builder.Build();
