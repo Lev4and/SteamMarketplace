@@ -71,4 +71,10 @@ services:
 
 volumes:
   grafana_data:
-    external: true
+    driver: cifs
+    driver_opts:
+      share: myserver/grafana_data
+      username: myuser
+      password: mypw
+      domain: mydomain
+      cifsopts: "uid=472,gid=472,nobrl"
