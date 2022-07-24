@@ -59,13 +59,15 @@ services:
   steammarketplace.grafana:
     image: grafana/grafana
     volumes:
-      - ./grafana_data:/var/lib/grafana
+      - grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
       - GF_SERVER_ROOT_URL=http://localhost/grafana/
       - GF_USERS_ALLOW_SIGN_UP=false
-    user: "472"
+  volumes:
+    grafana_data:
+      external: true
   proxy:
     image: nginx:mainline
