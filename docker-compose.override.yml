@@ -1,36 +1,36 @@
 version: '3.4'
 
 services:
-  steammarketplace.authorizationwebapplication:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-    ports:
-      - "5000:80"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-  steammarketplace.authorizationwebapplication.seq:
-    ports:
-      - "5341:80"
-  steammarketplace.resourcewebapplication:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-    ports:
-      - "5001:80"
-  steammarketplace.resourcewebapplication.seq:
-    ports:
-      - "5342:80"
-  steammarketplace.vuejsapp:
-    ports:
-      - "5002:8080"
-  steammarketplace.postgres:
-    ports:
-      - "5432:5432"
+  #steammarketplace.authorizationwebapplication:
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #    - ASPNETCORE_URLS=http://+:80
+  #  ports:
+  #    - "5000:80"
+  #  volumes:
+  #    - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  #    - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  #steammarketplace.authorizationwebapplication.seq:
+  #  ports:
+  #    - "5341:80"
+  #steammarketplace.resourcewebapplication:
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #    - ASPNETCORE_URLS=http://+:80
+  #  volumes:
+  #    - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+  #    - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  #  ports:
+  #    - "5001:80"
+  #steammarketplace.resourcewebapplication.seq:
+  #  ports:
+  #    - "5342:80"
+  #steammarketplace.vuejsapp:
+  #  ports:
+  #    - "5002:8080"
+  #steammarketplace.postgres:
+  #  ports:
+  #    - "5432:5432"
   steammarketplace.portainer:
     ports:
       - "9000:9000"

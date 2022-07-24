@@ -1,38 +1,38 @@
 version: '3.4'
 
 services:
-  steammarketplace.authorizationwebapplication:
-    image: ${DOCKER_REGISTRY-}steammarketplaceauthorizationwebapplication
-    build:
-      context: '.'
-      dockerfile: 'SteamMarketplace.AuthorizationWebApplication/Dockerfile'
-  steammarketplace.authorizationwebapplication.seq:
-    image: datalust/seq:latest
-    environment:
-      - ACCEPT_EULA=Y
-  steammarketplace.resourcewebapplication:
-    image: ${DOCKER_REGISTRY-}steammarketplaceresourcewebapplication
-    build:
-      context: '.'
-      dockerfile: 'SteamMarketplace.ResourceWebApplication/Dockerfile'
-  steammarketplace.resourcewebapplication.seq:
-    image: datalust/seq:latest
-    environment:
-      - ACCEPT_EULA=Y
-  steammarketplace.vuejsapp:
-    image: steammarketplacevuejsapp
-    build:
-        context: 'steam-marketplace-vue-js-app/'
-        dockerfile: 'Dockerfile'
-  steammarketplace.postgres:
-    image: postgres:14.4-alpine
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB_NAME}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./steammarketplace.postgres:/var/lib/postgresql/data
+  #steammarketplace.authorizationwebapplication:
+  #  image: ${DOCKER_REGISTRY-}steammarketplaceauthorizationwebapplication
+  #  build:
+  #    context: '.'
+  #    dockerfile: 'SteamMarketplace.AuthorizationWebApplication/Dockerfile'
+  #steammarketplace.authorizationwebapplication.seq:
+  #  image: datalust/seq:latest
+  #  environment:
+  #    - ACCEPT_EULA=Y
+  #steammarketplace.resourcewebapplication:
+  #  image: ${DOCKER_REGISTRY-}steammarketplaceresourcewebapplication
+  #  build:
+  #    context: '.'
+  #    dockerfile: 'SteamMarketplace.ResourceWebApplication/Dockerfile'
+  #steammarketplace.resourcewebapplication.seq:
+  #  image: datalust/seq:latest
+  #  environment:
+  #    - ACCEPT_EULA=Y
+  #steammarketplace.vuejsapp:
+  #  image: steammarketplacevuejsapp
+  #  build:
+  #      context: 'steam-marketplace-vue-js-app/'
+  #      dockerfile: 'Dockerfile'
+  #steammarketplace.postgres:
+  #  image: postgres:14.4-alpine
+  #  restart: always
+  #  environment:
+  #    POSTGRES_DB: ${POSTGRES_DB_NAME}
+  #    POSTGRES_USER: ${POSTGRES_USER}
+  #    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #  volumes:
+  #    - ./steammarketplace.postgres:/var/lib/postgresql/data
   steammarketplace.portainer:
     image: portainer/portainer
     restart: always
@@ -67,5 +67,5 @@ services:
     volumes:
       - ./grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
-  proxy:
-    image: nginx:mainline
+  #proxy:
+  #  image: nginx:mainline
