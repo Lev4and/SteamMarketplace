@@ -1,38 +1,38 @@
 version: '3.4'
 
 services:
-  #steammarketplace.authorizationwebapplication:
-  #  image: ${DOCKER_REGISTRY-}steammarketplaceauthorizationwebapplication
-  #  build:
-  #    context: '.'
-  #    dockerfile: 'SteamMarketplace.AuthorizationWebApplication/Dockerfile'
-  #steammarketplace.authorizationwebapplication.seq:
-  #  image: datalust/seq:latest
-  #  environment:
-  #    - ACCEPT_EULA=Y
-  #steammarketplace.resourcewebapplication:
-  #  image: ${DOCKER_REGISTRY-}steammarketplaceresourcewebapplication
-  #  build:
-  #    context: '.'
-  #    dockerfile: 'SteamMarketplace.ResourceWebApplication/Dockerfile'
-  #steammarketplace.resourcewebapplication.seq:
-  #  image: datalust/seq:latest
-  #  environment:
-  #    - ACCEPT_EULA=Y
-  #steammarketplace.vuejsapp:
-  #  image: steammarketplacevuejsapp
-  #  build:
-  #      context: 'steam-marketplace-vue-js-app/'
-  #      dockerfile: 'Dockerfile'
-  #steammarketplace.postgres:
-  #  image: postgres:14.4-alpine
-  #  restart: always
-  #  environment:
-  #    POSTGRES_DB: ${POSTGRES_DB_NAME}
-  #    POSTGRES_USER: ${POSTGRES_USER}
-  #    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-  #  volumes:
-  #    - ./steammarketplace.postgres:/var/lib/postgresql/data
+  steammarketplace.authorizationwebapplication:
+    image: ${DOCKER_REGISTRY-}steammarketplaceauthorizationwebapplication
+    build:
+      context: '.'
+      dockerfile: 'SteamMarketplace.AuthorizationWebApplication/Dockerfile'
+  steammarketplace.authorizationwebapplication.seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+  steammarketplace.resourcewebapplication:
+    image: ${DOCKER_REGISTRY-}steammarketplaceresourcewebapplication
+    build:
+      context: '.'
+      dockerfile: 'SteamMarketplace.ResourceWebApplication/Dockerfile'
+  steammarketplace.resourcewebapplication.seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+  steammarketplace.vuejsapp:
+    image: steammarketplacevuejsapp
+    build:
+        context: 'steam-marketplace-vue-js-app/'
+        dockerfile: 'Dockerfile'
+  steammarketplace.postgres:
+    image: postgres:14.4-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./steammarketplace.postgres:/var/lib/postgresql/data
   steammarketplace.portainer:
     image: portainer/portainer
     restart: always
@@ -56,16 +56,15 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    #command:
-    #  - '--config.file=/etc/prometheus/prometheus.yml'
-    #  - '--storage.tsdb.path=/prometheus'
-    #  - '--web.console.libraries=/etc/prometheus/console_libraries'
-    #  - '--web.console.templates=/etc/prometheus/consoles'
-    #  - '--web.enable-lifecycle'
   steammarketplace.grafana:
     image: grafana/grafana
     volumes:
       - ./grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - GF_SERVER_ROOT_URL=http://localhost/grafana/
+      - GF_USERS_ALLOW_SIGN_UP=false
   proxy:
     image: nginx:mainline
