@@ -1,0 +1,16 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd /var/projects/SteamMarketplace
+      - run: cd /shell/docker-compose
+      - run: bash stop.sh
+      - run: bash destroy.sh
+      - run: bash deploy.sh
